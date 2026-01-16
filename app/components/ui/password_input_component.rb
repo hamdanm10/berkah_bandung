@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class Ui::PasswordInputComponent < ViewComponent::Base
-  attr_reader :form, :field_name, :kwargs
+  include LucideRails::RailsHelper
 
-  delegate :lucide_icon, to: :helpers
+  attr_reader :form, :field_name, :kwargs
 
   BASE_CLASS = "block w-full p-2 pr-14 text-gray-700 border border-gray-300 rounded-md bg-white text-sm"
 
