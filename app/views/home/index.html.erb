@@ -30,7 +30,7 @@
   <div class="container mx-auto h-full flex items-center justify-center">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
       <div class="flex flex-col lg:items-center gap-8 px-4 lg:px-0">
-        <div class="bg-white rounded-lg shadow-lg flex justify-center h-64 w-64">
+        <div class="bg-white rounded-md shadow-lg flex justify-center h-64 w-64">
           <%= image_tag "logo.svg", class: "w-32" %>
         </div>
         <h1 class="text-4xl font-bold lg:text-center">
@@ -41,13 +41,13 @@
           This ERP system integrates order management, cashier operations, financial management, and warehouse control into a single platform to streamline business processes, improve data accuracy, and support efficient decision-making.
         </p>
         <div class="flex lg:hidden">
-          <%= link_to new_session_path, class: "flex bg-blue-600 text-white px-4 py-2 rounded-lg text-center font-semibold gap-2 hover:bg-blue-800 transition-all duration-300" do %>
+          <%= link_to new_session_path, class: "flex bg-blue-600 text-white px-4 py-2 rounded-md text-center font-semibold gap-2 hover:bg-blue-800 transition-all duration-300" do %>
             Go to Login Page
             <%= lucide_icon("log-in") %>
           <% end %>
         </div>
       </div>
-      <div class="hidden lg:flex items-center justify-center px-12 py-8 bg-white rounded-lg shadow-lg">
+      <div class="hidden lg:flex items-center justify-center px-12 py-8 bg-white rounded-md shadow-lg">
         <div class="space-y-8">
           <h3 class="text-2xl font-bold text-gray-800">
             Access Management System
@@ -55,7 +55,7 @@
           <div class="flex flex-col gap-4">
             <% features.each do |feature| %>
               <div class="flex gap-4">
-                <div class="flex items-center justify-center h-12 w-12 rounded-lg border border-gray-300 flex-none bg-white shadow-md <%= feature[:color] %>">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md border border-gray-300 flex-none bg-white shadow-md <%= feature[:color] %>">
                   <%= lucide_icon(feature[:icon]) %>
                 </div>
                 <div>

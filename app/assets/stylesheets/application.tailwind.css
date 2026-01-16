@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Flowbite */
+@import "flowbite/src/themes/default";
+@source "../../../node_modules/flowbite";
+
+/* Customize */
 @theme {
   /* Brand */
   --color-primary: theme(colors.blue.600);

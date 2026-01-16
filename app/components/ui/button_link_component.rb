@@ -3,7 +3,7 @@
 class Ui::ButtonLinkComponent < ViewComponent::Base
   attr_reader :url, :kwargs
 
-  BASE_CLASS = "flex justify-center gap-2 items-center font-medium rounded-lg cursor-pointer transition-all duration-300"
+  BASE_CLASS = "flex justify-center gap-2 items-center font-medium rounded-md cursor-pointer transition-all duration-300"
 
   def initialize(size: "md", variant: "primary", url:, **kwargs)
     @size = size

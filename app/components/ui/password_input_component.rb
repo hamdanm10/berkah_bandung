@@ -5,7 +5,7 @@ class Ui::PasswordInputComponent < ViewComponent::Base
 
   delegate :lucide_icon, to: :helpers
 
-  BASE_CLASS = "block w-full p-2 pr-14 text-gray-700 border border-gray-300 rounded-lg bg-white text-sm"
+  BASE_CLASS = "block w-full p-2 pr-14 text-gray-700 border border-gray-300 rounded-md bg-white text-sm"
 
   def initialize(form:, field_name:, **kwargs)
     @form = form
