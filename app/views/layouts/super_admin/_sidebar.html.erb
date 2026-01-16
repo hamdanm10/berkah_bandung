@@ -1,0 +1,33 @@
+<%
+  main_modules = [
+    { icon: "layout-grid", url: super_admin_dashboard_path, name: "Dashboard" },
+  ]
+
+  master_modules = [
+    { icon: "settings", url: order_supervisor_dashboard_path, name: "Unit Type" },
+    { icon: "settings", url: order_supervisor_dashboard_path, name: "Sales Channel" },
+    { icon: "settings", url: order_supervisor_dashboard_path, name: "Product" },
+  ]
+%>
+<%= render(Ui::SidebarComponent.new(sidebar_id: "super-admin-sidebar")) do %>
+  <li>
+    <div class="px-2 text-xs text-gray-500 uppercase">Main</div>
+  </li>
+  <% main_modules.each do |main_module| %>
+    <%= render(Ui::SidebarLinkComponent.new(
+          icon: main_module[:icon],
+          url: main_module[:url],
+          name: main_module[:name]
+        )) %>
+  <% end %>
+  <li>
+    <div class="px-2 text-xs text-gray-500 uppercase pt-2.5">Master</div>
+  </li>
+  <% master_modules.each do |master_module| %>
+    <%= render(Ui::SidebarLinkComponent.new(
+        icon: master_module[:icon],
+        url: master_module[:url],
+        name: master_module[:name]
+      )) %>
+  <% end %>
+<% end %>

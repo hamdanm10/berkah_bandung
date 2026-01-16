@@ -5,7 +5,7 @@ class Ui::PasswordInputComponent < ViewComponent::Base
 
   attr_reader :form, :field_name, :kwargs
 
-  BASE_CLASS = "block w-full p-2 pr-14 text-gray-700 border border-gray-300 rounded-md bg-white text-sm"
+  BASE_CLASS = "block w-full p-2 pr-14 text-gray-800 border border-gray-300 rounded-md bg-white text-sm"
 
   def initialize(form:, field_name:, **kwargs)
     @form = form

@@ -15,7 +15,7 @@
 
   /* Neutral */
   --color-dark: theme(colors.slate.900);
-  --color-light: theme(colors.slate.50);
+  --color-light: theme(colors.white);
 
   --color-dark-soft: theme(colors.slate.200);
   --color-light-soft: theme(colors.slate.100);

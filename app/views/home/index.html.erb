@@ -68,9 +68,9 @@
             <% end %>
           </div>
           <div class="flex justify-end">
-            <%= render(Ui::ButtonLinkComponent.new(size: "md", variant: "primary", url: new_session_path)) do %>
+            <%= render(Ui::ButtonLinkComponent.new(size: "sm", variant: "primary", url: new_session_path)) do %>
               Go to Login Page
-              <%= lucide_icon("log-in") %>
+              <%= lucide_icon("log-in", class: "w-5") %>
             <% end %>
           </div>
         </div>

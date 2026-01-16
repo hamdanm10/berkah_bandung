@@ -3,7 +3,7 @@
 class Ui::LabelInputComponent < ViewComponent::Base
   attr_reader :form, :field_name, :label, :required, :kwargs
 
-  BASE_CLASS = "text-gray-700 text-sm font-medium"
+  BASE_CLASS = "text-gray-800 text-sm font-medium"
 
   def initialize(form:, field_name:, label: nil, required: false, **kwargs)
     @form = form
