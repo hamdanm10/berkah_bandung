@@ -1,5 +1,6 @@
 class SuperAdminApplicationController < ApplicationController
   before_action :authenticate_super_admin!
+
   layout "super_admin/application"
 
   private

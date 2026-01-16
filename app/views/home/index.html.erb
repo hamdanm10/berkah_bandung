@@ -1,0 +1,83 @@
+<%
+  features = [
+    {
+      icon: "warehouse",
+      name: "Warehouse Management",
+      description: "Control inventory levels and track stock movements in real time to maintain optimal warehouse operations.",
+      color: "text-red-600"
+    },
+    {
+      icon: "package",
+      name: "Order Management",
+      description: "Efficiently manage and track customer orders in a centralized system to ensure accurate processing and timely fulfillment.",
+      color: "text-blue-600"
+    },
+    {
+      icon: "banknote",
+      name: "Finance Management",
+      description: "Monitor financial activities, manage income and expenses, and generate structured financial reports with ease.",
+      color: "text-emerald-600"
+    },
+    {
+      icon: "hand-coins",
+      name: "Cashier System",
+      description: "Streamline sales transactions with a fast and reliable cashier system that supports daily operational needs.",
+      color: "text-amber-600"
+    },
+  ]
+%>
+<section class="h-screen flex flex-col">
+  <div class="container mx-auto h-full flex items-center justify-center">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div class="flex flex-col lg:items-center gap-8 px-4 lg:px-0">
+        <div class="bg-white rounded-lg shadow-lg flex justify-center h-64 w-64">
+          <%= image_tag "logo.svg", class: "w-32" %>
+        </div>
+        <h1 class="text-4xl font-bold lg:text-center">
+          <span class="text-gray-800">Berkah Bandung</span> <br />
+          <span class="text-blue-600">Enterprise Resource Planning</span>
+        </h1>
+        <p class="text-lg text-gray-600 lg:text-center">
+          This ERP system integrates order management, cashier operations, financial management, and warehouse control into a single platform to streamline business processes, improve data accuracy, and support efficient decision-making.
+        </p>
+        <div class="flex lg:hidden">
+          <%= link_to new_session_path, class: "flex bg-blue-600 text-white px-4 py-2 rounded-lg text-center font-semibold gap-2 hover:bg-blue-800 transition-all duration-300" do %>
+            Go to Login Page
+            <%= lucide_icon("log-in") %>
+          <% end %>
+        </div>
+      </div>
+      <div class="hidden lg:flex items-center justify-center px-12 py-8 bg-white rounded-lg shadow-lg">
+        <div class="space-y-8">
+          <h3 class="text-2xl font-bold text-gray-800">
+            Access Management System
+          </h3>
+          <div class="flex flex-col gap-4">
+            <% features.each do |feature| %>
+              <div class="flex gap-4">
+                <div class="flex items-center justify-center h-12 w-12 rounded-lg border border-gray-300 flex-none bg-white shadow-md <%= feature[:color] %>">
+                  <%= lucide_icon(feature[:icon]) %>
+                </div>
+                <div>
+                  <h4 class="text-md font-bold text-gray-800"><%= feature[:name] %></h4>
+                  <p class="text-md text-gray-600">
+                    <%= feature[:description] %>
+                  </p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+          <div class="flex justify-end">
+            <%= render(Ui::ButtonLinkComponent.new(size: "md", variant: "primary", url: new_session_path)) do %>
+              Go to Login Page
+              <%= lucide_icon("log-in") %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer class="text-center text-gray-600 py-7 border-t border-gray-300">
+    &copy; <%= Date.current.year %> <span class="text-blue-600 font-bold">Berkah Bandung</span> - Enterprise Resource Planning
+  </footer>
+</section>
