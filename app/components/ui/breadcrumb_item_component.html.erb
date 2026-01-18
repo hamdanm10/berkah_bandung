@@ -1,0 +1,13 @@
+<% if !last %>
+  <a href="<%= url %>" class="flex items-center text-gray-400 hover:text-gray-700">
+    <% if icon %>
+      <span class="me-2">
+        <%= lucide_icon(icon, class: "size-5") %>
+      </span>
+    <% end %>
+    <%= name %>
+  </a>
+  <%= lucide_icon("chevron-right", class: "size-5 text-gray-400",) %>
+<% else %>
+  <span class="text-gray-700"><%= name %></span>
+<% end %>

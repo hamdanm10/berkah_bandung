@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OrderSupervisorApplicationController < ApplicationController
   before_action :authenticate_order_supervisor!
 

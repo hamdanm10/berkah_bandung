@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_14_071358) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_16_151252) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "invitations", force: :cascade do |t|
+    t.string "assigned_role", null: false
+    t.datetime "created_at", null: false
+    t.datetime "expires_at", null: false
+    t.string "invitation_code", limit: 6, null: false
+    t.boolean "is_used", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.datetime "used_at"
+    t.bigint "used_by_user_id"
+    t.index ["invitation_code"], name: "index_invitations_on_invitation_code", unique: true
+    t.index ["used_by_user_id"], name: "index_invitations_on_used_by_user_id"
+  end
 
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -34,5 +47,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_14_071358) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "invitations", "users", column: "used_by_user_id"
   add_foreign_key "sessions", "users"
 end

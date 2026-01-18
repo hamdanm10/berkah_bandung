@@ -4,9 +4,7 @@
   ]
 
   master_modules = [
-    { icon: "settings", url: order_supervisor_dashboard_path, name: "Unit Type" },
-    { icon: "settings", url: order_supervisor_dashboard_path, name: "Sales Channel" },
-    { icon: "settings", url: order_supervisor_dashboard_path, name: "Product" },
+    { icon: "mail", url: super_admin_invitations_path, name: "Invitation" },
   ]
 %>
 <%= render(Ui::SidebarComponent.new(sidebar_id: "super-admin-sidebar")) do %>

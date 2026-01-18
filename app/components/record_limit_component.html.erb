@@ -1,0 +1,18 @@
+<div
+  data-controller="record-limit-selector"
+  data-limit-selector-param-value="limit"
+  class="flex items-center text-xs gap-1 lg:gap-3 lg:text-base"
+>
+  <span class="text-gray-700">Show</span>
+  <%= select_tag :limit,
+        options_for_select([10, 30, 50], params[:limit]),
+        data: {
+          action: "change->record-limit-selector#change",
+          "limit-selector-param-value": "limit"
+        },
+        class: "block rtl:text-right text-gray-800 border border-gray-300 rounded-md
+               focus:outline-hidden
+               text-xs lg:text-sm px-2.5 w-16 py-2 bg-white"
+  %>
+  <span class="text-gray-700">entries</span>
+</div>

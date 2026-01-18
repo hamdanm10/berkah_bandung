@@ -4,8 +4,17 @@
 
 import { application } from "./application"
 
+import DropdownSearchController from "./dropdown_search_controller"
+application.register("dropdown-search", DropdownSearchController)
+
+import FilterController from "./filter_controller"
+application.register("filter", FilterController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
 import PasswordVisibilityController from "./password_visibility_controller"
 application.register("password-visibility", PasswordVisibilityController)
+
+import RecordLimitSelectorController from "./record_limit_selector_controller"
+application.register("record-limit-selector", RecordLimitSelectorController)

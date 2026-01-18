@@ -8,7 +8,7 @@
   <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
     <button type="button" class="flex items-center text-sm gap-2 hover:cursor-pointer" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
       <span class="sr-only">Open user menu</span>
-      <%= image_tag "logo.svg", class: "w-10 h-10 rounded-full border border-gray-300", alt: "user photo" %>
+      <%= image_tag "logo.svg", class: "w-8 h-8 rounded-full border border-gray-300", alt: "user photo" %>
       <span class="hidden lg:block truncate max-w-[15ch] text-gray-800"><%= current_user.username %></span>
       <%= lucide_icon("chevron-down", class: "size-5 hidden lg:block") %>
     </button>

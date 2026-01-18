@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SuperAdminApplicationController < ApplicationController
   before_action :authenticate_super_admin!
 
