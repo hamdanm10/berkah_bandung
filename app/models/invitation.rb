@@ -6,6 +6,10 @@ class Invitation < ApplicationRecord
   # Relations
   belongs_to :user, foreign_key: :used_by_user_id, class_name: "User", optional: true
 
+  # Callbacks
+  before_validation :generate_invitation_code, on: :create
+  before_validation :set_default_expires_at, on: :create
+
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
     [ "assigned_role", "created_at", "expires_at", "id", "invitation_code", "is_used", "updated_at", "used_at", "used_by_user_id" ]
@@ -13,7 +17,7 @@ class Invitation < ApplicationRecord
 
   # Validations
   validates :invitation_code, presence: true, length: { is: 6 }, uniqueness: true
-  validates :assigned_role, inclusion: { in: ROLES }
+  validates :assigned_role, presence: true, inclusion: { in: ROLES }
   validates :expires_at, presence: true
 
   # Custom Validations
@@ -42,6 +46,14 @@ class Invitation < ApplicationRecord
   end
 
   private
+
+  def generate_invitation_code
+    self.invitation_code ||= SecureRandom.alphanumeric(6).upcase
+  end
+
+  def set_default_expires_at
+    self.expires_at ||= 1.day.from_now
+  end
 
   def expires_at_cannot_be_in_the_past
     return if expires_at.blank?

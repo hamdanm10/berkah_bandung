@@ -3,7 +3,7 @@
 class Ui::ButtonComponent < ViewComponent::Base
   attr_reader :type, :kwargs
 
-  BASE_CLASS = "flex gap-2 justify-center items-center font-medium rounded-md cursor-pointer transition-all duration-300"
+  BASE_CLASS = "flex gap-2 justify-center items-center rounded-md cursor-pointer transition-all duration-300"
 
   def initialize(type: "button", size: "md", variant: "primary", **kwargs)
     @type = type

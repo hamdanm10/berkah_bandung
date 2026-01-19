@@ -1,17 +1,19 @@
 <div class="grid grid-cols-1 bg-[url('<%= asset_path("bg-auth.jpg") %>')] lg:grid-cols-2">
   <div class="flex h-screen flex-col bg-white px-5 lg:px-28">
-    <%= link_to root_path, class: "hidden lg:flex py-0 lg:py-5 gap-2 items-center" do %>
-      <div class="bg-white rounded-md flex items-center justify-center border border-gray-300 h-10 w-10">
-        <%= image_tag "logo.svg", class: "w-6" %>
-      </div>
-      <h3 class="text-xl font-semibold text-gray-800">Berkah Bandung</h3>
-    <% end %>
+    <div class="hidden lg:flex py-0 lg:py-5 gap-2 items-center">
+      <%= link_to root_path, class: "bg-dark rounded-md flex items-center justify-center h-10 w-10" do %>
+        <%= image_tag "logo.png", class: "w-6" %>
+      <% end %>
+      <%= link_to root_path, class: "text-xl font-semibold text-gray-800" do %>
+        Berkah Bandung
+      <% end %>
+    </div>
     <%= form_with url: session_path, class: "flex h-full flex-col lg:justify-center gap-5" do |form| %>
       <div class="flex flex-col gap-2">
         <div class="py-10 flex justify-center lg:hidden">
           <%= link_to root_path, class: "py-0 lg:py-5 flex gap-2 items-center" do %>
             <div class="bg-white rounded-md flex items-center justify-center border border-gray-300 h-10 w-10">
-              <%= image_tag "logo.svg", class: "w-6" %>
+              <%= image_tag "logo.png", class: "w-6" %>
             </div>
             <h1 class="text-xl font-bold text-gray-800">Berkah Bandung</h1>
           <% end %>

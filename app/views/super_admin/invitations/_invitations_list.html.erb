@@ -35,7 +35,7 @@
         <tbody>
           <% if invitations.any? %>
             <% invitations.each_with_index do |invitation, index| %>
-              <%= render "invitation", invitation: invitation, index: index, pagy: pagy %>
+              <%= render("invitation", invitation: invitation, index: index, pagy: pagy) %>
             <% end %>
           <% else %>
             <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
@@ -46,5 +46,5 @@
       </table>
     </div>
   </div>
-  <%= render PaginationComponent.new(records: invitations, pagy: pagy) %>
+  <%= render(PaginationComponent.new(records: invitations, pagy: pagy)) %>
 </div>

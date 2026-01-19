@@ -13,15 +13,16 @@
       <div>
         <%= render(Ui::LabelInputComponent.new(form: form, field_name: :assigned_role, label: "Assigned Role", required: true)) %>
         <%= render(
-          Ui::DropdownSearchInputComponent.new(
-          form: form,
-          field_name: :assigned_role,
-          records: assigned_roles_for_select,
-          current_value: invitation.assigned_role,
-          prompt: "Choose assigned role",
-          class: "mt-2"
+            Ui::DropdownSearchInputComponent.new(
+            form: form,
+            field_name: :assigned_role,
+            records: assigned_roles_for_select,
+            current_value: invitation.assigned_role,
+            prompt: "Choose assigned role",
+            class: "mt-2"
           )
         ) %>
+        <%= render(ErrorInputComponent.new(model: invitation, field_name: :assigned_role)) %>
       </div>
     </div>
   </div>
