@@ -23,6 +23,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
   </head>
   <body class="font-outfit bg-gray-50">
+    <%= render NotificationComponent.new(message: flash[:notice]) %>
     <%= render("layouts/super_admin/sidebar") %>
     <%= render("layouts/super_admin/navbar") %>
     <div class="px-4 py-24 lg:ml-64 lg:px-8 2xl:px-14">

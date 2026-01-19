@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class Invitations::Create < ApplicationService
-  def call(invitation:)
-    invitation = Invitation.new(invitation)
+  def call(invitation_params:)
+    invitation = Invitation.new(invitation_params)
 
     if invitation.save
       success(

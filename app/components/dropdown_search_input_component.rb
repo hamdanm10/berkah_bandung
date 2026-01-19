@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Ui::DropdownSearchInputComponent < ViewComponent::Base
+class DropdownSearchInputComponent < ViewComponent::Base
   attr_reader :form,
               :field_name,
               :records,

@@ -21,7 +21,9 @@
       <span class="text-xs px-2 py-1 bg-danger-soft border border-danger text-danger rounded-md">Expired</span>
     <% end %>
   </td>
-  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-    asdf
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700 flex gap-2 items-center">
+    <%= link_to edit_super_admin_invitation_path(invitation), class: "text-secondary hover:text-secondary-hover" do %>
+      <%= lucide_icon("pencil", class: "size-5") %>
+    <% end %>
   </td>
 </tr>
