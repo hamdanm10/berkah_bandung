@@ -23,6 +23,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
   </head>
   <body class="font-outfit bg-gray-50">
+    <%= render NotificationComponent.new(message: flash[:notice]) %>
     <%= yield %>
   </body>
 </html>

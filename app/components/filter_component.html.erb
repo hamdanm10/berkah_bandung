@@ -1,0 +1,27 @@
+<%= search_form_for @q,
+      url: @url,
+      method: @method,
+      class: "flex flex-wrap items-end gap-4",
+      data: form_data do |f| %>
+  <% @fields.each do |field| %>
+    <div class="min-w-45">
+      <% if field[:label].present? %>
+        <label class="block mb-1 text-sm font-medium text-gray-700">
+          <%= field[:label] %>
+        </label>
+      <% end %>
+      <%= render_field(f, field) %>
+    </div>
+  <% end %>
+  <% if show_submit_button? %>
+    <div>
+      <button
+        type="submit"
+        class="inline-flex items-center rounded-lg bg-primary-600 px-4 py-2
+               text-sm font-medium text-white hover:bg-primary-700
+               focus:ring-4 focus:ring-primary-300">
+        Search
+      </button>
+    </div>
+  <% end %>
+<% end %>

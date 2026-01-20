@@ -8,7 +8,7 @@
         Berkah Bandung
       <% end %>
     </div>
-    <%= form_with url: session_path, class: "flex h-full flex-col lg:justify-center gap-5" do |form| %>
+    <%= form_with url: verify_invitations_path, class: "flex h-full flex-col lg:justify-center gap-5" do |form| %>
       <div class="flex flex-col gap-2">
         <div class="py-10 flex justify-center lg:hidden">
           <%= link_to root_path, class: "py-0 lg:py-5 flex gap-2 items-center" do %>
@@ -18,28 +18,21 @@
             <h1 class="text-xl font-bold text-gray-800">Berkah Bandung</h1>
           <% end %>
         </div>
-        <h1 class="text-4xl font-semibold text-gray-800">Login</h1>
-        <span class="text-sm text-gray-600">Enter your username and password to sign in.</span>
+        <h1 class="text-4xl font-semibold text-gray-800">Invitation</h1>
+        <span class="text-sm text-gray-600">Enter your invitation code to register.</span>
       </div>
       <div>
-        <%= render(Ui::LabelInputComponent.new(form: form, field_name: "username", label: "Username", required: true)) %>
-        <%= render(Ui::TextInputComponent.new(form: form, field_name: "username", class: "mt-2", autofocus: true, value: params[:username], required: true)) %>
+        <%= render(Ui::LabelInputComponent.new(form: form, field_name: :invitation_code, label: "Invitation Code", required: true)) %>
+        <%= render(Ui::TextInputComponent.new(form: form, field_name: :invitation_code, class: "mt-2", autofocus: true, required: true)) %>
         <%= tag.div(flash[:alert], class: "text-sm text-red-500 mt-1") if flash[:alert] %>
       </div>
-      <div>
-        <%= render(Ui::LabelInputComponent.new(form: form, field_name: "password", label: "Password", required: true)) %>
-        <%= render(Ui::PasswordInputComponent.new(form: form, field_name: "password", class: "mt-2", required: true)) %>
-      </div>
-      <div class="flex items-center justify-end">
-        <a href="#" class="text-sm text-blue-600 hover:underline">Forgot password?</a>
-      </div>
-      <%= render(Ui::ButtonComponent.new(type: :submit, size: "md", variant: "primary").with_content("Login")) %>
+      <%= render(Ui::ButtonComponent.new(type: :submit, size: "md", variant: "primary").with_content("Submit")) %>
       <div class="flex items-center gap-4">
         <div class="h-px flex-1 bg-gray-300"></div>
         <span class="text-sm text-gray-600 whitespace-nowrap">or</span>
         <div class="h-px flex-1 bg-gray-300"></div>
       </div>
-      <%= render(Ui::ButtonLinkComponent.new(size: "md", variant: "secondary", url: new_invitation_path).with_content("Register via Token")) %>
+      <%= render(Ui::ButtonLinkComponent.new(size: "md", variant: "secondary", url: new_session_path).with_content("Already Have Account?")) %>
     <% end %>
   </div>
   <div class="hidden lg:relative lg:block">

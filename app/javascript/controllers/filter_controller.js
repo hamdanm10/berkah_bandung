@@ -1,33 +1,43 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Connects to data-controller="filter"
 export default class extends Controller {
   static targets = ["panel"]
+  static values = {
+    initialOpen: Boolean
+  }
 
   connect() {
-    this.isOpen = false
+    this.isOpen = this.initialOpenValue
+
+    const panel = this.panelTarget
+    if (this.isOpen) {
+      panel.classList.add("opacity-100")
+      panel.style.height = "auto"
+    } else {
+      panel.classList.add("opacity-0")
+      panel.style.height = "0px"
+    }
   }
 
   toggle() {
-    this.isOpen ? this.close() : this.open()
+    this.isOpen ? this.hide() : this.show()
   }
 
-  open() {
+  show() {
     const panel = this.panelTarget
+    this.isOpen = true
 
-    panel.style.height = "0px"
     panel.classList.remove("opacity-0")
     panel.classList.add("opacity-100")
 
+    panel.style.height = "0px"
     panel.offsetHeight
 
     const height = panel.scrollHeight
 
     requestAnimationFrame(() => {
-      panel.style.height = height + "px"
+      panel.style.height = `${height}px`
     })
-
-    this.isOpen = true
 
     panel.addEventListener(
       "transitionend",
@@ -38,11 +48,12 @@ export default class extends Controller {
     )
   }
 
-  close() {
+  hide() {
     const panel = this.panelTarget
+    this.isOpen = false
 
     const height = panel.scrollHeight
-    panel.style.height = height + "px"
+    panel.style.height = `${height}px`
 
     panel.offsetHeight
 
@@ -51,7 +62,5 @@ export default class extends Controller {
       panel.classList.remove("opacity-100")
       panel.classList.add("opacity-0")
     })
-
-    this.isOpen = false
   }
 }

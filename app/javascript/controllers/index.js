@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import AutoSubmitController from "./auto_submit_controller"
+application.register("auto-submit", AutoSubmitController)
+
 import DropdownSearchController from "./dropdown_search_controller"
 application.register("dropdown-search", DropdownSearchController)
 

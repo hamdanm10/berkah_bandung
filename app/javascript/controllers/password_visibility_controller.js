@@ -4,12 +4,19 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["input", "eye", "eyeOff"]
 
+  connect() {
+    this.visible = false
+    this.syncIcons()
+  }
+
   toggle() {
-    const isPassword = this.inputTarget.type === "password"
+    this.visible = !this.visible
+    this.inputTarget.type = this.visible ? "text" : "password"
+    this.syncIcons()
+  }
 
-    this.inputTarget.type = isPassword ? "text" : "password"
-
-    this.eyeTarget.classList.toggle("hidden", !isPassword)
-    this.eyeOffTarget.classList.toggle("hidden", isPassword)
+  syncIcons() {
+    this.eyeTarget.classList.toggle("hidden", this.visible)
+    this.eyeOffTarget.classList.toggle("hidden", !this.visible)
   }
 }

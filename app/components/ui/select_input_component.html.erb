@@ -1,0 +1,7 @@
+<%= form.select(
+      field_name,
+      options_for_select(records, current_value),
+      kwargs.slice(:prompt, :include_blank, :selected, :disabled),
+      kwargs.except(:prompt, :include_blank, :selected, :disabled)
+    )
+%>
