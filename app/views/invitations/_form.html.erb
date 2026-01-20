@@ -1,0 +1,26 @@
+<%= form_with url: url, class: "flex h-full flex-col lg:justify-center gap-5" do |form| %>
+  <div class="flex flex-col gap-2">
+    <div class="py-10 flex justify-center lg:hidden">
+      <%= link_to root_path, class: "py-0 lg:py-5 flex gap-2 items-center" do %>
+        <div class="bg-white rounded-md flex items-center justify-center border border-gray-300 h-10 w-10">
+          <%= image_tag "logo.png", class: "w-6" %>
+        </div>
+        <h1 class="text-xl font-bold text-gray-800">Berkah Bandung</h1>
+      <% end %>
+    </div>
+    <h1 class="text-4xl font-semibold text-gray-800">Invitation</h1>
+    <span class="text-sm text-gray-600">Enter your invitation code to register.</span>
+  </div>
+  <div>
+    <%= render(Ui::LabelInputComponent.new(form: form, field_name: :invitation_code, label: "Invitation Code", required: true)) %>
+    <%= render(Ui::TextInputComponent.new(form: form, field_name: :invitation_code, class: "mt-2", autofocus: true, required: true)) %>
+    <%= tag.div(flash[:alert], class: "text-sm text-red-500 mt-1") if flash[:alert] %>
+  </div>
+  <%= render(Ui::ButtonComponent.new(type: :submit, size: "md", variant: "primary").with_content("Submit")) %>
+  <div class="flex items-center gap-4">
+    <div class="h-px flex-1 bg-gray-300"></div>
+    <span class="text-sm text-gray-600 whitespace-nowrap">or</span>
+    <div class="h-px flex-1 bg-gray-300"></div>
+  </div>
+  <%= render(Ui::ButtonLinkComponent.new(size: "md", variant: "secondary", url: new_session_path).with_content("Already have an account?")) %>
+<% end %>
