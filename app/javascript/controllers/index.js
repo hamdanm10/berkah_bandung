@@ -13,6 +13,9 @@ application.register("dropdown-search", DropdownSearchController)
 import FilterController from "./filter_controller"
 application.register("filter", FilterController)
 
+import GlobalTooltipController from "./global_tooltip_controller"
+application.register("global-tooltip", GlobalTooltipController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 

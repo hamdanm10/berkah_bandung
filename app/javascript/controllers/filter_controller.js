@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
+// data-controller="filter"
 export default class extends Controller {
   static targets = ["panel"]
   static values = {

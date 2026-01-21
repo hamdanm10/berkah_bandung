@@ -22,12 +22,25 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
   </head>
-  <body class="font-outfit bg-gray-50">
+  <body class="font-outfit bg-gray-50" data-controller="global-tooltip">
     <%= render NotificationComponent.new(message: flash[:notice]) %>
     <%= render("layouts/super_admin/sidebar") %>
     <%= render("layouts/super_admin/navbar") %>
     <div class="px-4 py-24 lg:ml-64 lg:px-8 2xl:px-14">
       <%= yield %>
+    </div>
+    <div
+      data-global-tooltip-target="tooltip"
+      class="
+        fixed z-50 pointer-events-none
+        opacity-0
+        transition-opacity duration-150 ease-out
+      "
+    >
+      <div
+        data-global-tooltip-target="content"
+        class="rounded-md bg-dark px-2 py-1 text-xs text-white shadow"
+      ></div>
     </div>
   </body>
 </html>

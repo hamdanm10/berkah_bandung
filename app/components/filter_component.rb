@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 class FilterComponent < ViewComponent::Base
+  include LucideRails::RailsHelper
   include Ransack::Helpers::FormHelper
 
-  def initialize(q:, url:, method: :get, mode: :auto, fields:)
+  def initialize(q:, url:, method: :get, fields:, show_submit: false)
     @q = q
     @url = url
     @method = method
-    @mode = mode
-    @fields = normalize_fields(fields)
+    @fields = fields
+    @show_submit = show_submit
   end
 
   def form_data
@@ -18,7 +19,7 @@ class FilterComponent < ViewComponent::Base
   end
 
   def show_submit_button?
-    @fields.any? { |f| f[:manual] }
+    @show_submit
   end
 
   def field_data(field)
@@ -28,18 +29,7 @@ class FilterComponent < ViewComponent::Base
   end
 
   def auto_submit_form?
-    @mode == :auto
-  end
-
-  def normalize_fields(fields)
-    fields.map do |field|
-      auto = auto_submit_form? && field.fetch(:auto_submit, false)
-
-      field.merge(
-        auto_submit: auto,
-        manual: !auto
-      )
-    end
+    @fields.any? { |f| f[:auto_submit] }
   end
 
   def render_field(form, field)

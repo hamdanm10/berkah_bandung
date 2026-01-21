@@ -7,29 +7,8 @@
     <%= render(RecordLimitComponent.new) %>
     <div class="flex lg:items-center gap-3">
       <div>
-        <%= render(
-              Ui::ButtonComponent.new(
-                type: "button",
-                size: "sm",
-                variant: "light",
-                "data-global-tooltip": "Filter Invitation",
-                "data-action": "
-                  mouseenter->global-tooltip#show
-                  mouseleave->global-tooltip#hide
-                  click->filter#toggle
-                "
-              )
-            ) do %>
+        <%= render(Ui::ButtonComponent.new(type: "button", size: "sm", variant: "light", "data-action": "click->filter#toggle")) do %>
           <%= lucide_icon("settings-2", class: "size-5") %>
-        <% end %>
-      </div>
-      <div class="flex">
-        <%= render(Ui::ButtonLinkComponent.new(
-              size: "sm", 
-              variant: "primary", 
-              url: new_super_admin_invitation_path
-            )) do %>
-          <%= lucide_icon("plus", class: "size-5") %>
         <% end %>
       </div>
     </div>
@@ -40,19 +19,25 @@
   >
     <div class="flex justify-end gap-3 p-6">
       <%= render FilterComponent.new(
-            q: q,
-            url: super_admin_invitations_path,
-            show_submit: true,
-            fields: [
-              {
-                type: :select,
-                name: :assigned_role_eq,
-                records: assign_roles_for_select,
-                blank: "All Roles",
-                auto_submit: false
-              }
-            ]
-          ) %>
+          q: q,
+          url: super_admin_users_path,
+          show_submit: true,
+          fields: [
+            {
+              type: :select,
+              name: :role_eq,
+              records: roles_for_select,
+              blank: "All Roles",
+              auto_submit: false
+            },
+            {
+              type: :search,
+              name: :username_eq,
+              placeholder: "Search...",
+              auto_submit: false
+            }
+          ]
+        ) %>
     </div>
   </div>
   <div class="overflow-x-auto">
@@ -61,17 +46,17 @@
         <thead class="text-xs uppercase text-gray-700 border-b border-b-gray-300 bg-white">
           <tr>
             <th class="px-6 py-3 font-medium normal-case">#</th>
-            <th class="px-6 py-3 font-medium normal-case">Invitation Code</th>
-            <th class="px-6 py-3 font-medium normal-case">Expires At</th>
+            <th class="px-6 py-3 font-medium normal-case">Full Name</th>
+            <th class="px-6 py-3 font-medium normal-case">Username</th>
             <th class="px-6 py-3 font-medium normal-case">Role</th>
             <th class="px-6 py-3 font-medium normal-case">Status</th>
             <th class="px-6 py-3 font-medium normal-case">Action</th>
           </tr>
         </thead>
         <tbody>
-          <% if invitations.any? %>
-            <% invitations.each_with_index do |invitation, index| %>
-              <%= render("invitation", invitation: invitation, index: index, pagy: pagy) %>
+          <% if users.any? %>
+            <% users.each_with_index do |user, index| %>
+              <%= render("user", user: user, index: index, pagy: pagy) %>
             <% end %>
           <% else %>
             <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
@@ -82,5 +67,5 @@
       </table>
     </div>
   </div>
-  <%= render(PaginationComponent.new(records: invitations, pagy: pagy)) %>
+  <%= render(PaginationComponent.new(records: users, pagy: pagy)) %>
 </div>

@@ -4,7 +4,7 @@ class Registrations::Create < ApplicationService
   def call(user_params:, invitation:)
     user = User.new(
       user_params.merge(
-        user_type: invitation.assigned_role
+        role: invitation.assigned_role
       )
     )
 

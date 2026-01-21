@@ -6,14 +6,14 @@ class Invitation < ApplicationRecord
   # Relations
   belongs_to :user, foreign_key: :used_by_user_id, class_name: "User", optional: true
 
+  # Ransack
+  def self.ransackable_attributes(auth_object = nil)
+    [ "assigned_role" ]
+  end
+
   # Callbacks
   before_validation :generate_invitation_code, on: :create
   before_validation :set_default_expires_at, on: :create
-
-  # Ransack
-  def self.ransackable_attributes(auth_object = nil)
-    [ "assigned_role", "created_at", "expires_at", "id", "invitation_code", "is_used", "updated_at", "used_at", "used_by_user_id" ]
-  end
 
   # Validations
   validates :invitation_code, presence: true, length: { is: 6 }, uniqueness: true

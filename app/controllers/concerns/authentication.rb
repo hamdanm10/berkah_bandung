@@ -38,7 +38,7 @@ module Authentication
   end
 
   def authentication_url
-    case Current.user.user_type
+    case Current.user.role
     when "super_admin"
       super_admin_dashboard_path
     when "order_supervisor"

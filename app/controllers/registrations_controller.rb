@@ -33,6 +33,7 @@ class RegistrationsController < ApplicationController
     )
 
     if result.success?
+      session.delete(:invitation_code)
       start_new_session_for result.payload[:user]
       redirect_to after_authentication_url, notice: result.payload[:message]
     else
