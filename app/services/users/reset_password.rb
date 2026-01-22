@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Users::ResetPassword < ApplicationService
-  DEFAULT_PASSWORD = "BerkahBandung@2026"
+  DEFAULT_PASSWORD = "BerkahBandung"
 
   def call(user:)
     if user.update(

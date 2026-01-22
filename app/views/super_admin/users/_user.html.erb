@@ -23,17 +23,47 @@
     <% end %>
   </td>
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700 flex gap-2 items-center">
+    <% if user.is_active? %>
+      <button
+        type="button"
+        class="text-danger hover:text-danger-hover cursor-pointer"
+        data-action="click->confirm-dialog#open mouseenter->hint#show mouseleave->hint#hide"
+        data-hint= "Deactivate"
+        data-confirm-dialog-title="Deactivate User"
+        data-confirm-dialog-message="Are you sure you want to deactivate this user '<%= user.full_name %>'?"
+        data-confirm-dialog-url="<%= deactivate_super_admin_user_path(user) %>"
+        data-confirm-dialog-method="patch"
+        data-confirm-dialog-variant="danger"
+        data-confirm-dialog-label="Deactivate">
+        <%= lucide_icon("ban", class: "size-5") %>
+      </button>
+    <% else %>
+      <button
+        type="button"
+        class="text-success hover:text-success-hover cursor-pointer"
+        data-action="click->confirm-dialog#open mouseenter->hint#show mouseleave->hint#hide"
+        data-hint= "Activate User"
+        data-confirm-dialog-title="Activate"
+        data-confirm-dialog-message="Are you sure you want to activate this user '<%= user.full_name %>'?"
+        data-confirm-dialog-url="<%= activate_super_admin_user_path(user) %>"
+        data-confirm-dialog-method="patch"
+        data-confirm-dialog-variant="primary"
+        data-confirm-dialog-label="Activate">
+        <%= lucide_icon("check", class: "size-5") %>
+      </button>
+    <% end %>
     <button
       type="button"
-      class="text-danger hover:text-danger-hover"
-      data-action="click->confirm-dialog#open"
-      data-confirm-dialog-title="Deactivate User"
-      data-confirm-dialog-message="Are you sure you want to deactivate this user?"
-      data-confirm-dialog-url="<%= deactivate_super_admin_user_path(user) %>"
+      class="text-secondary hover:text-secondary-hover cursor-pointer"
+      data-action="click->confirm-dialog#open mouseenter->hint#show mouseleave->hint#hide"
+      data-hint= "Reset Password"
+      data-confirm-dialog-title="Reset Password"
+      data-confirm-dialog-message="Are you sure you want to reset Hamdan’s password to 'BerkahBandung'?"
+      data-confirm-dialog-url="<%= reset_password_super_admin_user_path(user) %>"
       data-confirm-dialog-method="patch"
-      data-confirm-dialog-variant="danger"
-      data-confirm-dialog-label="Deactivate">
-      <%= lucide_icon("trash-2", class: "size-5") %>
+      data-confirm-dialog-variant="secondary"
+      data-confirm-dialog-label="Reset Password">
+      <%= lucide_icon("key-round", class: "size-5") %>
     </button>
   </td>
 </tr>
