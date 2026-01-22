@@ -1,13 +1,25 @@
 <div
   class="w-full bg-white border max-w-none border-gray-300 mt-5 flex flex-col divide-y divide-gray-300 rounded-md shadow-none"
-  data-controller="filter"
+  data-controller="filter hint confirm-dialog"
   data-filter-initial-open-value="<%= params[:q].present? %>"
 >
   <div class="flex flex-col p-4 gap-4 lg:flex-row lg:items-center lg:justify-between lg:p-6 lg:gap-0">
     <%= render(RecordLimitComponent.new) %>
     <div class="flex lg:items-center gap-3">
       <div>
-        <%= render(Ui::ButtonComponent.new(type: "button", size: "sm", variant: "light", "data-action": "click->filter#toggle")) do %>
+        <%= render(
+              ButtonComponent.new(
+                type: "button",
+                size: "sm",
+                variant: "light",
+                "data-hint": "Filter",
+                "data-action": "
+                  mouseenter->hint#show
+                  mouseleave->hint#hide
+                  click->filter#toggle
+                "
+              )
+            ) do %>
           <%= lucide_icon("settings-2", class: "size-5") %>
         <% end %>
       </div>
@@ -31,8 +43,15 @@
               auto_submit: false
             },
             {
+              type: :select,
+              name: :is_active_eq,
+              records: user_statuses_for_select,
+              blank: "All Statuses",
+              auto_submit: false
+            },
+            {
               type: :search,
-              name: :username_eq,
+              name: :username_or_full_name_cont,
               placeholder: "Search...",
               auto_submit: false
             }
@@ -68,4 +87,6 @@
     </div>
   </div>
   <%= render(PaginationComponent.new(records: users, pagy: pagy)) %>
+  <%= render(HintComponent.new) %>
+  <%= render(ConfirmDialogComponent.new) %>
 </div>

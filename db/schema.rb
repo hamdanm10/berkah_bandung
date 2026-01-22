@@ -40,6 +40,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_16_151252) do
     t.string "avatar"
     t.datetime "created_at", null: false
     t.string "full_name", null: false
+    t.boolean "is_active", default: true, null: false
     t.string "password_digest", null: false
     t.integer "role", null: false
     t.datetime "updated_at", null: false

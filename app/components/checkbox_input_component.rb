@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Ui::CheckboxInputComponent < ViewComponent::Base
+class CheckboxInputComponent < ViewComponent::Base
   attr_reader :form, :field_name, :label, :kwargs
 
   def initialize(form:, field_name:, label: nil)

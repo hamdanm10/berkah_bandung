@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Ui::ButtonLinkComponent < ViewComponent::Base
+class ButtonLinkComponent < ViewComponent::Base
   attr_reader :url, :kwargs
 
   BASE_CLASS = "flex justify-center gap-2 items-center font-medium rounded-md cursor-pointer transition-all duration-300"

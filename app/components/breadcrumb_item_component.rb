@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Ui::BreadcrumbItemComponent < ViewComponent::Base
+class BreadcrumbItemComponent < ViewComponent::Base
   include LucideRails::RailsHelper
 
   attr_reader :url, :icon, :name, :last

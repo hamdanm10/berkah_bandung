@@ -6,10 +6,10 @@
     <%= invitation.invitation_code %>
   </td>
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-    <%= format_datetime(invitation.expires_at) %>
+    <%= invitation.assigned_role.titleize %>
   </td>
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-    <%= invitation.assigned_role.titleize %>
+    <%= format_datetime(invitation.expires_at) %>
   </td>
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
     <% case invitation.status %>
@@ -24,8 +24,8 @@
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700 flex gap-2 items-center">
     <%= link_to edit_super_admin_invitation_path(invitation), 
         class: "text-secondary hover:text-secondary-hover", 
-        "data-global-tooltip": "Filter Invitation", 
-        "data-action": "mouseenter->global-tooltip#show mouseleave->global-tooltip#hide" do %>
+        "data-hint": "Edit", 
+        "data-action": "mouseenter->hint#show mouseleave->hint#hide" do %>
       <%= lucide_icon("pencil", class: "size-5") %>
     <% end %>
   </td>

@@ -17,7 +17,11 @@ class User < ApplicationRecord
 
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
-    [ "avatar", "created_at", "full_name", "id", "id_value", "password_digest", "role", "updated_at", "username" ]
+    [ "role", "username", "full_name", "is_active" ]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    []
   end
 
 

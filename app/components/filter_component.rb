@@ -39,7 +39,7 @@ class FilterComponent < ViewComponent::Base
 
     case field[:type]
     when :search
-      helpers.render Ui::TextInputComponent.new(
+      helpers.render TextInputComponent.new(
         form: form,
         field_name: field[:name],
         placeholder: field[:placeholder],
@@ -47,7 +47,7 @@ class FilterComponent < ViewComponent::Base
       )
 
     when :select
-      helpers.render Ui::SelectInputComponent.new(
+      helpers.render SelectInputComponent.new(
         form: form,
         field_name: field[:name],
         records: field[:records],

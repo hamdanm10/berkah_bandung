@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Ui::ButtonComponent < ViewComponent::Base
+class ButtonComponent < ViewComponent::Base
   attr_reader :type, :kwargs
 
   BASE_CLASS = "flex gap-2 justify-center items-center font-medium rounded-md cursor-pointer transition-all duration-300"

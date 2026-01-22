@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Ui::LabelInputComponent < ViewComponent::Base
+class LabelInputComponent < ViewComponent::Base
   attr_reader :form, :field_name, :label, :required, :kwargs
 
   BASE_CLASS = "text-gray-800 text-sm font-medium"

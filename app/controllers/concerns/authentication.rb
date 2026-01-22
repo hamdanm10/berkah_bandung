@@ -21,7 +21,15 @@ module Authentication
   end
 
   def require_authentication
-    resume_session || request_authentication
+    return request_authentication unless resume_session
+    require_active_user
+  end
+
+  def require_active_user
+    return if Current.user&.is_active?
+
+    terminate_session if Current.session
+    redirect_to new_session_path, alert: "Your account is disabled. Please contact admin."
   end
 
   def resume_session

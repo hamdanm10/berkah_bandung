@@ -1,4 +1,4 @@
-<tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300">
+<tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300" data-controller="global-dialog-trigger">
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
     <%= pagy.offset + index + 1 %>
   </td>
@@ -10,5 +10,30 @@
   </td>
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
     <%= user.role.titleize %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <% if user.is_active? %>
+      <span class="text-xs px-2 py-1 bg-success-soft border border-success text-success rounded-md">
+        Active
+      </span>
+    <% else %>
+      <span class="text-xs px-2 py-1 bg-danger-soft border border-danger text-danger rounded-md">
+        Inactive
+      </span>
+    <% end %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700 flex gap-2 items-center">
+    <button
+      type="button"
+      class="text-danger hover:text-danger-hover"
+      data-action="click->confirm-dialog#open"
+      data-confirm-dialog-title="Deactivate User"
+      data-confirm-dialog-message="Are you sure you want to deactivate this user?"
+      data-confirm-dialog-url="<%= deactivate_super_admin_user_path(user) %>"
+      data-confirm-dialog-method="patch"
+      data-confirm-dialog-variant="danger"
+      data-confirm-dialog-label="Deactivate">
+      <%= lucide_icon("trash-2", class: "size-5") %>
+    </button>
   </td>
 </tr>

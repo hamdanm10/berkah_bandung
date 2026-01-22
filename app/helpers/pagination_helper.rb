@@ -6,9 +6,9 @@ module PaginationHelper
     p_next = pagy.next
 
     content_tag :div, class: "flex gap-2 text-xs lg:text-sm" do
-      create_nav_btn(pagy, p_prev, "rounded-full") +
+      create_nav_btn(pagy, p_prev, "rounded-md") +
       create_num_btn(pagy) +
-      create_nav_btn(pagy, p_next, "rounded-full", false)
+      create_nav_btn(pagy, p_next, "rounded-md", false)
     end
   end
 

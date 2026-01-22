@@ -7,17 +7,23 @@ import { application } from "./application"
 import AutoSubmitController from "./auto_submit_controller"
 application.register("auto-submit", AutoSubmitController)
 
+import ConfirmDialogController from "./confirm_dialog_controller"
+application.register("confirm-dialog", ConfirmDialogController)
+
+import DialogController from "./dialog_controller"
+application.register("dialog", DialogController)
+
 import DropdownSearchController from "./dropdown_search_controller"
 application.register("dropdown-search", DropdownSearchController)
 
 import FilterController from "./filter_controller"
 application.register("filter", FilterController)
 
-import GlobalTooltipController from "./global_tooltip_controller"
-application.register("global-tooltip", GlobalTooltipController)
-
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import HintController from "./hint_controller"
+application.register("hint", HintController)
 
 import NotificationController from "./notification_controller"
 application.register("notification", NotificationController)

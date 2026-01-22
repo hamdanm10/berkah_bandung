@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Ui::SidebarLinkComponent < ViewComponent::Base
+class SidebarLinkComponent < ViewComponent::Base
   include LucideRails::RailsHelper
 
   attr_reader :icon, :url, :name

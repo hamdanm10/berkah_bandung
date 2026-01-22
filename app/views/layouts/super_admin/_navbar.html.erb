@@ -1,6 +1,6 @@
-<%= render(Ui::NavbarComponent.new) do %>
+<%= render(NavbarComponent.new) do %>
   <div class="flex items-center gap-2">
-    <%= render(Ui::ButtonComponent.new(type: "button", size: "sm", variant: "light", "data-drawer-target": "super-admin-sidebar", "data-drawer-toggle": "super-admin-sidebar", "aria-controls": "super-admin-sidebar", class: "lg:hidden block")) do %>
+    <%= render(ButtonComponent.new(type: "button", size: "sm", variant: "light", "data-drawer-target": "super-admin-sidebar", "data-drawer-toggle": "super-admin-sidebar", "aria-controls": "super-admin-sidebar", class: "lg:hidden block")) do %>
       <span class="sr-only">Open sidebar</span>
       <%= lucide_icon("panel-right-close", class: "size-5") %>
     <% end %>
@@ -8,7 +8,7 @@
   <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
     <button type="button" class="flex items-center text-sm gap-2 hover:cursor-pointer" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
       <span class="sr-only">Open user menu</span>
-      <%= image_tag "logo.png", class: "w-8 h-8 rounded-full border border-gray-300", alt: "user photo" %>
+      <%= image_tag "logo.png", class: "w-8 h-8 rounded-md border border-gray-300", alt: "user photo" %>
       <span class="hidden lg:block truncate max-w-[15ch] text-gray-800"><%= current_user.username %></span>
       <%= lucide_icon("chevron-down", class: "size-5 hidden lg:block") %>
     </button>

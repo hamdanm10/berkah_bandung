@@ -12,15 +12,15 @@
     <span class="text-sm text-gray-600">Enter your invitation code to register.</span>
   </div>
   <div>
-    <%= render(Ui::LabelInputComponent.new(form: form, field_name: :invitation_code, label: "Invitation Code", required: true)) %>
-    <%= render(Ui::TextInputComponent.new(form: form, field_name: :invitation_code, class: "mt-2", autofocus: true, required: true)) %>
+    <%= render(LabelInputComponent.new(form: form, field_name: :invitation_code, label: "Invitation Code", required: true)) %>
+    <%= render(TextInputComponent.new(form: form, field_name: :invitation_code, class: "mt-2", autofocus: true, required: true)) %>
     <%= tag.div(flash[:alert], class: "text-sm text-red-500 mt-1") if flash[:alert] %>
   </div>
-  <%= render(Ui::ButtonComponent.new(type: :submit, size: "md", variant: "primary").with_content("Submit")) %>
+  <%= render(ButtonComponent.new(type: :submit, size: "md", variant: "primary").with_content("Submit")) %>
   <div class="flex items-center gap-4">
     <div class="h-px flex-1 bg-gray-300"></div>
     <span class="text-sm text-gray-600 whitespace-nowrap">or</span>
     <div class="h-px flex-1 bg-gray-300"></div>
   </div>
-  <%= render(Ui::ButtonLinkComponent.new(size: "md", variant: "secondary", url: new_session_path).with_content("Already have an account?")) %>
+  <%= render(ButtonLinkComponent.new(size: "md", variant: "secondary", url: new_session_path).with_content("Already have an account?")) %>
 <% end %>

@@ -7,3 +7,18 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+user = User.find_or_initialize_by(username: "super_admin")
+
+if user.new_record?
+  user.full_name = "Super Admin"
+  user.password = "asdfasdf"
+  user.password_confirmation = "asdfasdf"
+  user.role = "super_admin"
+  user.is_active = true
+  user.save!
+
+  puts "User 'super_admin' has been successfully created"
+else
+  puts "User 'super_admin' already exists, skipping"
+end
