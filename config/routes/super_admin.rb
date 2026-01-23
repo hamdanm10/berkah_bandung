@@ -31,4 +31,11 @@ namespace :super_admin do
       patch :deactivate
     end
   end
+
+  resources :categories, except: %i[show] do
+    member do
+      patch :activate
+      patch :deactivate
+    end
+  end
 end
