@@ -10,9 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_16_151252) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_22_162106) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "courier_services", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at", precision: nil
+    t.boolean "is_active", default: true, null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "invitations", force: :cascade do |t|
     t.string "assigned_role", null: false
@@ -25,6 +33,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_16_151252) do
     t.bigint "used_by_user_id"
     t.index ["invitation_code"], name: "index_invitations_on_invitation_code", unique: true
     t.index ["used_by_user_id"], name: "index_invitations_on_used_by_user_id"
+  end
+
+  create_table "merchants", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at", precision: nil
+    t.boolean "is_active", default: true, null: false
+    t.string "marketplace", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "sessions", force: :cascade do |t|
