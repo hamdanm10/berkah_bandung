@@ -8,7 +8,7 @@
   <div class="hidden lg:block">
     <%= render(BreadcrumbComponent.new) do %>
       <%= render(BreadcrumbItemComponent.new(url: super_admin_dashboard_path, icon: "layout-grid", name: "Dashboard")) %>
-      <%= render(BreadcrumbItemComponent.new(url: super_admin_courier_services_path, name: "Courier Service")) %>
+      <%= render(BreadcrumbItemComponent.new(url: super_admin_courier_services_path, name: "Courier Services")) %>
       <%= render(BreadcrumbItemComponent.new(name: "Edit Courier Service", last: true)) %>
     <% end %>
   </div>
