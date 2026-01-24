@@ -38,4 +38,18 @@ namespace :super_admin do
       patch :deactivate
     end
   end
+
+  resources :distributors, except: %i[show] do
+    member do
+      patch :activate
+      patch :deactivate
+    end
+  end
+
+  resources :products, except: %i[show] do
+    member do
+      patch :activate
+      patch :deactivate
+    end
+  end
 end
