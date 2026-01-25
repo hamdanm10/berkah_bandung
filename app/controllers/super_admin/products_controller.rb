@@ -31,6 +31,29 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
     end
   end
 
+  def edit
+    @product = product_scope
+    assign_dropdown_search_labels(@product)
+  end
+
+  def update
+    result = Products::Update.call(
+      product: product_scope,
+      product_params: product_params
+    )
+
+    if result.success?
+      product = result.payload[:product]
+
+      redirect_to edit_super_admin_product_path(product), notice: result.payload[:message]
+    else
+      @product = result.error[:product]
+      assign_dropdown_search_labels(@product)
+
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def product_params
@@ -52,6 +75,14 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
   end
 
   def product_scope
-    Product.find(params[:id])
+    Product.includes(:distributor, :category, :brand)
+          .where(deleted_at: nil)
+          .find(params[:id])
+  end
+
+  def assign_dropdown_search_labels(product)
+    @category_label = product.category&.name
+    @brand_label = product.brand&.name
+    @distributor_label = product.distributor&.name
   end
 end

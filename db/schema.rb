@@ -89,10 +89,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_24_073248) do
     t.string "name", null: false
     t.datetime "updated_at", null: false
     t.string "variant"
-    t.index ["barcode"], name: "index_products_on_barcode"
+    t.index ["barcode"], name: "index_products_on_barcode", unique: true
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["category_id"], name: "index_products_on_category_id"
-    t.index ["code"], name: "index_products_on_code"
+    t.index ["code"], name: "index_products_on_code", unique: true
     t.index ["deleted_at"], name: "index_products_on_deleted_at"
     t.index ["distributor_id"], name: "index_products_on_distributor_id"
   end

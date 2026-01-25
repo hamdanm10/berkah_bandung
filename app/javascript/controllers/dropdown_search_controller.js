@@ -3,15 +3,30 @@ import { Controller } from "@hotwired/stimulus"
 // data-controller="dropdown-search"
 export default class extends Controller {
   static targets = ["input", "menu", "empty", "hidden"]
+  static values = {
+    url: String,
+    selectedLabel: String,
+    selectedId: String
+  }
 
   connect() {
     this.activeIndex = -1
-    this.selectedValue = this.data.get("selectedValue") || null
+    this.timeout = null
+    this.requestId = 0
 
-    this.close()
+    this.selectedValue = this.selectedLabelValue || null
+    if (this.selectedIdValue) {
+      this.hiddenTarget.value = this.selectedIdValue
+      this.inputTarget.value = this.selectedLabelValue
+    }
+
+    this.close(false)
 
     this.outsideClick = this.handleOutsideClick.bind(this)
     document.addEventListener("click", this.outsideClick)
+
+    this.inputTarget.setAttribute("aria-autocomplete", "list")
+    this.inputTarget.setAttribute("aria-controls", this.menuTarget.id || "")
   }
 
   disconnect() {
@@ -23,79 +38,153 @@ export default class extends Controller {
     this.inputTarget.setAttribute("aria-expanded", "true")
   }
 
-  close() {
+  close(resetActive = true) {
     this.menuTarget.classList.add("hidden")
     this.inputTarget.setAttribute("aria-expanded", "false")
-    this.resetActive()
+    if (resetActive) this.resetActive()
   }
 
   search(event) {
-    const query = event.target.value.toLowerCase()
+    const query = event.target.value.trim()
+    this.resetSelection(false)
 
-    this.selectedValue = null
-    this.hiddenTarget.value = ""
+    if (query.length < 1) {
+      this.clearMenu()
+      return
+    }
 
-    const visibleItems = this.filterItems(query)
-    this.toggleEmptyState(visibleItems.length, query)
+    clearTimeout(this.timeout)
+    const requestId = ++this.requestId
 
-    this.activeIndex = visibleItems.length ? 0 : -1
-    this.setActive(visibleItems)
+    this.timeout = setTimeout(() => {
+      this.fetchResults(query, requestId)
+    }, 300)
+  }
 
+  fetchResults(query, requestId) {
+    fetch(`${this.urlValue}?q=${encodeURIComponent(query)}`, {
+      headers: { Accept: "application/json" }
+    })
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP error! status: ${r.status}`)
+        return r.json()
+      })
+      .then(items => {
+        if (requestId !== this.requestId) return
+        this.renderItems(items)
+      })
+      .catch(err => {
+        console.error("Dropdown search fetch error:", err)
+        this.renderItems([])
+      })
+  }
+
+  renderItems(items) {
+    this.menuTarget.innerHTML = ""
+
+    if (items.length === 0) {
+      this.showEmpty()
+      this.open()
+      return
+    }
+
+    this.hideEmpty()
+    this.appendItems(items)
+
+    this.activeIndex = 0
+    this.setActive(this.items())
     this.open()
   }
 
-  keydown(event) {
-    const items = this.visibleItems()
+  clearMenu() {
+    this.menuTarget.innerHTML = ""
+    this.hideEmpty()
+    this.close()
+  }
 
-    if (!items.length && ["ArrowDown", "ArrowUp", "Enter"].includes(event.key)) {
-      return
-    }
+  appendItems(items) {
+    items.forEach((item, index) => {
+      const el = document.createElement("button")
+      el.type = "button"
+      el.dataset.value = item.value
+      el.dataset.label = item.label
+      el.id = `dropdown-item-${index}`
+      el.className =
+        "text-sm text-gray-800 w-full text-left px-3 py-2 hover:bg-gray-100"
+      el.textContent = item.label
+      el.addEventListener("click", () => this.choose(el))
+      this.menuTarget.appendChild(el)
+    })
+  }
+
+  items() {
+    return Array.from(this.menuTarget.querySelectorAll("[data-value]"))
+  }
+
+  keydown(event) {
+    const items = this.items()
+    if (!items.length && this.isNavigationKey(event.key)) return
 
     switch (event.key) {
       case "ArrowDown":
         event.preventDefault()
         this.moveActive(items, 1)
         break
-
       case "ArrowUp":
         event.preventDefault()
         this.moveActive(items, -1)
         break
-
       case "Enter":
         event.preventDefault()
         this.choose(items[this.activeIndex] || items[0])
         break
-
       case "Escape":
-        event.preventDefault()
-        this.cancel()
-        break
-
       case "Tab":
         this.cancel()
         break
     }
   }
 
-  select(event) {
-    this.choose(event.currentTarget)
+  isNavigationKey(key) {
+    return ["ArrowDown", "ArrowUp", "Enter"].includes(key)
+  }
+
+  moveActive(items, step) {
+    this.activeIndex = (this.activeIndex + step + items.length) % items.length
+    this.setActive(items)
+  }
+
+  setActive(items) {
+    this.clearActive()
+    const activeItem = items[this.activeIndex]
+    if (activeItem) {
+      activeItem.classList.add("bg-gray-100")
+      this.inputTarget.setAttribute("aria-activedescendant", activeItem.id)
+    } else {
+      this.inputTarget.removeAttribute("aria-activedescendant")
+    }
+  }
+
+  clearActive() {
+    this.items().forEach(item => item.classList.remove("bg-gray-100"))
+  }
+
+  resetActive() {
+    this.activeIndex = -1
+    this.clearActive()
+    this.inputTarget.removeAttribute("aria-activedescendant")
   }
 
   choose(item) {
+    if (!item) return
     this.selectedValue = item.dataset.label
     this.inputTarget.value = this.selectedValue
     this.hiddenTarget.value = item.dataset.value
     this.close()
   }
 
-  handleOutsideClick(event) {
-    if (!this.element.contains(event.target)) {
-      this.cancel()
-    }
-  }
-
   cancel() {
+    this.requestId++
     if (this.inputTarget.value !== this.selectedValue) {
       this.clearInput()
     }
@@ -106,64 +195,25 @@ export default class extends Controller {
     this.inputTarget.value = ""
     this.hiddenTarget.value = ""
     this.selectedValue = null
-    this.resetItems()
+    this.clearMenu()
   }
 
-  items() {
-    return Array.from(this.menuTarget.querySelectorAll("[data-value]"))
+  resetSelection(clearHidden = true) {
+    this.selectedValue = null
+    if (clearHidden) this.hiddenTarget.value = ""
   }
 
-  visibleItems() {
-    return this.items().filter((item) => !item.classList.contains("hidden"))
+  showEmpty() {
+    this.emptyTarget.classList.remove("hidden")
   }
 
-  filterItems(query) {
-    const visible = []
-
-    this.items().forEach((item) => {
-      const match = item.dataset.label.toLowerCase().includes(query)
-      item.classList.toggle("hidden", !match)
-      if (match) visible.push(item)
-    })
-
-    return visible
-  }
-
-  toggleEmptyState(visibleCount, query) {
-    this.emptyTarget.classList.toggle(
-      "hidden",
-      visibleCount > 0 || query.length === 0
-    )
-  }
-
-  moveActive(items, step) {
-    this.activeIndex =
-      (this.activeIndex + step + items.length) % items.length
-    this.setActive(items)
-  }
-
-  setActive(items) {
-    this.clearActive()
-    if (this.activeIndex >= 0) {
-      items[this.activeIndex]?.classList.add("bg-gray-100")
-    }
-  }
-
-  clearActive() {
-    this.items().forEach((item) =>
-      item.classList.remove("bg-gray-100")
-    )
-  }
-
-  resetActive() {
-    this.activeIndex = -1
-    this.clearActive()
-  }
-
-  resetItems() {
-    this.items().forEach((item) =>
-      item.classList.remove("hidden")
-    )
+  hideEmpty() {
     this.emptyTarget.classList.add("hidden")
+  }
+
+  handleOutsideClick(event) {
+    if (!this.element.contains(event.target)) {
+      this.cancel()
+    }
   }
 }

@@ -30,6 +30,9 @@ namespace :super_admin do
       patch :activate
       patch :deactivate
     end
+    collection do
+      get :search
+    end
   end
 
   resources :categories, except: %i[show] do
@@ -37,12 +40,18 @@ namespace :super_admin do
       patch :activate
       patch :deactivate
     end
+    collection do
+      get :search
+    end
   end
 
   resources :distributors, except: %i[show] do
     member do
       patch :activate
       patch :deactivate
+    end
+    collection do
+      get :search
     end
   end
 

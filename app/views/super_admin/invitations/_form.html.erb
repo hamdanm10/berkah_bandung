@@ -10,7 +10,7 @@
       <div>
         <%= render(LabelInputComponent.new(form: form, field_name: :assigned_role, label: "Assigned Role", required: true)) %>
         <%= render(
-            DropdownSearchInputComponent.new(
+            SelectInputComponent.new(
             form: form,
             field_name: :assigned_role,
             records: assign_roles_for_select,

@@ -84,6 +84,20 @@ class SuperAdmin::BrandsController < SuperAdminApplicationController
     end
   end
 
+  def search
+    q = params[:q].to_s.strip[0, 100]
+
+    brands = Brand
+      .where(is_active: true, deleted_at: nil)
+      .where("name ILIKE ?", "%#{q}%")
+      .order(:name)
+      .limit(15)
+
+    render json: brands.map { |d|
+      { value: d.id, label: d.name }
+    }
+  end
+
   private
 
   def brand_params

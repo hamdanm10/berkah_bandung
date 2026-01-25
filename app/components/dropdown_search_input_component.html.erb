@@ -1,18 +1,17 @@
 <div
   <%= tag.attributes(wrapper_kwargs) %>
   data-controller="dropdown-search"
-  data-dropdown-search-selected-value="<%= selected_label %>"
+  data-dropdown-search-url-value="<%= search_url %>"
+  data-dropdown-search-selected-label-value="<%= current_label %>"
+  data-dropdown-search-selected-id-value="<%= current_value %>"
 >
-  <%= form.text_field(
-        label_field_name,
-        value: selected_label,
+  <%= text_field_tag(
+        nil,
+        current_label,
         placeholder: prompt,
         autocomplete: "off",
         role: "combobox",
-        aria: {
-          autocomplete: "list",
-          expanded: "false"
-        },
+        aria: { expanded: "false" },
         class: input_class,
         data: {
           dropdown_search_target: "input",
@@ -30,27 +29,12 @@
       ) %>
   <div
     class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow hidden"
-    role="listbox"
     data-dropdown-search-target="menu"
+  ></div>
+  <div
+    class="px-3 py-2 text-sm text-gray-500 hidden"
+    data-dropdown-search-target="empty"
   >
-    <% records.each do |label, value| %>
-      <button
-        type="button"
-        role="option"
-        tabindex="-1"
-        class="text-sm text-gray-800 w-full text-left px-3 py-2 hover:bg-gray-100"
-        data-action="click->dropdown-search#select"
-        data-label="<%= label %>"
-        data-value="<%= value %>"
-        >
-        <%= label %>
-      </button>
-    <% end %>
-    <div
-      class="px-3 py-2 text-sm text-gray-500 hidden"
-      data-dropdown-search-target="empty"
-    >
-      Not found
-    </div>
+    Not found
   </div>
 </div>

@@ -33,44 +33,44 @@
       </div>
       <div>
         <%= render(LabelInputComponent.new(form: form, field_name: :category_id, label: "Category", required: true)) %>
-        <%= render(
-            DropdownSearchInputComponent.new(
-            form: form,
-            field_name: :category_id,
-            records: categories_for_select,
-            current_value: product.category_id,
-            prompt: "Choose category",
-            class: "mt-2"
-          )
-        ) %>
+        <%= render(DropdownSearchInputComponent.new(
+              form: form,
+              field_name: :category_id,
+              search_url: search_super_admin_categories_path,
+              current_value: product.category_id,
+              current_label: @category_label,
+              prompt: "Choose category",
+              class: "mt-2"
+            )
+          ) %>
         <%= render(ErrorInputComponent.new(model: product, field_name: :category_id)) %>
       </div>
       <div>
         <%= render(LabelInputComponent.new(form: form, field_name: :brand_id, label: "Brand", required: true)) %>
-        <%= render(
-            DropdownSearchInputComponent.new(
-            form: form,
-            field_name: :brand_id,
-            records: brands_for_select,
-            current_value: product.brand_id,
-            prompt: "Choose brand",
-            class: "mt-2"
-          )
-        ) %>
+        <%= render(DropdownSearchInputComponent.new(
+              form: form,
+              field_name: :brand_id,
+              search_url: search_super_admin_brands_path,
+              current_value: product.brand_id,
+              current_label: @brand_label,
+              prompt: "Choose brand",
+              class: "mt-2"
+            )
+          ) %>
         <%= render(ErrorInputComponent.new(model: product, field_name: :brand_id)) %>
       </div>
       <div>
         <%= render(LabelInputComponent.new(form: form, field_name: :distributor_id, label: "Distributor", required: true)) %>
-        <%= render(
-            DropdownSearchInputComponent.new(
-            form: form,
-            field_name: :distributor_id,
-            records: distributors_for_select,
-            current_value: product.distributor_id,
-            prompt: "Choose distributor",
-            class: "mt-2"
-          )
-        ) %>
+        <%= render(DropdownSearchInputComponent.new(
+              form: form,
+              field_name: :distributor_id,
+              search_url: search_super_admin_distributors_path,
+              current_value: product.distributor_id,
+              current_label: @distributor_label,
+              prompt: "Choose distributor",
+              class: "mt-2"
+            )
+          ) %>
         <%= render(ErrorInputComponent.new(model: product, field_name: :distributor_id)) %>
       </div>
     </div>
