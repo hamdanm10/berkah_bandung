@@ -54,6 +54,42 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
     end
   end
 
+  def destroy
+    result = Products::SoftDelete.call(
+      product: product_scope
+    )
+
+    if result.success?
+      redirect_to super_admin_products_path, notice: result.payload[:message]
+    else
+      redirect_to super_admin_products_path, alert: result.error[:product]
+    end
+  end
+
+  def activate
+    result = Products::Activate.call(
+      product: product_scope
+    )
+
+    if result.success?
+      redirect_to super_admin_products_path, notice: result.payload[:message]
+    else
+      redirect_to super_admin_products_path, alert: result.error[:product]
+    end
+  end
+
+  def deactivate
+    result = Products::Deactivate.call(
+      product: product_scope
+    )
+
+    if result.success?
+      redirect_to super_admin_products_path, notice: result.payload[:message]
+    else
+      redirect_to super_admin_products_path, alert: result.error[:product]
+    end
+  end
+
   private
 
   def product_params

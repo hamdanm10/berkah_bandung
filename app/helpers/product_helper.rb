@@ -13,19 +13,19 @@ module ProductHelper
   end
 
   def categories_for_select
-    Category.where(is_active: true, deleted_at: nil).map do |category|
+    Category.where(is_active: true, deleted_at: nil).order(name: :asc).map do |category|
       [ category.name.titleize, category.id ]
     end
   end
 
   def brands_for_select
-    Brand.where(is_active: true, deleted_at: nil).map do |brand|
+    Brand.where(is_active: true, deleted_at: nil).order(name: :asc).map do |brand|
       [ brand.name, brand.id ]
     end
   end
 
   def distributors_for_select
-    Distributor.where(is_active: true, deleted_at: nil).map do |distributor|
+    Distributor.where(is_active: true, deleted_at: nil).order(name: :asc).map do |distributor|
       [ distributor.name, distributor.id ]
     end
   end

@@ -72,11 +72,32 @@
     class="overflow-hidden h-0 opacity-0 transition-[height,opacity] duration-200 ease-out"
   >
     <div class="flex justify-end gap-3 p-6">
-      <%# render FilterComponent.new(
+      <%= render FilterComponent.new(
             q: q,
             url: super_admin_products_path,
             show_submit: true,
             fields: [
+              {
+                type: :select,
+                name: :category_id_eq,
+                records: categories_for_select,
+                blank: "All Categories",
+                auto_submit: false
+              },
+              {
+                type: :select,
+                name: :brand_id_eq,
+                records: brands_for_select,
+                blank: "All Brands",
+                auto_submit: false
+              },
+              {
+                type: :select,
+                name: :distributor_id_eq,
+                records: distributors_for_select,
+                blank: "All Distributors",
+                auto_submit: false
+              },
               {
                 type: :select,
                 name: :is_active_eq,
@@ -86,7 +107,7 @@
               },
               {
                 type: :search,
-                name: :name_cont,
+                name: :code_or_barcode_or_name_cont,
                 placeholder: "Search...",
                 auto_submit: false
               }

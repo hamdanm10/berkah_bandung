@@ -11,7 +11,7 @@ class Product < ApplicationRecord
 
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
-    [ "name", "is_active" ]
+    [ "code", "barcode", "name", "category_id", "brand_id", "distributor_id", "is_active" ]
   end
 
   def self.ransackable_associations(auth_object = nil)
