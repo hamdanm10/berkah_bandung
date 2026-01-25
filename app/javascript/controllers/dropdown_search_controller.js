@@ -68,8 +68,11 @@ export default class extends Controller {
         break
 
       case "Escape":
-      case "Tab":
         event.preventDefault()
+        this.cancel()
+        break
+
+      case "Tab":
         this.cancel()
         break
     }

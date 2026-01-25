@@ -13,6 +13,7 @@
     "@hotwired/turbo-rails": "^8.0.20",
     "@stimulus-components/dialog": "^1.0.1",
     "@stimulus-components/notification": "^3.0.0",
+    "@stimulus-components/rails-nested-form": "^5.0.0",
     "@tailwindcss/cli": "^4.1.18",
     "flowbite": "^4.0.1",
     "tailwindcss": "^4.1.18"

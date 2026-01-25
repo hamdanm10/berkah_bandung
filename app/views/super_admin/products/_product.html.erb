@@ -1,0 +1,42 @@
+<tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300" data-controller="global-dialog-trigger">
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= pagy.offset + index + 1 %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= product.code.upcase %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= product.barcode %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= product.name %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= product.variant %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= product.category.name.titleize %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= product.brand.name %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= product.distributor.name %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    10
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <% if product.is_active? %>
+      <span class="text-xs px-2 py-1 bg-success-soft border border-success text-success rounded-md">
+        Active
+      </span>
+    <% else %>
+      <span class="text-xs px-2 py-1 bg-danger-soft border border-danger text-danger rounded-md">
+        Inactive
+      </span>
+    <% end %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700 flex gap-2 items-center">
+  </td>
+</tr>

@@ -8,6 +8,7 @@
         "@hotwired/turbo-rails": "^8.0.20",
         "@stimulus-components/dialog": "^1.0.1",
         "@stimulus-components/notification": "^3.0.0",
+        "@stimulus-components/rails-nested-form": "^5.0.0",
         "@tailwindcss/cli": "^4.1.18",
         "flowbite": "^4.0.1",
         "tailwindcss": "^4.1.18",
@@ -127,6 +128,8 @@
     "@stimulus-components/dialog": ["@stimulus-components/dialog@1.0.1", "", { "peerDependencies": { "@hotwired/stimulus": "^3.0.0" } }, "sha512-7cpazrXeFKVmmuGnJOrykEvjRNRTOhLuI7SzgDdAlKWxM8ivBKziBHwjJGR96vCvSkoKwlGMGRcDzXgVRnr/7w=="],
 
     "@stimulus-components/notification": ["@stimulus-components/notification@3.0.0", "", { "dependencies": { "stimulus-use": "^0.52.2" }, "peerDependencies": { "@hotwired/stimulus": "^3.0.0" } }, "sha512-oZrIAcEayLNIhcetMJSLP6S9ryWjiFWBI5JKm639UuRsfSRyxiaHMddb3Xch/Umq6K24h/t2l1zVxxOm/UnMOA=="],
+
+    "@stimulus-components/rails-nested-form": ["@stimulus-components/rails-nested-form@5.0.0", "", { "peerDependencies": { "@hotwired/stimulus": "^3.0.0" } }, "sha512-qrmmurT+KBPrz9iBlyrgJa6Di8i0j328kSk2SUR53nK5W0kDhw1YxVC91aUR+7EsFKiwJT1iB7oDSwpDhDQPeA=="],
 
     "@tailwindcss/cli": ["@tailwindcss/cli@4.1.18", "", { "dependencies": { "@parcel/watcher": "^2.5.1", "@tailwindcss/node": "4.1.18", "@tailwindcss/oxide": "4.1.18", "enhanced-resolve": "^5.18.3", "mri": "^1.2.0", "picocolors": "^1.1.1", "tailwindcss": "4.1.18" }, "bin": { "tailwindcss": "dist/index.mjs" } }, "sha512-sMZ+lZbDyxwjD2E0L7oRUjJ01Ffjtme5OtjvvnC+cV4CEDcbqzbp25TCpxHj6kWLU9+DlqJOiNgSOgctC2aZmg=="],
 

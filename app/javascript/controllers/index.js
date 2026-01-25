@@ -19,11 +19,11 @@ application.register("dropdown-search", DropdownSearchController)
 import FilterController from "./filter_controller"
 application.register("filter", FilterController)
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
-
 import HintController from "./hint_controller"
 application.register("hint", HintController)
+
+import NestedFormController from "./nested_form_controller"
+application.register("nested-form", NestedFormController)
 
 import NotificationController from "./notification_controller"
 application.register("notification", NotificationController)

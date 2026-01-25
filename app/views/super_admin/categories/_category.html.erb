@@ -3,7 +3,7 @@
     <%= pagy.offset + index + 1 %>
   </td>
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-    <%= category.name %>
+    <%= category.name.titleize %>
   </td>
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
     <% if category.is_active? %>

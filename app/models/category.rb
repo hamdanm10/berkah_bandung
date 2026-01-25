@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Category < ApplicationRecord
+  # Relations
+  has_many :products
+
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
     [ "name", "is_active" ]
@@ -9,6 +12,9 @@ class Category < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     []
   end
+
+  # Normalization
+  normalizes :name, with: ->(e) { e.to_s.strip.titleize }
 
   # Validations
   validates :name, presence: true, length: { maximum: 50 }

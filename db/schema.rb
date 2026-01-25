@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_23_111729) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_24_073248) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -68,6 +68,35 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_23_111729) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "product_prices", force: :cascade do |t|
+    t.decimal "cost_price", precision: 11, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_prices_on_product_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "barcode", null: false
+    t.bigint "brand_id", null: false
+    t.bigint "category_id", null: false
+    t.string "code", null: false
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at", precision: nil
+    t.bigint "distributor_id", null: false
+    t.boolean "is_active", default: true, null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.string "variant"
+    t.index ["barcode"], name: "index_products_on_barcode"
+    t.index ["brand_id"], name: "index_products_on_brand_id"
+    t.index ["category_id"], name: "index_products_on_category_id"
+    t.index ["code"], name: "index_products_on_code"
+    t.index ["deleted_at"], name: "index_products_on_deleted_at"
+    t.index ["distributor_id"], name: "index_products_on_distributor_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "ip_address"
@@ -90,5 +119,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_23_111729) do
   end
 
   add_foreign_key "invitations", "users", column: "used_by_user_id"
+  add_foreign_key "product_prices", "products"
+  add_foreign_key "products", "brands"
+  add_foreign_key "products", "categories"
+  add_foreign_key "products", "distributors"
   add_foreign_key "sessions", "users"
 end

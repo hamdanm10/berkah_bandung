@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Distributor < ApplicationRecord
+  # Relations
+  has_many :products
+
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
     [ "name", "is_active" ]
