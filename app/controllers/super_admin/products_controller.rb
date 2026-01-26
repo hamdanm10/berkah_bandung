@@ -14,7 +14,6 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
 
   def new
     @product = Product.new
-    @product.product_prices.build
   end
 
   def create
@@ -100,13 +99,7 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
       :variant,
       :category_id,
       :brand_id,
-      :distributor_id,
-      product_prices_attributes: [
-        :id,
-        :quantity,
-        :cost_price,
-        :_destroy
-      ]
+      :distributor_id
     )
   end
 
