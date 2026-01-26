@@ -83,8 +83,9 @@ export default class extends Controller {
     this.menuTarget.innerHTML = ""
 
     if (items.length === 0) {
+      this.menuTarget.classList.add("hidden")
       this.showEmpty()
-      this.open()
+      this.inputTarget.setAttribute("aria-expanded", "false")
       return
     }
 

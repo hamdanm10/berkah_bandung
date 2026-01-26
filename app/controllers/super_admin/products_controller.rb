@@ -14,6 +14,7 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
 
   def new
     @product = Product.new
+    assign_dropdown_search_labels(@product)
   end
 
   def create
@@ -25,6 +26,7 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
       redirect_to new_super_admin_product_path, notice: result.payload[:message]
     else
       @product = result.error[:product]
+      assign_dropdown_search_labels(@product)
 
       render :new, status: :unprocessable_entity
     end
