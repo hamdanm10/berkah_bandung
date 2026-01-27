@@ -5,11 +5,20 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
     limit = RecordLimit.call(params[:limit])
 
     @q = Product
-          .where(deleted_at: nil)
-          .includes(:category, :brand, :distributor)
-          .ransack(params[:q])
-    @products = @q.result.order(name: :asc)
+      .where(deleted_at: nil)
+      .ransack(params[:q])
+
+    @products = @q
+      .result
+      .with_total_quantity
+      .includes(:category, :brand, :product_prices)
+      .order(name: :asc)
+
     @pagy, @products = pagy(@products, limit:)
+  end
+
+  def show
+    @product = product_details_scope
   end
 
   def new
@@ -101,19 +110,25 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
       :variant,
       :category_id,
       :brand_id,
-      :distributor_id
     )
   end
 
   def product_scope
-    Product.includes(:distributor, :category, :brand)
-          .where(deleted_at: nil)
-          .find(params[:id])
+    Product.includes(:category, :brand, :product_prices)
+      .where(deleted_at: nil)
+      .find(params[:id])
+  end
+
+  def product_details_scope
+    Product
+      .where(deleted_at: nil)
+      .with_total_quantity
+      .includes(:category, :brand, :product_prices)
+      .find(params[:id])
   end
 
   def assign_dropdown_search_labels(product)
     @category_label = product.category&.name
     @brand_label = product.brand&.name
-    @distributor_label = product.distributor&.name
   end
 end

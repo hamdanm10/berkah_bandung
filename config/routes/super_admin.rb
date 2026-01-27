@@ -61,4 +61,6 @@ namespace :super_admin do
       patch :deactivate
     end
   end
+
+  resources :invoices, except: %i[destroy]
 end

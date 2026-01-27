@@ -1,0 +1,72 @@
+<tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300" data-controller="global-dialog-trigger">
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= pagy.offset + index + 1 %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <% case invoice.invoice_status %>
+    <% when "draft" %>
+      <span class="text-xs px-2 py-1 bg-warning-soft border border-warning text-warning rounded-md">Draft</span>
+    <% when "posted" %>
+      <span class="text-xs px-2 py-1 bg-primary-soft border border-primary text-primary rounded-md">Posted</span>
+    <% when "paid" %>
+      <span class="text-xs px-2 py-1 bg-success-soft border border-success text-success rounded-md">Paid</span>
+    <% end %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <% case invoice.invoice_type %>
+    <% when "normal" %>
+      <span class="text-xs px-2 py-1 bg-primary-soft border border-primary text-primary rounded-md">Normal</span>
+    <% when "return" %>
+      <span class="text-xs px-2 py-1 bg-danger-soft border border-danger text-danger rounded-md">Return</span>
+    <% when "adjustment" %>
+      <span class="text-xs px-2 py-1 bg-warning-soft border border-warning text-warning rounded-md">Adjustment</span>
+    <% end %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    REFERENCE INVOICE
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= invoice.distributor.name %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= invoice.invoice %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= format_price(invoice.entered_amount) %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= format_price(invoice.invoice_amount) %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= invoice.invoice_number %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= format_date(invoice.received_date) %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= format_price(invoice.transfer_amount) %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= format_price(invoice.total_transfer_amount) %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= format_date(invoice.transfer_date) %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= invoice.remarks %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700 flex gap-2 items-center">
+    <%= link_to super_admin_invoice_path(invoice), 
+        class: "text-info hover:text-info-hover", 
+        "data-hint": "Detail", 
+        "data-action": "mouseenter->hint#show mouseleave->hint#hide" do %>
+      <%= lucide_icon("info", class: "size-5") %>
+    <% end %>
+    <%= link_to edit_super_admin_invoice_path(invoice), 
+        class: "text-secondary hover:text-secondary-hover", 
+        "data-hint": "Edit", 
+        "data-action": "mouseenter->hint#show mouseleave->hint#hide" do %>
+      <%= lucide_icon("pencil", class: "size-5") %>
+    <% end %>
+  </td>
+</tr>

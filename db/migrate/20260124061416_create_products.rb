@@ -8,7 +8,6 @@ class CreateProducts < ActiveRecord::Migration[8.1]
 
       t.references :category, null: false, foreign_key: true
       t.references :brand, null: false, foreign_key: true
-      t.references :distributor, null: false, foreign_key: true
 
       t.boolean :is_active, null: false, default: true
 

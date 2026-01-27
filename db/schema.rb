@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_24_073248) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_26_071306) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -59,6 +59,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_24_073248) do
     t.index ["used_by_user_id"], name: "index_invitations_on_used_by_user_id"
   end
 
+  create_table "invoices", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "distributor_id", null: false
+    t.decimal "entered_amount", precision: 15, scale: 2, null: false
+    t.string "invoice", null: false
+    t.decimal "invoice_amount", precision: 15, scale: 2
+    t.string "invoice_number", null: false
+    t.integer "invoice_status", null: false
+    t.integer "invoice_type", null: false
+    t.date "received_date"
+    t.bigint "reference_invoice_id"
+    t.text "remarks"
+    t.decimal "total_transfer_amount", precision: 15, scale: 2
+    t.decimal "transfer_amount", precision: 15, scale: 2
+    t.date "transfer_date"
+    t.datetime "updated_at", null: false
+    t.index ["distributor_id"], name: "index_invoices_on_distributor_id"
+    t.index ["reference_invoice_id"], name: "index_invoices_on_reference_invoice_id"
+  end
+
   create_table "merchants", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "deleted_at", precision: nil
@@ -84,7 +104,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_24_073248) do
     t.string "code", null: false
     t.datetime "created_at", null: false
     t.datetime "deleted_at", precision: nil
-    t.bigint "distributor_id", null: false
     t.boolean "is_active", default: true, null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
@@ -94,7 +113,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_24_073248) do
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["code"], name: "index_products_on_code", unique: true
     t.index ["deleted_at"], name: "index_products_on_deleted_at"
-    t.index ["distributor_id"], name: "index_products_on_distributor_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -119,9 +137,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_24_073248) do
   end
 
   add_foreign_key "invitations", "users", column: "used_by_user_id"
+  add_foreign_key "invoices", "distributors"
+  add_foreign_key "invoices", "invoices", column: "reference_invoice_id"
   add_foreign_key "product_prices", "products"
   add_foreign_key "products", "brands"
   add_foreign_key "products", "categories"
-  add_foreign_key "products", "distributors"
   add_foreign_key "sessions", "users"
 end

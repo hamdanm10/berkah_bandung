@@ -2,7 +2,7 @@
 
 class Distributor < ApplicationRecord
   # Relations
-  has_many :products
+  has_many :invoices
 
   # Ransack
   def self.ransackable_attributes(auth_object = nil)

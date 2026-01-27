@@ -55,20 +55,6 @@
           ) %>
         <%= render(ErrorInputComponent.new(model: product, field_name: :brand_id)) %>
       </div>
-      <div>
-        <%= render(LabelInputComponent.new(form: form, field_name: :distributor_id, label: "Distributor", required: true)) %>
-        <%= render(DropdownSearchInputComponent.new(
-              form: form,
-              field_name: :distributor_id,
-              search_url: search_super_admin_distributors_path,
-              current_value: product.distributor_id,
-              current_label: @distributor_label,
-              prompt: "Choose distributor",
-              class: "mt-2"
-            )
-          ) %>
-        <%= render(ErrorInputComponent.new(model: product, field_name: :distributor_id)) %>
-      </div>
     </div>
   </div>
   <div class="flex items-center justify-end">

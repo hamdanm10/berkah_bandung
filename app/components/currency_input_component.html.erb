@@ -1,0 +1,13 @@
+<div data-controller="currency-input">
+  <%= text_field_tag nil,
+    nil,
+    **kwargs.merge(
+      data: {
+        action: "input->currency-input#handleInput blur->currency-input#handleBlur"
+      }
+    )
+  %>
+  <%= form.hidden_field field_name,
+    data: { currency_input_target: "raw" }
+  %>
+</div>

@@ -2,7 +2,12 @@
 
 module TimeHelper
   def format_datetime(time)
-    return "-" if time.blank?
+    return "" if time.blank?
     time.strftime("%d/%b/%Y %H:%M:%S")
+  end
+
+  def format_date(date)
+    return "" if date.blank?
+    date.strftime("%d %b %Y")
   end
 end

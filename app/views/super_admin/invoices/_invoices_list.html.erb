@@ -26,36 +26,8 @@
       <div class="flex">
         <%= render(ButtonLinkComponent.new(
               size: "sm", 
-              variant: "light", 
-              url: new_super_admin_product_path,
-              "data-hint": "Upload",
-              "data-action": "
-                mouseenter->hint#show
-                mouseleave->hint#hide
-              "
-            )) do %>
-          <%= lucide_icon("upload", class: "size-5") %>
-        <% end %>
-      </div>
-      <div class="flex">
-        <%= render(ButtonLinkComponent.new(
-              size: "sm", 
-              variant: "light", 
-              url: new_super_admin_product_path,
-              "data-hint": "Download",
-              "data-action": "
-                mouseenter->hint#show
-                mouseleave->hint#hide
-              "
-            )) do %>
-          <%= lucide_icon("download", class: "size-5") %>
-        <% end %>
-      </div>
-      <div class="flex">
-        <%= render(ButtonLinkComponent.new(
-              size: "sm", 
               variant: "primary", 
-              url: new_super_admin_product_path,
+              url: new_super_admin_invoice_path,
               "data-hint": "Add",
               "data-action": "
                 mouseenter->hint#show
@@ -72,35 +44,21 @@
     class="overflow-hidden h-0 opacity-0 transition-[height,opacity] duration-200 ease-out"
   >
     <div class="flex justify-end gap-3 p-6">
-      <%= render FilterComponent.new(
+      <%# render FilterComponent.new(
             q: q,
-            url: super_admin_products_path,
+            url: super_admin_invoices_path,
             show_submit: true,
             fields: [
               {
                 type: :select,
-                name: :category_id_eq,
-                records: categories_for_select,
-                blank: "All Categories",
-                auto_submit: false
-              },
-              {
-                type: :select,
-                name: :brand_id_eq,
-                records: brands_for_select,
-                blank: "All Brands",
-                auto_submit: false
-              },
-              {
-                type: :select,
                 name: :is_active_eq,
-                records: product_statuses_for_select,
+                records: invoice_statuses_for_select,
                 blank: "All Statuses",
                 auto_submit: false
               },
               {
                 type: :search,
-                name: :code_or_barcode_or_name_cont,
+                name: :name_cont,
                 placeholder: "Search...",
                 auto_submit: false
               }
@@ -113,22 +71,27 @@
       <table class="w-full text-left text-xs lg:text-sm text-gray-500">
         <thead class="text-xs uppercase text-gray-700 border-b border-b-gray-300 bg-white">
           <tr>
-            <th class="px-6 py-3 font-medium normal-case">#</th>
-            <th class="px-6 py-3 font-medium normal-case">Code</th>
-            <th class="px-6 py-3 font-medium normal-case">Barcode</th>
-            <th class="px-6 py-3 font-medium normal-case">Product Name</th>
-            <th class="px-6 py-3 font-medium normal-case">Variant</th>
-            <th class="px-6 py-3 font-medium normal-case">Category</th>
-            <th class="px-6 py-3 font-medium normal-case">Brand</th>
-            <th class="px-6 py-3 font-medium normal-case">Total Qty</th>
-            <th class="px-6 py-3 font-medium normal-case">Status</th>
-            <th class="px-6 py-3 font-medium normal-case">Action</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">#</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Status</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Type</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Reference Invoice</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Distributor</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Invoice</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Entered Amount</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Invoice Amount</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Invoice Number</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Received Date</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Transfer Amount</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Total Transfer Amount</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Transfer Date</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Remarks</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Action</th>
           </tr>
         </thead>
         <tbody>
-          <% if products.any? %>
-            <% products.each_with_index do |product, index| %>
-              <%= render("product", product: product, index: index, pagy: pagy) %>
+          <% if invoices.any? %>
+            <% invoices.each_with_index do |invoice, index| %>
+              <%= render("invoice", invoice: invoice, index: index, pagy: pagy) %>
             <% end %>
           <% else %>
             <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
@@ -139,7 +102,7 @@
       </table>
     </div>
   </div>
-  <%= render(PaginationComponent.new(records: products, pagy: pagy)) %>
+  <%= render(PaginationComponent.new(records: invoices, pagy: pagy)) %>
   <%= render(HintComponent.new) %>
   <%= render(ConfirmDialogComponent.new) %>
 </div>

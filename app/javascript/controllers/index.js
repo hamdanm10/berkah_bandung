@@ -10,6 +10,9 @@ application.register("auto-submit", AutoSubmitController)
 import ConfirmDialogController from "./confirm_dialog_controller"
 application.register("confirm-dialog", ConfirmDialogController)
 
+import CurrencyInputController from "./currency_input_controller"
+application.register("currency-input", CurrencyInputController)
+
 import DialogController from "./dialog_controller"
 application.register("dialog", DialogController)
 

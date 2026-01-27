@@ -4,6 +4,12 @@ class ProductPrice < ApplicationRecord
   # Relations
   belongs_to :product
 
+  # Instance Methods
+  def total_value
+    quantity * cost_price
+  end
+
+
   # Validations
   validates :quantity, presence: true, numericality: { only_integer: true }
   validates :cost_price,

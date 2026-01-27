@@ -4,13 +4,12 @@ class Product < ApplicationRecord
   # Relations
   belongs_to :category
   belongs_to :brand
-  belongs_to :distributor
 
   has_many :product_prices, dependent: :destroy
 
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
-    [ "code", "barcode", "name", "category_id", "brand_id", "distributor_id", "is_active" ]
+    [ "code", "barcode", "name", "category_id", "brand_id", "is_active" ]
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -19,6 +18,21 @@ class Product < ApplicationRecord
 
   # Normalization
   normalizes :code, with: ->(e) { e.to_s.strip.upcase }
+
+  # Scopes
+  scope :with_total_quantity, lambda {
+    joins(<<~SQL)
+      LEFT JOIN (
+        SELECT
+          product_id,
+          SUM(quantity) AS total_quantity
+        FROM product_prices
+        GROUP BY product_id
+      ) product_prices_sum
+      ON product_prices_sum.product_id = products.id
+    SQL
+    .select("products.*, COALESCE(product_prices_sum.total_quantity, 0) AS total_quantity")
+  }
 
   # Validations
   validates :code,
@@ -39,5 +53,4 @@ class Product < ApplicationRecord
   validates :variant, presence: false, length: { maximum: 50 }
   validates :category_id, presence: true
   validates :brand_id, presence: true
-  validates :distributor_id, presence: true
 end
