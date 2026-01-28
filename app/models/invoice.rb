@@ -18,6 +18,16 @@ class Invoice < ApplicationRecord
   # Relations
   belongs_to :distributor
 
+  belongs_to :reference_invoice,
+             class_name: "Invoice",
+             foreign_key: :reference_invoice_id,
+             optional: true
+
+  has_one :referenced_invoice,
+          class_name: "Invoice",
+          foreign_key: :reference_invoice_id,
+          dependent: :nullify
+
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
     []
@@ -39,5 +49,7 @@ class Invoice < ApplicationRecord
   validates :transfer_date, presence: false
   validates :remarks, presence: false
   validates :invoice_type, presence: true
-  validates :reference_invoice_id, presence: false
+  validates :reference_invoice_id,
+            uniqueness: true,
+            allow_nil: true
 end

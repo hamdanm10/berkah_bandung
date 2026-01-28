@@ -69,3 +69,5 @@ gem "lucide-rails"
 gem "ransack"
 # Pagy for pagination [https://ddnexus.github.io/pagy/quick-start/]
 gem "pagy", "~> 9.3"
+# Roo for Excel files
+gem "roo"

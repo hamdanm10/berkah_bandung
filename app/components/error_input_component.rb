@@ -4,8 +4,8 @@ class ErrorInputComponent < ViewComponent::Base
   attr_reader :model, :field_name
 
   def initialize(model:, field_name:)
-    @field_name = field_name
     @model = model
+    @field_name = field_name
   end
 
   def render?

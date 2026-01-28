@@ -60,6 +60,15 @@ namespace :super_admin do
       patch :activate
       patch :deactivate
     end
+    collection do
+      get :import
+      post :create_import
+
+      get :download_import_template
+
+      get :export
+      post :create_export
+    end
   end
 
   resources :invoices, except: %i[destroy]

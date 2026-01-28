@@ -13,6 +13,14 @@ class Brand < ApplicationRecord
     []
   end
 
+  # Normalization
+  normalizes :name, with: ->(e) { e.to_s.strip.titleize }
+
   # Validations
-  validates :name, presence: true, length: { maximum: 100 }
+  validates :name,
+    presence: true,
+    length: { maximum: 100 },
+    uniqueness: {
+      case_sensitive: false
+    }
 end

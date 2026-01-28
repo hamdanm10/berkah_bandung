@@ -27,8 +27,8 @@
         <%= render(ButtonLinkComponent.new(
               size: "sm", 
               variant: "light", 
-              url: new_super_admin_product_path,
-              "data-hint": "Upload",
+              url: import_super_admin_products_path,
+              "data-hint": "Import",
               "data-action": "
                 mouseenter->hint#show
                 mouseleave->hint#hide
@@ -42,7 +42,7 @@
               size: "sm", 
               variant: "light", 
               url: new_super_admin_product_path,
-              "data-hint": "Download",
+              "data-hint": "Export",
               "data-action": "
                 mouseenter->hint#show
                 mouseleave->hint#hide
