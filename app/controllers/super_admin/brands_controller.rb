@@ -1,0 +1,110 @@
+# frozen_string_literal: true
+
+class SuperAdmin::BrandsController < SuperAdminApplicationController
+  def index
+    limit = RecordLimit.call(params[:limit])
+
+    @q = Brand.where(deleted_at: nil).ransack(params[:q])
+    @brands = @q.result.order(created_at: :desc)
+    @pagy, @brands = pagy(@brands, limit:)
+  end
+
+  def new
+    @brand = Brand.new
+  end
+
+  def create
+    result = Brands::Create.call(
+      brand_params: brand_params
+    )
+
+    if result.success?
+      redirect_to new_super_admin_brand_path, notice: result.payload[:message]
+    else
+      @brand = result.error[:brand]
+
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @brand = brand_scope
+  end
+
+  def update
+    result = Brands::Update.call(
+      brand: brand_scope,
+      brand_params: brand_params
+    )
+
+    if result.success?
+      brand = result.payload[:brand]
+
+      redirect_to edit_super_admin_brand_path(brand), notice: result.payload[:message]
+    else
+      @brand = result.error[:brand]
+
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    result = Brands::SoftDelete.call(
+      brand: brand_scope
+    )
+
+    if result.success?
+      redirect_to super_admin_brands_path, notice: result.payload[:message]
+    else
+      redirect_to super_admin_brands_path, alert: result.error[:brand]
+    end
+  end
+
+  def activate
+    result = Brands::Activate.call(
+      brand: brand_scope
+    )
+
+    if result.success?
+      redirect_to super_admin_brands_path, notice: result.payload[:message]
+    else
+      redirect_to super_admin_brands_path, alert: result.error[:brand]
+    end
+  end
+
+  def deactivate
+    result = Brands::Deactivate.call(
+      brand: brand_scope
+    )
+
+    if result.success?
+      redirect_to super_admin_brands_path, notice: result.payload[:message]
+    else
+      redirect_to super_admin_brands_path, alert: result.error[:brand]
+    end
+  end
+
+  def search
+    q = params[:q].to_s.strip[0, 100]
+
+    brands = Brand
+      .where(is_active: true, deleted_at: nil)
+      .where("name ILIKE ?", "%#{q}%")
+      .order(:name)
+      .limit(15)
+
+    render json: brands.map { |d|
+      { value: d.id, label: d.name }
+    }
+  end
+
+  private
+
+  def brand_params
+    params.require(:brand).permit(:name)
+  end
+
+  def brand_scope
+    Brand.find(params[:id])
+  end
+end

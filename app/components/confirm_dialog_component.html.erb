@@ -1,0 +1,37 @@
+<div data-confirm-dialog-target="container">
+  <%= render DialogComponent.new do |dialog| %>
+    <%= dialog.header do %>
+      <span
+        data-confirm-dialog-target="title"
+        class="text-sm font-medium text-gray-700">
+      </span>
+    <% end %>
+    <%= dialog.body do %>
+      <p
+        data-confirm-dialog-target="message"
+        class="text-sm text-gray-600">
+      </p>
+    <% end %>
+    <%= dialog.footer do %>
+      <button
+        type="button"
+        class="px-3 py-2 text-sm rounded-md border border-gray-300 bg-light hover:bg-light-hover cursor-pointer"
+        data-action="confirm-dialog#close">
+        Cancel
+      </button>
+      <form
+        method="post"
+        class="inline-block"
+        data-confirm-dialog-target="confirmForm">
+        <button
+          type="submit"
+          data-confirm-dialog-target="confirmButton"
+          class="px-3 py-2 text-sm rounded-md font-medium transition-all cursor-pointer">
+          <span data-confirm-dialog-target="confirmLabel">
+            Confirm
+          </span>
+        </button>
+      </form>
+    <% end %>
+  <% end %>
+</div>

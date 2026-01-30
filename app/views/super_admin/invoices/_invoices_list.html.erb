@@ -1,0 +1,116 @@
+<div
+  class="w-full bg-white border max-w-none border-gray-300 mt-5 flex flex-col divide-y divide-gray-300 rounded-md shadow-none"
+  data-controller="filter hint confirm-dialog"
+  data-filter-initial-open-value="<%= params[:q].present? %>"
+>
+  <div class="flex flex-col p-4 gap-4 lg:flex-row lg:items-center lg:justify-between lg:p-6 lg:gap-0">
+    <%= render(RecordLimitComponent.new) %>
+    <div class="flex lg:items-center gap-3">
+      <div>
+        <%= render(
+              ButtonComponent.new(
+                type: "button",
+                size: "sm",
+                variant: "light",
+                "data-hint": "Filter",
+                "data-action": "
+                  mouseenter->hint#show
+                  mouseleave->hint#hide
+                  click->filter#toggle
+                "
+              )
+            ) do %>
+          <%= lucide_icon("settings-2", class: "size-5") %>
+        <% end %>
+      </div>
+      <div class="flex">
+        <%= render(ButtonLinkComponent.new(
+              size: "sm", 
+              variant: "primary", 
+              url: new_super_admin_invoice_path,
+              "data-hint": "Add",
+              "data-action": "
+                mouseenter->hint#show
+                mouseleave->hint#hide
+              "
+            )) do %>
+          <%= lucide_icon("plus", class: "size-5") %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div 
+    data-filter-target="panel" 
+    class="overflow-hidden h-0 opacity-0 transition-[height,opacity] duration-200 ease-out"
+  >
+    <div class="flex justify-end gap-3 p-6">
+      <%= render FilterComponent.new(
+            q: q,
+            url: super_admin_invoices_path,
+            show_submit: true,
+            fields: [
+              {
+                type: :select,
+                name: :invoice_status_eq,
+                records: value_invoice_statuses_for_select,
+                blank: "All Statuses",
+                auto_submit: false
+              },
+              {
+                type: :select,
+                name: :invoice_type_eq,
+                records: value_invoice_types_for_select,
+                blank: "All Types",
+                auto_submit: false
+              },
+              {
+                type: :search,
+                name: :invoice_number_or_invoice_or_distributor_name_cont,
+                placeholder: "Search...",
+                auto_submit: false
+              }
+            ]
+          ) %>
+    </div>
+  </div>
+  <div class="overflow-x-auto">
+    <div class="relative overflow-x-auto">
+      <table class="w-full text-left text-xs lg:text-sm text-gray-500">
+        <thead class="text-xs uppercase text-gray-700 border-b border-b-gray-300 bg-white">
+          <tr>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">#</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Invoice Number</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Invoice</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Distributor</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Reference Invoice</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Invoice Amount</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Entered Amount</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Transfer Amount</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Total Transfer Amount</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Received Date</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Transfer Date</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Status</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Type</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Created By</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Created At</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if invoices.any? %>
+            <% invoices.each_with_index do |invoice, index| %>
+              <%= render("invoice", invoice: invoice, index: index, pagy: pagy) %>
+            <% end %>
+          <% else %>
+            <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
+              No data found.
+            </td>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <%= render(PaginationComponent.new(records: invoices, pagy: pagy)) %>
+  <%= render(HintComponent.new) %>
+  <%= render(ConfirmDialogComponent.new) %>
+</div>

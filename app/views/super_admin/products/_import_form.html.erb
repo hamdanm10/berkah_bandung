@@ -1,0 +1,79 @@
+<%
+  guidelines = [
+    "Use the provided import template.",
+    "Cost Price and Quantity are required.",
+    "Category and Brand must already exist.",
+    "Matching product code and barcode will add a new price.",
+    "Mismatched product code or barcode will cause an error.",
+    "All rows are checked and errors are shown together."
+  ]
+%>
+<%= form_with model: product_import, 
+              url: create_import_super_admin_products_path, 
+              local: true, multipart: true, 
+              class: "mt-5 flex flex-col gap-5" do |form| %>
+  <div class="block bg-white border border-gray-300 rounded-md divide-y divide-gray-300">
+    <div class="p-4 lg:p-6 flex items-center justify-between">
+      <div>
+        <h3 class="font-medium text-gray-700">Import Form</h3>
+        <p class="text-sm text-gray-500">Upload an Excel file (.xls, .xlsx). Make sure the data format matches the required template.</p>
+      </div>
+      <div class="flex gap-3 items-center">
+        <%= render(DialogComponent.new) do |dialog| %>
+          <%= dialog.trigger do %>
+            <%= render(ButtonComponent.new(type: "button", size: "sm", variant: "light", "data-action": "dialog#open")) do %>
+              <%= lucide_icon("book", class: "size-5") %>
+              <span>Import Guidelines</span>
+            <% end %>
+          <% end %>
+          <%= dialog.header do %>
+            <p class="text-md text-gray-700">Import Guidlines</p>
+          <% end %>
+          <%= dialog.body do %>
+            <ul class="space-y-2 text-body list-disc list-inside text-sm">
+              <% guidelines.each do |guidline| %>
+                <li>
+                  <%= guidline %>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        <% end %>
+        <%= render(ButtonLinkComponent.new(size: "sm", variant: "light", url: download_import_template_super_admin_products_path)) do %>
+          <%= lucide_icon("download", class: "size-5") %>
+          <span>Download Template</span>
+        <% end %>
+      </div>
+    </div>
+    <% if @import_errors.present? %>
+      <div class="p-4 lg:p-6">
+        <div class="bg-red-50 border border-red-200 rounded-md p-4">
+          <h4 class="font-medium text-red-700">Import Errors</h4>
+          <ul class="mt-2 list-disc list-inside text-sm text-red-600">
+            <% @import_errors.each do |error| %>
+              <li>Row <%= error[:row] %>: <%= error[:message] %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+    <div class="p-4 lg:p-6 flex flex-col gap-3">
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :file, label: "Upload File", required: true)) %>
+        <%= form.file_field :file,
+          accept: ".xls,.xlsx",
+          required: true,
+          class: "cursor-pointer bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-md block w-full mt-2",
+          id: "file-input"
+        %>
+        <%= render(ErrorInputComponent.new(model: product_import, field_name: :file)) %>
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center justify-end">
+    <%= render(ButtonComponent.new(type: "submit", size: "sm", variant: "primary")) do %>
+      <%= lucide_icon("upload", class: "size-5") %>
+      <span>Import</span>
+    <% end %>
+  </div>
+<% end %>

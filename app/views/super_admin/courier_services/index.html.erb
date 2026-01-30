@@ -1,0 +1,10 @@
+<div class="flex gap-0 items-center justify-between">
+  <h2 class="text-xl font-bold text-gray-700">Courier Services</h2>
+  <div class="hidden lg:block">
+    <%= render(BreadcrumbComponent.new) do %>
+      <%= render(BreadcrumbItemComponent.new(url: super_admin_dashboard_path, icon: "layout-grid", name: "Dashboard")) %>
+      <%= render(BreadcrumbItemComponent.new(name: "Courier Services", last: true)) %>
+    <% end %>
+  </div>
+</div>
+<%= render("courier_services_list", courier_services: @courier_services, pagy: @pagy, q: @q) %>

@@ -1,0 +1,17 @@
+<div class="grid grid-cols-1 bg-[url('<%= asset_path("bg-auth.jpg") %>')] lg:grid-cols-2">
+  <div class="flex h-screen flex-col bg-white px-5 lg:px-28">
+    <div class="hidden lg:flex py-0 lg:py-5 gap-2 items-center">
+      <%= link_to root_path, class: "bg-dark rounded-md flex items-center justify-center h-10 w-10" do %>
+        <%= image_tag "logo.png", class: "w-6" %>
+      <% end %>
+      <%= link_to root_path, class: "text-xl font-semibold text-gray-800" do %>
+        Berkah Bandung
+      <% end %>
+    </div>
+    <%= render("form", url: verify_invitations_path) %>
+  </div>
+  <div class="hidden lg:relative lg:block">
+    <%= image_tag "bg-auth.jpg", class: "h-full w-full object-cover" %>
+    <div class="bg-opacity-50 absolute inset-0 bg-blue-50 mix-blend-multiply"></div>
+  </div>
+</div>

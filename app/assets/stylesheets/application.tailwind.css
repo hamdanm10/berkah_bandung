@@ -1,1 +1,46 @@
 @import "tailwindcss";
+
+/* Flowbite */
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../../../node_modules/flowbite";
+
+/* Customize */
+@theme {
+  /* Brand */
+  --color-primary: theme(colors.blue.600);
+  --color-secondary: theme(colors.slate.600);
+
+  --color-primary-soft: theme(colors.blue.100);
+  --color-secondary-soft: theme(colors.slate.100);
+
+  /* Neutral */
+  --color-dark: theme(colors.slate.900);
+  --color-light: theme(colors.white);
+
+  --color-dark-soft: theme(colors.slate.200);
+  --color-light-soft: theme(colors.slate.100);
+
+  /* Semantic */
+  --color-success: theme(colors.green.600);
+  --color-danger: theme(colors.red.600);
+  --color-warning: theme(colors.yellow.500);
+  --color-info: theme(colors.sky.600);
+
+  --color-success-soft: theme(colors.green.100);
+  --color-danger-soft: theme(colors.red.100);
+  --color-warning-soft: theme(colors.yellow.100);
+  --color-info-soft: theme(colors.sky.100);
+
+  /* Hover */
+  --color-primary-hover: theme(colors.blue.700);
+  --color-secondary-hover: theme(colors.slate.700);
+  --color-light-hover: theme(colors.gray.100);
+  --color-success-hover: theme(colors.green.700);
+  --color-danger-hover: theme(colors.red.700);
+  --color-warning-hover: theme(colors.yellow.600);
+  --color-info-hover: theme(colors.sky.700);
+
+  /* Fonts */
+  --font-outfit: "Outfit", "sans-serif";
+}

@@ -1,0 +1,163 @@
+<% posted_lock = invoice.persisted? && invoice.posted? %>
+<%= form_with model: invoice, 
+    url: url,
+    class: "mt-5 flex flex-col gap-5",
+    data: {
+      controller: "nested-form invoice-type",
+      nested_form_wrapper_selector_value: ".nested-form-wrapper"
+    } do |form| %>
+  <div class="block bg-white border border-gray-300 rounded-md divide-y divide-gray-300">
+    <div class="p-4 lg:p-6">
+      <h3 class="font-medium text-gray-700">Invoice Form</h3>
+      <p class="text-sm text-gray-500"><%= form_caption("invoice", invoice) %></p>
+    </div>
+    <div class="p-4 lg:p-6 flex flex-col gap-3">
+      <% unless posted_lock %>
+        <div>
+          <%= render(LabelInputComponent.new(form: form, field_name: :invoice_type, label: "Invoice Type", required: true)) %>
+          <%= render(
+                SelectInputComponent.new(
+                  form: form,
+                  field_name: :invoice_type,
+                  records: invoice_types_for_select,
+                  current_value: invoice.invoice_type,
+                  prompt: "Choose type",
+                  class: "mt-2",
+                  disabled: posted_lock,
+                  data: {
+                    invoice_type_target: "type",
+                    action: posted_lock ? nil : "change->invoice-type#toggle"
+                  }
+                )
+              ) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :invoice_type)) %>
+        </div>
+      <% end %>
+      <% unless posted_lock %>
+        <div data-invoice-type-target="reference" class="<%= invoice.reference_invoice_id.present? ? "" : "hidden" %>">
+          <%= render(LabelInputComponent.new(form: form, field_name: :reference_invoice_id, label: "Reference Invoice", required: true)) %>
+          <%= render(
+                DropdownSearchInputComponent.new(
+                    form: form,
+                    field_name: :reference_invoice_id,
+                    search_url: search_super_admin_invoices_path,
+                    current_value: invoice.reference_invoice_id,
+                    current_label: @reference_invoice_label,
+                    prompt: "Choose reference invoice number",
+                    class: "mt-2"
+                  )
+                ) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :reference_invoice_id)) %>
+        </div>
+      <% end %>
+      <% unless posted_lock %>
+        <div data-invoice-type-target="copy" class="<%= invoice.copy_from_reference? ? "" : "hidden" %>">
+          <%= render(LabelInputComponent.new(form: form, field_name: :copy_from_reference, label: "Reference Data", required: false)) %>
+          <div class="mt-2">
+            <%= render(
+                  CheckboxInputComponent.new(
+                    form: form,
+                    field_name: :copy_from_reference,
+                    label: "Same as Reference",
+                    data: {
+                      action: "change->invoice-type#toggleCopy"
+                    }
+                  )
+                ) %>
+          </div>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :copy_from_reference)) %>
+        </div>
+      <% end %>
+      <div data-invoice-type-target="details" class="<%= invoice.copy_from_reference? ? 'hidden' : '' %> flex flex-col gap-3">
+        <div>
+          <%= render(LabelInputComponent.new(form: form, field_name: :distributor_id, label: "Distributor", required: true)) %>
+          <%= render(DropdownSearchInputComponent.new(
+              form: form,
+              field_name: :distributor_id,
+              search_url: search_super_admin_distributors_path,
+              current_value: invoice.distributor_id,
+              current_label: @distributor_label,
+              prompt: "Choose distributor",
+              class: "mt-2"
+            )
+          ) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :distributor_id)) %>
+        </div>
+        <div>
+          <%= render(LabelInputComponent.new(form: form, field_name: :invoice, label: "Invoice", required: true)) %>
+          <%= render(TextInputComponent.new(form: form, field_name: :invoice, class: "mt-2")) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :invoice)) %>
+        </div>
+        <div>
+          <%= render(LabelInputComponent.new(form: form, field_name: :entered_amount, label: "Entered Amount", required: true)) %>
+          <%= render(CurrencyInputComponent.new(form: form, field_name: :entered_amount, class: "mt-2")) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :entered_amount)) %>
+        </div>
+        <div>
+          <%= render(LabelInputComponent.new(form: form, field_name: :invoice_amount, label: "Invoice Amount", required: false)) %>
+          <%= render(CurrencyInputComponent.new(form: form, field_name: :invoice_amount, class: "mt-2")) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :invoice_amount)) %>
+        </div>
+        <div>
+          <%= render(LabelInputComponent.new(form: form, field_name: :invoice_number, label: "Invoice Number", required: true)) %>
+          <%= render(TextInputComponent.new(form: form, field_name: :invoice_number, class: "mt-2")) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :invoice_number)) %>
+        </div>
+        <div>
+          <%= render(LabelInputComponent.new(form: form, field_name: :received_date, label: "Received Date", required: false)) %>
+          <%= render(DateInputComponent.new(form: form, field_name: :received_date, class: "mt-2")) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :received_date)) %>
+        </div>
+        <div>
+          <%= render(LabelInputComponent.new(form: form, field_name: :transfer_amount, label: "Transfer Amount", required: false)) %>
+          <%= render(CurrencyInputComponent.new(form: form, field_name: :transfer_amount, class: "mt-2")) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :transfer_amount)) %>
+        </div>
+        <div>
+          <%= render(LabelInputComponent.new(form: form, field_name: :total_transfer_amount, label: "Total Transfer Amount", required: false)) %>
+          <%= render(CurrencyInputComponent.new(form: form, field_name: :total_transfer_amount, class: "mt-2")) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :total_transfer_amount)) %>
+        </div>
+        <div>
+          <%= render(LabelInputComponent.new(form: form, field_name: :transfer_date, label: "Transfer Date", required: false)) %>
+          <%= render(DateInputComponent.new(form: form, field_name: :transfer_date, class: "mt-2")) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :transfer_date)) %>
+        </div>
+        <div>
+          <%= render(LabelInputComponent.new(form: form, field_name: :remarks, label: "Remarks", required: false)) %>
+          <%= render(TextAreaInputComponent.new(form: form, field_name: :remarks, class: "mt-2")) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :remarks)) %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% unless posted_lock %>
+    <div class="block bg-white border border-gray-300 rounded-md">
+      <div class="p-4 lg:p-6 border-b border-gray-300">
+        <h3 class="font-medium text-gray-700">Invoice Item Form</h3>
+        <p class="text-sm text-gray-500"><%= form_caption("invoice item", InvoiceItem.new) %></p>
+      </div>
+      <template data-nested-form-target="template">
+        <%= form.fields_for :invoice_items, InvoiceItem.new, child_index: "NEW_RECORD" do |invoice_item_fields| %>
+          <%= render "invoice_item_form", form: invoice_item_fields, removable: true %>
+        <% end %>
+      </template>
+      <%= form.fields_for :invoice_items do |invoice_item_fields| %>
+        <%= render "invoice_item_form", form: invoice_item_fields, removable: invoice_item_fields.index != 0 %>
+      <% end %>
+      <div data-nested-form-target="target"></div>
+      <div class="p-4 lg:p-6 flex justify-end">
+        <%= render(ButtonComponent.new(type: "button", size: "sm", variant: "light", "data-action": "nested-form#add")) do %>
+          <%= lucide_icon("plus", class: "size-5") %>
+          <span>Add Item</span>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <div class="flex items-center justify-end">
+    <%= render(ButtonComponent.new(type: "submit", size: "sm", variant: "primary")) do %>
+      <%= lucide_icon("save", class: "size-5") %>
+      <span>Save</span>
+    <% end %>
+  </div>
+<% end %>

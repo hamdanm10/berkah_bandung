@@ -1,0 +1,9 @@
+<div class="flex items-center gap-2">
+  <%= form.check_box(
+        field_name,
+        {
+          class: "w-4 h-4 text-primary bg-gray-100 border-light-300 rounded-sm focus:ring-blue-500"
+        }.merge(kwargs)
+      ) %>
+  <%= form.label field_name, label, class: "text-sm text-gray-700" %>
+</div>

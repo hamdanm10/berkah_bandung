@@ -1,0 +1,12 @@
+<%= search_form_for search_for, url: url do |form| %>
+  <label for="q_<%= search_query %>" class="sr-only">Label</label>
+  <div class="flex gap-3">
+    <% if params[:limit] %>
+      <%= hidden_field_tag :limit, params[:limit] || Pagy::DEFAULT[:items] %>
+    <% end %>
+    <%= form.search_field search_query, class: "block w-full p-2 text-gray-700 border border-gray-300 rounded-md bg-white text-xs lg:text-sm", placeholder: "Search..." %>
+    <%= render(ButtonComponent.new(type: "submit", size: "sm", variant: "light")) do %>
+      <%= lucide_icon("search", class: "size-5") %>
+    <% end %>
+  </div>
+<% end %>

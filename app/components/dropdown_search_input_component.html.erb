@@ -1,0 +1,40 @@
+<div
+  <%= tag.attributes(wrapper_kwargs) %>
+  data-controller="dropdown-search"
+  data-dropdown-search-url-value="<%= search_url %>"
+  data-dropdown-search-selected-label-value="<%= current_label %>"
+  data-dropdown-search-selected-id-value="<%= current_value %>"
+>
+  <%= text_field_tag(
+        nil,
+        current_label,
+        placeholder: prompt,
+        autocomplete: "off",
+        role: "combobox",
+        aria: { expanded: "false" },
+        class: input_class,
+        data: {
+          dropdown_search_target: "input",
+          action: "
+            input->dropdown-search#search
+            focus->dropdown-search#open
+            keydown->dropdown-search#keydown
+          "
+        }
+      ) %>
+  <%= form.hidden_field(
+        field_name,
+        value: current_value,
+        data: { dropdown_search_target: "hidden" }
+      ) %>
+  <div
+    class="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md shadow hidden"
+    data-dropdown-search-target="menu"
+  ></div>
+  <div
+    class="absolute z-10 mt-1 w-full bg-white px-3 py-2 text-sm text-gray-500 border border-gray-300 hidden rounded-md"
+    data-dropdown-search-target="empty"
+  >
+    Not found
+  </div>
+</div>

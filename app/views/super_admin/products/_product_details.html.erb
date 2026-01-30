@@ -1,0 +1,124 @@
+<div class="mt-5 flex flex-col gap-5">
+  <div class="block bg-white border border-gray-300 rounded-md divide-y divide-gray-300">
+    <div class="p-4 lg:p-6">
+      <h3 class="font-medium text-gray-700">Product Details</h3>
+      <p class="text-sm text-gray-500">Below are the details of the product.</p>
+    </div>
+    <div class="px-4 lg:px-6 text-gray-700 flex flex-col text-sm">
+      <div class="flex gap-2 pt-4 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Product Code</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= product.code %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Product Barcode</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= product.barcode %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Product Name</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= product.name %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Variant</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= product.variant %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Category</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= product.category.name %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Brand</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= product.brand.name %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Total Quantity</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= product.total_quantity %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-4">
+        <div class="w-2/12">
+          <span class="font-medium">Status</span>
+        </div>
+        <div class="w-10/12">
+          <% if product.is_active? %>
+            <span class="text-xs px-2 py-1 bg-success-soft border border-success text-success rounded-md">
+              Active
+            </span>
+          <% else %>
+            <span class="text-xs px-2 py-1 bg-danger-soft border border-danger text-danger rounded-md">
+              Inactive
+            </span>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="block bg-white border border-gray-300 rounded-md divide-y divide-gray-300">
+    <div class="p-4 lg:p-6">
+      <h3 class="font-medium text-gray-700">Product Price Details</h3>
+      <p class="text-sm text-gray-500">Below are the details of the product price.</p>
+    </div>
+    <% if product.product_prices.present? %>
+      <% product.product_prices.each do |product_price| %>
+        <div class="px-4 lg:px-6 text-gray-700 flex flex-col text-sm">
+          <div class="flex gap-2 pt-4 pb-2">
+            <div class="w-2/12">
+              <span class="font-medium">Quantity</span>
+            </div>
+            <div class="w-10/12">
+              <span><%= product_price.quantity %></span>
+            </div>
+          </div>
+          <div class="flex gap-2 pt-2 pb-2">
+            <div class="w-2/12">
+              <span class="font-medium">Cost Price</span>
+            </div>
+            <div class="w-10/12">
+              <span><%= format_price(product_price.cost_price) %></span>
+            </div>
+          </div>
+          <div class="flex gap-2 pt-2 pb-4">
+            <div class="w-2/12">
+              <span class="font-medium">Value</span>
+            </div>
+            <div class="w-10/12">
+              <span><%= format_price(product_price.total_value) %></span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="px-4 lg:px-6 text-gray-700 flex flex-col text-sm">
+        <div class="flex gap-2 pt-4 pb-4">
+          <span class="font-medium text-danger">Product price data is currently unavailable.</span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

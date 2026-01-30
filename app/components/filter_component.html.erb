@@ -1,0 +1,34 @@
+<%= search_form_for @q,
+      url: @url,
+      method: @method,
+      class: "flex justify-end items-center gap-4",
+      data: form_data do |f| %>
+  <% @fields.each do |field| %>
+    <% if params[:limit] %>
+      <%= hidden_field_tag :limit, params[:limit] || Pagy::DEFAULT[:items] %>
+    <% end %>
+    <div class="min-w-45">
+      <% if field[:label].present? %>
+        <label class="block mb-1 text-sm font-medium text-gray-700">
+          <%= field[:label] %>
+        </label>
+      <% end %>
+      <%= render_field(f, field) %>
+    </div>
+  <% end %>
+  <% if show_submit_button? %>
+    <div>
+      <%= render(ButtonComponent.new(
+            type: "submit", 
+            size: "sm", 
+            variant: "light",
+            "data-hint": "Search",
+            "data-action": "
+              mouseenter->hint#show
+              mouseleave->hint#hide
+            ")) do %>
+        <%= lucide_icon("search", class: "size-5") %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

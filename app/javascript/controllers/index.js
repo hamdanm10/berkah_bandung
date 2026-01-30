@@ -4,5 +4,38 @@
 
 import { application } from "./application"
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
+import AutoSubmitController from "./auto_submit_controller"
+application.register("auto-submit", AutoSubmitController)
+
+import ConfirmDialogController from "./confirm_dialog_controller"
+application.register("confirm-dialog", ConfirmDialogController)
+
+import CurrencyInputController from "./currency_input_controller"
+application.register("currency-input", CurrencyInputController)
+
+import DialogController from "./dialog_controller"
+application.register("dialog", DialogController)
+
+import DropdownSearchController from "./dropdown_search_controller"
+application.register("dropdown-search", DropdownSearchController)
+
+import FilterController from "./filter_controller"
+application.register("filter", FilterController)
+
+import HintController from "./hint_controller"
+application.register("hint", HintController)
+
+import InvoiceTypeController from "./invoice_type_controller"
+application.register("invoice-type", InvoiceTypeController)
+
+import NestedFormController from "./nested_form_controller"
+application.register("nested-form", NestedFormController)
+
+import NotificationController from "./notification_controller"
+application.register("notification", NotificationController)
+
+import PasswordVisibilityController from "./password_visibility_controller"
+application.register("password-visibility", PasswordVisibilityController)
+
+import RecordLimitSelectorController from "./record_limit_selector_controller"
+application.register("record-limit-selector", RecordLimitSelectorController)

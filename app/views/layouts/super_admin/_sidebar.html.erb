@@ -1,0 +1,39 @@
+<%
+  main_modules = [
+    { icon: "layout-grid", url: super_admin_dashboard_path, name: "Dashboard" },
+    { icon: "scroll-text", url: super_admin_invoices_path, name: "Invoice" },
+    { icon: "mail", url: super_admin_invitations_path, name: "Invitation" },
+  ]
+
+  master_modules = [
+    { icon: "user-round", url: super_admin_users_path, name: "User" },
+    { icon: "store", url: super_admin_merchants_path, name: "Merchant" },
+    { icon: "motorbike", url: super_admin_courier_services_path, name: "Courier Service" },
+    { icon: "slack", url: super_admin_brands_path, name: "Brand" },
+    { icon: "chart-bar-stacked", url: super_admin_categories_path, name: "Category" },
+    { icon: "van", url: super_admin_distributors_path, name: "Distributor" },
+    { icon: "package", url: super_admin_products_path, name: "Product" },
+  ]
+%>
+<%= render(SidebarComponent.new(sidebar_id: "super-admin-sidebar")) do %>
+  <li>
+    <div class="px-2 text-xs text-gray-500 uppercase">Main</div>
+  </li>
+  <% main_modules.each do |main_module| %>
+    <%= render(SidebarLinkComponent.new(
+          icon: main_module[:icon],
+          url: main_module[:url],
+          name: main_module[:name]
+        )) %>
+  <% end %>
+  <li>
+    <div class="px-2 text-xs text-gray-500 uppercase pt-2.5">Master</div>
+  </li>
+  <% master_modules.each do |master_module| %>
+    <%= render(SidebarLinkComponent.new(
+        icon: master_module[:icon],
+        url: master_module[:url],
+        name: master_module[:name]
+      )) %>
+  <% end %>
+<% end %>

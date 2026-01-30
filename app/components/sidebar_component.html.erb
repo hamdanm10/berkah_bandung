@@ -1,0 +1,17 @@
+<aside id="<%= sidebar_id %>" class="fixed top-0 left-0 z-50 w-64 h-screen transition-transform -translate-x-full lg:translate-x-0" aria-label="Sidebar">
+  <div class="h-full px-3 py-8 overflow-y-auto bg-white border-r border-r-gray-300">
+    <ul class="space-y-3 font-medium">
+      <li>
+        <div class="pb-5">
+          <div class="flex items-center gap-2 ps-2">
+            <div class="bg-dark rounded-md flex items-center justify-center h-9 w-9">
+              <%= image_tag "logo.png", class: "w-6 rounded-md" %>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800">Berkah Bandung</h3>
+          </div>
+        </div>
+      </li>
+      <%= content %>
+    </ul>
+  </div>
+</aside>
