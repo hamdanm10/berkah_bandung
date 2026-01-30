@@ -27,6 +27,10 @@ class SuperAdmin::DistributorsController < SuperAdminApplicationController
     end
   end
 
+  def show
+    @distributor = show_distributor_scope
+  end
+
   def edit
     @distributor = distributor_scope
   end
@@ -123,5 +127,9 @@ class SuperAdmin::DistributorsController < SuperAdminApplicationController
 
   def distributor_scope
     Distributor.find(params[:id])
+  end
+
+  def show_distributor_scope
+    Distributor.includes(:distributor_items).find(params[:id])
   end
 end

@@ -70,6 +70,16 @@
       <% end %>
       <div data-invoice-type-target="details" class="<%= invoice.copy_from_reference? ? 'hidden' : '' %> flex flex-col gap-3">
         <div>
+          <%= render(LabelInputComponent.new(form: form, field_name: :invoice_number, label: "Invoice Number", required: true)) %>
+          <%= render(TextInputComponent.new(form: form, field_name: :invoice_number, class: "mt-2")) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :invoice_number)) %>
+        </div>
+        <div>
+          <%= render(LabelInputComponent.new(form: form, field_name: :invoice, label: "Invoice", required: true)) %>
+          <%= render(TextInputComponent.new(form: form, field_name: :invoice, class: "mt-2")) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :invoice)) %>
+        </div>
+        <div>
           <%= render(LabelInputComponent.new(form: form, field_name: :distributor_id, label: "Distributor", required: true)) %>
           <%= render(DropdownSearchInputComponent.new(
               form: form,
@@ -84,29 +94,14 @@
           <%= render(ErrorInputComponent.new(model: invoice, field_name: :distributor_id)) %>
         </div>
         <div>
-          <%= render(LabelInputComponent.new(form: form, field_name: :invoice, label: "Invoice", required: true)) %>
-          <%= render(TextInputComponent.new(form: form, field_name: :invoice, class: "mt-2")) %>
-          <%= render(ErrorInputComponent.new(model: invoice, field_name: :invoice)) %>
-        </div>
-        <div>
-          <%= render(LabelInputComponent.new(form: form, field_name: :entered_amount, label: "Entered Amount", required: true)) %>
-          <%= render(CurrencyInputComponent.new(form: form, field_name: :entered_amount, class: "mt-2")) %>
-          <%= render(ErrorInputComponent.new(model: invoice, field_name: :entered_amount)) %>
-        </div>
-        <div>
           <%= render(LabelInputComponent.new(form: form, field_name: :invoice_amount, label: "Invoice Amount", required: false)) %>
           <%= render(CurrencyInputComponent.new(form: form, field_name: :invoice_amount, class: "mt-2")) %>
           <%= render(ErrorInputComponent.new(model: invoice, field_name: :invoice_amount)) %>
         </div>
         <div>
-          <%= render(LabelInputComponent.new(form: form, field_name: :invoice_number, label: "Invoice Number", required: true)) %>
-          <%= render(TextInputComponent.new(form: form, field_name: :invoice_number, class: "mt-2")) %>
-          <%= render(ErrorInputComponent.new(model: invoice, field_name: :invoice_number)) %>
-        </div>
-        <div>
-          <%= render(LabelInputComponent.new(form: form, field_name: :received_date, label: "Received Date", required: false)) %>
-          <%= render(DateInputComponent.new(form: form, field_name: :received_date, class: "mt-2")) %>
-          <%= render(ErrorInputComponent.new(model: invoice, field_name: :received_date)) %>
+          <%= render(LabelInputComponent.new(form: form, field_name: :entered_amount, label: "Entered Amount", required: true)) %>
+          <%= render(CurrencyInputComponent.new(form: form, field_name: :entered_amount, class: "mt-2")) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :entered_amount)) %>
         </div>
         <div>
           <%= render(LabelInputComponent.new(form: form, field_name: :transfer_amount, label: "Transfer Amount", required: false)) %>
@@ -117,6 +112,11 @@
           <%= render(LabelInputComponent.new(form: form, field_name: :total_transfer_amount, label: "Total Transfer Amount", required: false)) %>
           <%= render(CurrencyInputComponent.new(form: form, field_name: :total_transfer_amount, class: "mt-2")) %>
           <%= render(ErrorInputComponent.new(model: invoice, field_name: :total_transfer_amount)) %>
+        </div>
+        <div>
+          <%= render(LabelInputComponent.new(form: form, field_name: :received_date, label: "Received Date", required: false)) %>
+          <%= render(DateInputComponent.new(form: form, field_name: :received_date, class: "mt-2")) %>
+          <%= render(ErrorInputComponent.new(model: invoice, field_name: :received_date)) %>
         </div>
         <div>
           <%= render(LabelInputComponent.new(form: form, field_name: :transfer_date, label: "Transfer Date", required: false)) %>

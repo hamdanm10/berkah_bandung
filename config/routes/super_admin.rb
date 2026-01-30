@@ -45,7 +45,7 @@ namespace :super_admin do
     end
   end
 
-  resources :distributors, except: %i[show] do
+  resources :distributors do
     member do
       patch :activate
       patch :deactivate
