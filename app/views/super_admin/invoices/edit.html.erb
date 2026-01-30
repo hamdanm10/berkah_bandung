@@ -3,7 +3,15 @@
     <%= render(ButtonLinkComponent.new(size: "sm", variant: "light", url: super_admin_invoices_path)) do %>
       <%= lucide_icon("chevron-left", class: "size-5") %>
     <% end %>
-    <h2 class="text-xl font-bold text-gray-700">Edit Invoice</h2>
+    <div class="flex items-center gap-4">
+      <h2 class="text-xl font-bold text-gray-700">Edit Invoice</h2>
+      <span>-</span>
+      <% if @invoice.invoice_status == "draft"%>
+        <span class="text-sm px-4 py-1 bg-warning-soft border border-warning text-warning rounded-md">Draft</span>
+      <% elsif @invoice.invoice_status == "posted" %>
+        <span class="text-sm px-4 py-1 bg-primary-soft border border-primary text-primary rounded-md">Posted</span>
+      <% end %>
+    </div>
   </div>
   <div class="hidden lg:block">
     <%= render(BreadcrumbComponent.new) do %>

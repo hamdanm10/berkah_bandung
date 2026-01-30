@@ -10,4 +10,14 @@ module InvoiceHelper
     Invoice.invoice_types
       .map { |invoice_type, value| [ invoice_type.titleize, invoice_type ] }
   end
+
+  def value_invoice_statuses_for_select
+    Invoice.invoice_statuses
+      .map { |invoice_status, value| [ invoice_status.titleize, value ] }
+  end
+
+  def value_invoice_types_for_select
+    Invoice.invoice_types
+      .map { |invoice_type, value| [ invoice_type.titleize, value ] }
+  end
 end

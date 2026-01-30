@@ -61,6 +61,8 @@ namespace :super_admin do
       patch :deactivate
     end
     collection do
+      get :search
+
       get :import
       post :create_import
 
@@ -71,5 +73,13 @@ namespace :super_admin do
     end
   end
 
-  resources :invoices, except: %i[destroy]
+  resources :invoices do
+    member do
+      patch :post
+      patch :mark_as_paid
+    end
+    collection do
+      get :search
+    end
+  end
 end

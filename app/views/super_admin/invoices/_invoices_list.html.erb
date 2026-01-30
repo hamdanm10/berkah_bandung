@@ -44,21 +44,28 @@
     class="overflow-hidden h-0 opacity-0 transition-[height,opacity] duration-200 ease-out"
   >
     <div class="flex justify-end gap-3 p-6">
-      <%# render FilterComponent.new(
+      <%= render FilterComponent.new(
             q: q,
             url: super_admin_invoices_path,
             show_submit: true,
             fields: [
               {
                 type: :select,
-                name: :is_active_eq,
-                records: invoice_statuses_for_select,
+                name: :invoice_status_eq,
+                records: value_invoice_statuses_for_select,
                 blank: "All Statuses",
                 auto_submit: false
               },
               {
+                type: :select,
+                name: :invoice_type_eq,
+                records: value_invoice_types_for_select,
+                blank: "All Types",
+                auto_submit: false
+              },
+              {
                 type: :search,
-                name: :name_cont,
+                name: :invoice_number_or_invoice_or_distributor_name_cont,
                 placeholder: "Search...",
                 auto_submit: false
               }
@@ -72,19 +79,20 @@
         <thead class="text-xs uppercase text-gray-700 border-b border-b-gray-300 bg-white">
           <tr>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">#</th>
-            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Status</th>
-            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Type</th>
-            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Reference Invoice</th>
-            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Distributor</th>
-            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Invoice</th>
-            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Entered Amount</th>
-            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Invoice Amount</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Invoice Number</th>
-            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Received Date</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Invoice</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Distributor</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Reference Invoice</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Invoice Amount</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Entered Amount</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Transfer Amount</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Total Transfer Amount</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Received Date</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Transfer Date</th>
-            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Remarks</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Status</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Type</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Created By</th>
+            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Created At</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Action</th>
           </tr>
         </thead>

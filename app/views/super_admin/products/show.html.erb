@@ -9,7 +9,7 @@
     <%= render(BreadcrumbComponent.new) do %>
       <%= render(BreadcrumbItemComponent.new(url: super_admin_dashboard_path, icon: "layout-grid", name: "Dashboard")) %>
       <%= render(BreadcrumbItemComponent.new(url: super_admin_products_path, name: "Products")) %>
-      <%= render(BreadcrumbItemComponent.new(name: "Detail Product", last: true)) %>
+      <%= render(BreadcrumbItemComponent.new(name: "Product Details", last: true)) %>
     <% end %>
   </div>
 </div>

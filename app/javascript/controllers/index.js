@@ -25,6 +25,9 @@ application.register("filter", FilterController)
 import HintController from "./hint_controller"
 application.register("hint", HintController)
 
+import InvoiceTypeController from "./invoice_type_controller"
+application.register("invoice-type", InvoiceTypeController)
+
 import NestedFormController from "./nested_form_controller"
 application.register("nested-form", NestedFormController)
 

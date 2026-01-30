@@ -5,7 +5,9 @@ class Product < ApplicationRecord
   belongs_to :category
   belongs_to :brand
 
-  has_many :product_prices, dependent: :destroy
+  has_many :product_prices
+  has_many :invoice_items
+  has_many :distributor_items
 
   # Ransack
   def self.ransackable_attributes(auth_object = nil)

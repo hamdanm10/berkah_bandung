@@ -3,6 +3,7 @@
 class ProductPrice < ApplicationRecord
   # Relations
   belongs_to :product
+  has_many :invoice_items
 
   # Instance Methods
   def total_value

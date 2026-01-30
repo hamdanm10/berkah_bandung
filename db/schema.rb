@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_26_071306) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_30_075042) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -38,6 +38,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_26_071306) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "distributor_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "distributor_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["distributor_id", "product_id"], name: "index_distributor_items_on_distributor_and_product", unique: true
+    t.index ["distributor_id"], name: "index_distributor_items_on_distributor_id"
+    t.index ["product_id"], name: "index_distributor_items_on_product_id"
+  end
+
   create_table "distributors", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "deleted_at", precision: nil
@@ -59,8 +69,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_26_071306) do
     t.index ["used_by_user_id"], name: "index_invitations_on_used_by_user_id"
   end
 
+  create_table "invoice_items", force: :cascade do |t|
+    t.integer "adjustment_type"
+    t.decimal "cost_snapshot", precision: 11, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.bigint "invoice_id", null: false
+    t.bigint "product_id", null: false
+    t.bigint "product_price_id"
+    t.integer "quantity", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
+    t.index ["product_id"], name: "index_invoice_items_on_product_id"
+    t.index ["product_price_id"], name: "index_invoice_items_on_product_price_id"
+  end
+
   create_table "invoices", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.bigint "created_by_user_id", null: false
+    t.datetime "deleted_at", precision: nil
     t.bigint "distributor_id", null: false
     t.decimal "entered_amount", precision: 15, scale: 2, null: false
     t.string "invoice", null: false
@@ -75,6 +101,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_26_071306) do
     t.decimal "transfer_amount", precision: 15, scale: 2
     t.date "transfer_date"
     t.datetime "updated_at", null: false
+    t.index ["created_by_user_id"], name: "index_invoices_on_created_by_user_id"
     t.index ["distributor_id"], name: "index_invoices_on_distributor_id"
     t.index ["reference_invoice_id"], name: "index_invoices_on_reference_invoice_id"
   end
@@ -137,9 +164,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_26_071306) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "distributor_items", "distributors"
+  add_foreign_key "distributor_items", "products"
   add_foreign_key "invitations", "users", column: "used_by_user_id"
+  add_foreign_key "invoice_items", "invoices"
+  add_foreign_key "invoice_items", "product_prices"
+  add_foreign_key "invoice_items", "products"
   add_foreign_key "invoices", "distributors"
   add_foreign_key "invoices", "invoices", column: "reference_invoice_id"
+  add_foreign_key "invoices", "users", column: "created_by_user_id"
   add_foreign_key "product_prices", "products"
   add_foreign_key "products", "brands"
   add_foreign_key "products", "categories"

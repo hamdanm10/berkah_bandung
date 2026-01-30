@@ -14,6 +14,8 @@ class CreateInvoices < ActiveRecord::Migration[8.1]
       t.integer :invoice_status, null: false
       t.integer :invoice_type, null: false
       t.references :reference_invoice, foreign_key: { to_table: :invoices }, null: true
+      t.references :created_by_user, foreign_key: { to_table: :users }, null: false
+      t.timestamp :deleted_at, null: true
 
       t.timestamps
     end

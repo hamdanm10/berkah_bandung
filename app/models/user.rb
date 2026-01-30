@@ -14,6 +14,7 @@ class User < ApplicationRecord
   # Relations
   has_many :sessions, dependent: :destroy
   has_one :invitation, foreign_key: :used_by_user_id
+  has_many :invoices, foreign_key: :created_by_user_id
 
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
