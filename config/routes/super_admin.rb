@@ -73,6 +73,12 @@ namespace :super_admin do
     end
   end
 
+  resources :merchant_orders, only: %i[index] do
+    resources :order_batches, except: %i[show] do
+      resources :orders
+    end
+  end
+
   resources :invoices do
     member do
       patch :post

@@ -1,0 +1,9 @@
+<%= link_to super_admin_merchant_order_order_batches_path(merchant), 
+    class: "w-full bg-white border border-gray-300 rounded-md p-4 flex items-center justify-between gap-4 hover:border-primary duration-100 transition-all" do %>
+  <div class="flex items-center gap-4">
+    <div class="text-sm px-1 py-1 bg-primary-soft border border-primary text-primary rounded-md text-center w-36 line-clamp-1">
+      <%= merchant.marketplace.titleize %>
+    </div>
+    <span class="text-lg font-medium text-gray-700"><%= merchant.name.titleize %></span>
+  </div>
+<% end %>
