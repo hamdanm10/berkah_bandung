@@ -7,7 +7,7 @@ class SuperAdmin::OrderBatchesController < SuperAdminApplicationController
     limit = RecordLimit.call(params[:limit])
 
     @q = @merchant.order_batches.where(deleted_at: nil).ransack(params[:q])
-    @order_batches = @q.result.order(created_at: :desc)
+    @order_batches = @q.result.includes(:user_created).order(created_at: :desc)
     @pagy, @order_batches = pagy(@order_batches, limit:)
   end
 
@@ -54,6 +54,20 @@ class SuperAdmin::OrderBatchesController < SuperAdminApplicationController
       @order_batch = result.error[:order_batch]
 
       render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @merchant = merchant_scope
+
+    result = OrderBatches::SoftDelete.call(
+      order_batch: order_batch_scope
+    )
+
+    if result.success?
+      redirect_to super_admin_merchant_order_order_batches_path(@merchant), notice: result.payload[:message]
+    else
+      redirect_to super_admin_merchant_order_order_batches_path(@merchant), alert: result.error[:order_batch]
     end
   end
 

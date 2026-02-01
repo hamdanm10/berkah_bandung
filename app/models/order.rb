@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
-class CourierService < ApplicationRecord
+class Order < ApplicationRecord
   # Relations
-  has_many :orders
+  belongs_to :order_batch
+  belongs_to :courier_service
 
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
-    [ "name", "is_active" ]
+    []
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -14,5 +15,4 @@ class CourierService < ApplicationRecord
   end
 
   # Validations
-  validates :name, presence: true, length: { maximum: 50 }
 end

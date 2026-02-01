@@ -4,6 +4,7 @@ class OrderBatches::Create < ApplicationService
   def call(merchant:, order_batch_params:)
     order_batch = OrderBatch.new(order_batch_params)
     order_batch.merchant_id = merchant.id
+    order_batch.created_by_user_id = Current.user.id
 
     if order_batch.save
       success(
