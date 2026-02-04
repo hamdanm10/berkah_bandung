@@ -124,7 +124,7 @@ class Invoice < ApplicationRecord
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    [ "distributor" ]
+    [ "distributor", "user_created" ]
   end
 
   # ============================

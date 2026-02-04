@@ -12,7 +12,7 @@ class OrderBatch < ApplicationRecord
   end
 
   def self.ransackable_associations(auth_object = nil)
-    []
+    [ "user_created" ]
   end
 
   # Validations

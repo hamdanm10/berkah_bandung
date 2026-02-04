@@ -1,12 +1,12 @@
 <div class="flex items-center justify-between">
   <div class="flex gap-4">
     <div class="flex flex-col justify-center">
-      <%= render(ButtonLinkComponent.new(size: "sm", variant: "light", url: super_admin_merchant_order_order_batches_path(@merchant))) do %>
+      <%= render(ButtonLinkComponent.new(size: "sm", variant: "light", url: super_admin_merchant_order_order_batch_orders_path(@merchant, @order_batch))) do %>
         <%= lucide_icon("chevron-left", class: "size-5") %>
       <% end %>
     </div>
     <div>
-      <h2 class="text-xl font-bold text-gray-700">Orders</h2>
+      <h2 class="text-xl font-bold text-gray-700">New Order</h2>
       <div class="flex items-center gap-2 mt-2">
         <span class="text-xs px-2 py-1 bg-primary-soft border border-primary text-primary rounded-md text-center">
           <%= @merchant.marketplace.titleize %>
@@ -26,8 +26,9 @@
       <%= render(BreadcrumbItemComponent.new(url: super_admin_dashboard_path, icon: "layout-grid", name: "Dashboard")) %>
       <%= render(BreadcrumbItemComponent.new(url: super_admin_merchant_orders_path, name: "Merchant Orders")) %>
       <%= render(BreadcrumbItemComponent.new(url: super_admin_merchant_order_order_batches_path(@merchant), name: "Order Batches")) %>
-      <%= render(BreadcrumbItemComponent.new(name: "Orders", last: true)) %>
+      <%= render(BreadcrumbItemComponent.new(url: super_admin_merchant_order_order_batch_orders_path(@merchant, @order_batch), name: "Orders")) %>
+      <%= render(BreadcrumbItemComponent.new(name: "New Order", last: true)) %>
     <% end %>
   </div>
 </div>
-<%= render("orders_list", merchant: @merchant, order_batch: @order_batch, orders: @orders, pagy: @pagy, q: @q) %>
+<%= render("form", url: super_admin_merchant_order_order_batch_orders_path(@merchant, @order_batch), merchant: @merchant, order_batch: @order_batch, order: @order) %>

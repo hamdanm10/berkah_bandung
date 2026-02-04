@@ -8,6 +8,7 @@ class Product < ApplicationRecord
   has_many :product_prices
   has_many :invoice_items
   has_many :distributor_items
+  has_many :orders
 
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
@@ -31,9 +32,15 @@ class Product < ApplicationRecord
         FROM product_prices
         GROUP BY product_id
       ) product_prices_sum
-      ON product_prices_sum.product_id = products.id
+        ON product_prices_sum.product_id = products.id
     SQL
-    .select("products.*, COALESCE(product_prices_sum.total_quantity, 0) AS total_quantity")
+    .select(<<~SQL)
+      products.*,
+      (
+        COALESCE(product_prices_sum.total_quantity, 0)
+        - COALESCE(products.reserved_quantity, 0)
+      ) AS total_quantity
+    SQL
   }
 
   # Validations

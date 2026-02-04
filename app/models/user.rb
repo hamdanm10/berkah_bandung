@@ -26,7 +26,6 @@ class User < ApplicationRecord
     []
   end
 
-
   # Normalization
   normalizes :username, with: ->(e) { e.to_s.strip.downcase }
   normalizes :full_name, with: ->(e) { e.to_s.strip.titleize }
@@ -47,6 +46,17 @@ class User < ApplicationRecord
             }
 
   validates :password,
+            presence: true,
             length: { minimum: 8 },
-            if: -> { password.present? }
+            if: :password_required?
+
+  validates :password_confirmation,
+            presence: true,
+            if: :password_required?
+
+  private
+
+  def password_required?
+    new_record? || password.present?
+  end
 end

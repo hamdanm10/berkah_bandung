@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_31_143922) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_02_155944) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -126,6 +126,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_31_143922) do
     t.index ["merchant_id"], name: "index_order_batches_on_merchant_id"
   end
 
+  create_table "order_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "order_id", null: false
+    t.string "product_code", null: false
+    t.bigint "product_id", null: false
+    t.string "product_name", null: false
+    t.string "product_variant"
+    t.integer "quantity", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
+  end
+
   create_table "orders", force: :cascade do |t|
     t.bigint "courier_service_id", null: false
     t.datetime "created_at", null: false
@@ -157,6 +170,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_31_143922) do
     t.datetime "deleted_at", precision: nil
     t.boolean "is_active", default: true, null: false
     t.string "name", null: false
+    t.integer "reserved_quantity", default: 0, null: false
     t.datetime "updated_at", null: false
     t.string "variant"
     t.index ["barcode"], name: "index_products_on_barcode", unique: true

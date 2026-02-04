@@ -10,6 +10,7 @@ class CreateProducts < ActiveRecord::Migration[8.1]
       t.references :brand, null: false, foreign_key: true
 
       t.boolean :is_active, null: false, default: true
+      t.integer :reserved_quantity, null: false, default: 0
 
       t.timestamp :deleted_at, null: true
 

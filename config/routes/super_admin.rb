@@ -1,6 +1,13 @@
 namespace :super_admin do
   resource :dashboard, only: %i[show]
 
+  resource :account_setting, only: %i[edit update] do
+    member do
+      get :change_password
+      patch :change_password
+    end
+  end
+
   resources :invitations, except: %i[destroy]
 
   resources :users, only: %i[index show] do
@@ -22,6 +29,9 @@ namespace :super_admin do
     member do
       patch :activate
       patch :deactivate
+    end
+    collection do
+      get :search
     end
   end
 
