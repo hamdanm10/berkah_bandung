@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_02_155944) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_05_100100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -69,43 +69,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_155944) do
     t.index ["used_by_user_id"], name: "index_invitations_on_used_by_user_id"
   end
 
-  create_table "invoice_items", force: :cascade do |t|
-    t.integer "adjustment_type"
-    t.decimal "cost_snapshot", precision: 11, scale: 2, null: false
-    t.datetime "created_at", null: false
-    t.bigint "invoice_id", null: false
-    t.bigint "product_id", null: false
-    t.bigint "product_price_id"
-    t.integer "quantity", null: false
-    t.datetime "updated_at", null: false
-    t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
-    t.index ["product_id"], name: "index_invoice_items_on_product_id"
-    t.index ["product_price_id"], name: "index_invoice_items_on_product_price_id"
-  end
-
-  create_table "invoices", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.bigint "created_by_user_id", null: false
-    t.datetime "deleted_at", precision: nil
-    t.bigint "distributor_id", null: false
-    t.decimal "entered_amount", precision: 15, scale: 2, null: false
-    t.string "invoice", null: false
-    t.decimal "invoice_amount", precision: 15, scale: 2
-    t.string "invoice_number", null: false
-    t.integer "invoice_status", null: false
-    t.integer "invoice_type", null: false
-    t.date "received_date"
-    t.bigint "reference_invoice_id"
-    t.text "remarks"
-    t.decimal "total_transfer_amount", precision: 15, scale: 2
-    t.decimal "transfer_amount", precision: 15, scale: 2
-    t.date "transfer_date"
-    t.datetime "updated_at", null: false
-    t.index ["created_by_user_id"], name: "index_invoices_on_created_by_user_id"
-    t.index ["distributor_id"], name: "index_invoices_on_distributor_id"
-    t.index ["reference_invoice_id"], name: "index_invoices_on_reference_invoice_id"
-  end
-
   create_table "merchants", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "deleted_at", precision: nil
@@ -126,39 +89,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_155944) do
     t.index ["merchant_id"], name: "index_order_batches_on_merchant_id"
   end
 
-  create_table "order_items", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.bigint "order_id", null: false
-    t.string "product_code", null: false
-    t.bigint "product_id", null: false
-    t.string "product_name", null: false
-    t.string "product_variant"
-    t.integer "quantity", null: false
-    t.datetime "updated_at", null: false
-    t.index ["order_id"], name: "index_order_items_on_order_id"
-    t.index ["product_id"], name: "index_order_items_on_product_id"
-  end
-
-  create_table "orders", force: :cascade do |t|
-    t.bigint "courier_service_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "deleted_at", precision: nil
-    t.bigint "order_batch_id", null: false
-    t.string "order_number", null: false
-    t.string "tracking_number", null: false
-    t.datetime "updated_at", null: false
-    t.index ["courier_service_id"], name: "index_orders_on_courier_service_id"
-    t.index ["order_batch_id"], name: "index_orders_on_order_batch_id"
-  end
-
-  create_table "product_prices", force: :cascade do |t|
+  create_table "product_availables", force: :cascade do |t|
     t.decimal "cost_price", precision: 11, scale: 2, null: false
     t.datetime "created_at", null: false
     t.bigint "product_id", null: false
     t.integer "quantity", null: false
     t.datetime "updated_at", null: false
-    t.index ["product_id", "cost_price"], name: "index_product_prices_on_product_id_and_cost_price", unique: true
-    t.index ["product_id"], name: "index_product_prices_on_product_id"
+    t.index ["product_id"], name: "index_product_availables_on_product_id"
+  end
+
+  create_table "product_reserves", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_reserves_on_product_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -170,7 +115,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_155944) do
     t.datetime "deleted_at", precision: nil
     t.boolean "is_active", default: true, null: false
     t.string "name", null: false
-    t.integer "reserved_quantity", default: 0, null: false
     t.datetime "updated_at", null: false
     t.string "variant"
     t.index ["barcode"], name: "index_products_on_barcode", unique: true
@@ -204,17 +148,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_02_155944) do
   add_foreign_key "distributor_items", "distributors"
   add_foreign_key "distributor_items", "products"
   add_foreign_key "invitations", "users", column: "used_by_user_id"
-  add_foreign_key "invoice_items", "invoices"
-  add_foreign_key "invoice_items", "product_prices"
-  add_foreign_key "invoice_items", "products"
-  add_foreign_key "invoices", "distributors"
-  add_foreign_key "invoices", "invoices", column: "reference_invoice_id"
-  add_foreign_key "invoices", "users", column: "created_by_user_id"
   add_foreign_key "order_batches", "merchants"
   add_foreign_key "order_batches", "users", column: "created_by_user_id"
-  add_foreign_key "orders", "courier_services"
-  add_foreign_key "orders", "order_batches"
-  add_foreign_key "product_prices", "products"
+  add_foreign_key "product_availables", "products"
+  add_foreign_key "product_reserves", "products"
   add_foreign_key "products", "brands"
   add_foreign_key "products", "categories"
   add_foreign_key "sessions", "users"

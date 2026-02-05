@@ -89,6 +89,8 @@ namespace :super_admin do
     end
   end
 
+  resources :all_orders, only: %i[index show]
+
   resources :invoices do
     member do
       patch :post

@@ -2,18 +2,24 @@
 
 class Products::SoftDelete < ApplicationService
   def call(product:)
-    return failure(message: "Product is already deleted.") if product.deleted_at.present?
+    return failure(message: 'Product is already deleted.') if product.deleted_at?
 
-    if product.update(
+    soft_delete!(product)
+
+    success(
+      product: product,
+      message: 'Product has been successfully deleted.'
+    )
+  rescue ActiveRecord::RecordInvalid
+    failure(product: product)
+  end
+
+  private
+
+  def soft_delete!(product)
+    product.update!(
       deleted_at: Time.current,
       is_active: false
     )
-      success(
-        product: product,
-        message: "Product has been successfully deleted."
-      )
-    else
-      failure(product: product)
-    end
   end
 end

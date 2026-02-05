@@ -5,14 +5,13 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
     limit = RecordLimit.call(params[:limit])
 
     @q = Product
-      .where(deleted_at: nil)
-      .ransack(params[:q])
+         .where(deleted_at: nil)
+         .ransack(params[:q])
 
     @products = @q
-      .result
-      .with_total_quantity
-      .includes(:category, :brand, :product_prices)
-      .order(name: :asc)
+                .result
+                .includes(:category, :brand, :product_reserve, :product_availables)
+                .order(name: :asc)
 
     @pagy, @products = pagy(@products, limit:)
   end
@@ -104,10 +103,10 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
     q = params[:q].to_s.strip[0, 100]
 
     products = Product
-      .where(is_active: true, deleted_at: nil)
-      .where("code ILIKE :q OR name ILIKE :q", q: "%#{q}%")
-      .order(:name)
-      .limit(15)
+               .where(is_active: true, deleted_at: nil)
+               .where('code ILIKE :q OR name ILIKE :q', q: "%#{q}%")
+               .order(:name)
+               .limit(15)
 
     render json: products.map { |d|
       { value: d.id, label: "#{d.code} | #{d.name}" }
@@ -135,15 +134,15 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
 
   def download_import_template
     file_path = Rails.root.join(
-      "public",
-      "templates",
-      "product_import_template.xlsx"
+      'public',
+      'templates',
+      'product_import_template.xlsx'
     )
 
     send_file file_path,
-      filename: "product_import_template.xlsx",
-      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      disposition: "attachment"
+              filename: 'product_import_template.xlsx',
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+              disposition: 'attachment'
   end
 
   private
@@ -155,27 +154,27 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
       :name,
       :variant,
       :category_id,
-      :brand_id,
+      :brand_id
     )
   end
 
   def product_import_params
     params.require(:product_import_form).permit(
-      :file,
+      :file
     )
   end
 
   def product_scope
-    Product.includes(:category, :brand, :product_prices)
-      .where(deleted_at: nil)
-      .find(params[:id])
+    Product.includes(:category, :brand, :product_reserve, :product_availables)
+           .where(deleted_at: nil)
+           .find(params[:id])
   end
 
   def product_details_scope
     Product
       .where(deleted_at: nil)
       .with_total_quantity
-      .includes(:category, :brand, :product_prices)
+      .includes(:category, :brand, :product_reserve, :product_availables)
       .find(params[:id])
   end
 

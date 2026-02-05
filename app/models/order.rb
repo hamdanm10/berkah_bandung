@@ -2,6 +2,17 @@
 
 class Order < ApplicationRecord
   # ============================
+  # Enums
+  # ============================
+  enum :status, {
+    preparing: 0,
+    delivering: 1,
+    cancelled: 2,
+    returned: 3,
+    paid: 4
+  }, default: :preparing
+
+  # ============================
   # Relations
   # ============================
   belongs_to :order_batch
