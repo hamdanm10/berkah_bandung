@@ -5,11 +5,11 @@ class CourierService < ApplicationRecord
   has_many :orders
 
   # Ransack
-  def self.ransackable_attributes(auth_object = nil)
-    [ "name", "is_active" ]
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[name is_active]
   end
 
-  def self.ransackable_associations(auth_object = nil)
+  def self.ransackable_associations(_auth_object = nil)
     []
   end
 

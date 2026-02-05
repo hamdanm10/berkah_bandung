@@ -9,10 +9,10 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
 
     @q = @order_batch.orders.where(deleted_at: nil).ransack(params[:q])
     @orders = @q
-      .result
-      .with_total_items
-      .includes(:courier_service)
-      .order(created_at: :desc)
+              .result
+              .with_total_items
+              .includes(:courier_service)
+              .order(created_at: :desc)
     @pagy, @orders = pagy(@orders, limit:)
   end
 
@@ -36,7 +36,8 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
     )
 
     if result.success?
-      redirect_to new_super_admin_merchant_order_order_batch_order_path(@merchant, @order_batch), notice: result.payload[:message]
+      redirect_to new_super_admin_merchant_order_order_batch_order_path(@merchant, @order_batch),
+                  notice: result.payload[:message]
     else
       @order = result.error[:order]
       assign_dropdown_search_labels(@order)
@@ -66,12 +67,30 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
     if result.success?
       order = result.payload[:order]
 
-      redirect_to edit_super_admin_merchant_order_order_batch_order_path(@merchant, @order_batch, order), notice: result.payload[:message]
+      redirect_to edit_super_admin_merchant_order_order_batch_order_path(@merchant, @order_batch, order),
+                  notice: result.payload[:message]
     else
       @order = result.error[:order]
       assign_dropdown_search_labels(@order)
 
       render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @merchant = merchant_scope
+    @order_batch = order_batch_scope
+
+    result = Orders::SoftDelete.call(
+      order: order_scope
+    )
+
+    if result.success?
+      redirect_to super_admin_merchant_order_order_batch_orders_path(@merchant, @order_batch),
+                  notice: result.payload[:message]
+    else
+      redirect_to super_admin_merchant_order_order_batch_orders_path(@merchant, @order_batch),
+                  alert: result.error[:category]
     end
   end
 
@@ -82,11 +101,11 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
       :order_number,
       :tracking_number,
       :courier_service_id,
-      order_items_attributes: [
-        :id,
-        :product_id,
-        :quantity,
-        :_destroy
+      order_items_attributes: %i[
+        id
+        product_id
+        quantity
+        _destroy
       ]
     )
   end

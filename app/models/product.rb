@@ -5,9 +5,8 @@ class Product < ApplicationRecord
   belongs_to :category
   belongs_to :brand
 
-  has_many :invoice_items
   has_many :distributor_items
-  has_many :orders
+  has_many :order_items
   has_one :product_reserve
   has_many :product_availables
 

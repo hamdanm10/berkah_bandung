@@ -44,21 +44,21 @@
     class="overflow-hidden h-0 opacity-0 transition-[height,opacity] duration-200 ease-out"
   >
     <div class="flex justify-end gap-3 p-6">
-      <%# render FilterComponent.new(
+      <%= render FilterComponent.new(
             q: q,
-            url: super_admin_distributors_path,
+            url: super_admin_merchant_order_order_batch_orders_path(merchant, order_batch),
             show_submit: true,
             fields: [
               {
                 type: :select,
-                name: :is_active_eq,
-                records: distributor_statuses_for_select,
-                blank: "All Statuses",
+                name: :courier_service_id_eq,
+                records: courier_services_for_select,
+                blank: "All Couriers",
                 auto_submit: false
               },
               {
                 type: :search,
-                name: :name_cont,
+                name: :order_number_or_tracking_number_cont,
                 placeholder: "Search...",
                 auto_submit: false
               }

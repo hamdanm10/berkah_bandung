@@ -43,7 +43,7 @@
       <p class="text-sm text-gray-500"><%= form_caption("order item", OrderItem.new) %></p>
     </div>
     <template data-nested-form-target="template">
-      <%= form.fields_for :order_items, InvoiceItem.new, child_index: "NEW_RECORD" do |order_items_fields| %>
+      <%= form.fields_for :order_items, OrderItem.new, child_index: "NEW_RECORD" do |order_items_fields| %>
         <%= render "order_item_form", form: order_items_fields, removable: true %>
       <% end %>
     </template>
@@ -52,9 +52,25 @@
     <% end %>
     <div data-nested-form-target="target"></div>
     <div class="p-4 lg:p-6 flex justify-end">
-      <%= render(ButtonComponent.new(type: "button", size: "sm", variant: "light", "data-action": "nested-form#add")) do %>
+      <%= render(
+          ButtonComponent.new(
+            type: "button",
+            size: "sm",
+            variant: "light",
+            data: {
+              controller: "shortcut",
+              shortcut_key_value: "ctrl+alt+a",
+              action: "nested-form#add"
+            }
+          )
+        ) do %>
         <%= lucide_icon("plus", class: "size-5") %>
         <span>Add Item</span>
+        <kbd class="px-1 text-xs font-medium text-heading bg-neutral-tertiary border border-default-medium rounded-md">Ctrl</kbd>
+        <span>+</span>
+        <kbd class="px-1 text-xs font-medium text-heading bg-neutral-tertiary border border-default-medium rounded-md">Alt</kbd>
+        <span>+</span>
+        <kbd class="px-1 text-xs font-medium text-heading bg-neutral-tertiary border border-default-medium rounded-md">A</kbd>
       <% end %>
     </div>
   </div>

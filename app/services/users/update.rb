@@ -6,8 +6,8 @@ class Users::Update < ApplicationService
 
     if user.save
       success(
-        invoice: user,
-        message: "User was successfully updated."
+        user: user,
+        message: 'User was successfully updated.'
       )
     else
       failure(user: user)

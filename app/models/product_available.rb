@@ -5,6 +5,14 @@ class ProductAvailable < ApplicationRecord
   # Relations
   # ============================
   belongs_to :product
+  has_many :order_item_filled_details
+
+  # ============================
+  # Instance Methods
+  # ============================
+  def total_value
+    quantity * cost_price
+  end
 
   # ============================
   # Validations

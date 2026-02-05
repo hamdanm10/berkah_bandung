@@ -7,6 +7,9 @@ class OrderItem < ApplicationRecord
   belongs_to :order
   belongs_to :product
 
+  has_many :order_item_filled_details
+  has_one :order_item_reserved_detail
+
   # ============================
   # Callbacks
   # ============================

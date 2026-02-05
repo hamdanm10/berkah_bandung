@@ -35,17 +35,17 @@ class Order < ApplicationRecord
       ) order_items_count
       ON order_items_count.order_id = orders.id
     SQL
-      .select("orders.*, COALESCE(order_items_count.total_items, 0) AS total_items")
+      .select('orders.*, COALESCE(order_items_count.total_items, 0) AS total_items')
   }
 
   # ============================
   # Ransack
   # ============================
-  def self.ransackable_attributes(_auth_object = nil)
-    []
+  def self.ransackable_attributes(auth_object = nil)
+    %w[order_number tracking_number courier_service_id]
   end
 
-  def self.ransackable_associations(_auth_object = nil)
+  def self.ransackable_associations(auth_object = nil)
     []
   end
 

@@ -5,6 +5,7 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
     limit = RecordLimit.call(params[:limit])
 
     @q = Product
+         .with_total_quantity
          .where(deleted_at: nil)
          .ransack(params[:q])
 

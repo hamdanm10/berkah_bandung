@@ -3,16 +3,16 @@
 class OrderBatch < ApplicationRecord
   # Relations
   belongs_to :merchant
-  belongs_to :user_created, foreign_key: :created_by_user_id, class_name: "User"
+  belongs_to :user_created, foreign_key: :created_by_user_id, class_name: 'User'
   has_many :orders
 
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
-    [ "code", "created_at" ]
+    %w[code created_at]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    [ "user_created" ]
+    ['user_created']
   end
 
   # Validations

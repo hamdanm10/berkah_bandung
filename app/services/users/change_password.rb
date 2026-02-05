@@ -6,8 +6,8 @@ class Users::ChangePassword < ApplicationService
 
     if user.save
       success(
-        invoice: user,
-        message: "Password was successfully changed."
+        user: user,
+        message: 'Password was successfully changed.'
       )
     else
       failure(user: user)

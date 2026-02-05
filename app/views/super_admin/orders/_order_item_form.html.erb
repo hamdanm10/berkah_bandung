@@ -20,7 +20,7 @@
   </div>
   <% if removable %>
     <div class="flex justify-end mt-2">
-      <%= render(ButtonComponent.new(type: "button", size: "sm", variant: "danger", "data-action": "nested-form#remove")) do %>
+      <%= render(ButtonComponent.new(type: "button", size: "sm", variant: "danger", "data-action": "nested-form#remove", tabindex: -1)) do %>
         <%= lucide_icon("trash-2", class: "size-5") %>
       <% end %>
     </div>

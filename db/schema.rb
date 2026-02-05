@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_05_100100) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_05_115526) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -89,6 +89,53 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_05_100100) do
     t.index ["merchant_id"], name: "index_order_batches_on_merchant_id"
   end
 
+  create_table "order_item_filled_details", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "order_item_id", null: false
+    t.bigint "order_item_reserved_detail_id"
+    t.bigint "product_available_id", null: false
+    t.integer "quantity", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_item_id"], name: "index_order_item_filled_details_on_order_item_id"
+    t.index ["order_item_reserved_detail_id"], name: "idx_on_order_item_reserved_detail_id_5ddcdcdc97"
+    t.index ["product_available_id"], name: "index_order_item_filled_details_on_product_available_id"
+  end
+
+  create_table "order_item_reserved_details", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "order_item_id", null: false
+    t.integer "quantity", null: false
+    t.integer "status", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_item_id"], name: "index_order_item_reserved_details_on_order_item_id"
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "order_id", null: false
+    t.string "product_code", null: false
+    t.bigint "product_id", null: false
+    t.string "product_name", null: false
+    t.string "product_variant"
+    t.integer "quantity", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "courier_service_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "deleted_at", precision: nil
+    t.bigint "order_batch_id", null: false
+    t.string "order_number", null: false
+    t.integer "status", null: false
+    t.string "tracking_number", null: false
+    t.datetime "updated_at", null: false
+    t.index ["courier_service_id"], name: "index_orders_on_courier_service_id"
+    t.index ["order_batch_id"], name: "index_orders_on_order_batch_id"
+  end
+
   create_table "product_availables", force: :cascade do |t|
     t.decimal "cost_price", precision: 11, scale: 2, null: false
     t.datetime "created_at", null: false
@@ -150,6 +197,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_05_100100) do
   add_foreign_key "invitations", "users", column: "used_by_user_id"
   add_foreign_key "order_batches", "merchants"
   add_foreign_key "order_batches", "users", column: "created_by_user_id"
+  add_foreign_key "order_item_filled_details", "order_item_reserved_details"
+  add_foreign_key "order_item_filled_details", "order_items"
+  add_foreign_key "order_item_filled_details", "product_availables"
+  add_foreign_key "order_item_reserved_details", "order_items"
+  add_foreign_key "orders", "courier_services"
+  add_foreign_key "orders", "order_batches"
   add_foreign_key "product_availables", "products"
   add_foreign_key "product_reserves", "products"
   add_foreign_key "products", "brands"

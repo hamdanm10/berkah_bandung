@@ -14,12 +14,11 @@ class User < ApplicationRecord
   # Relations
   has_many :sessions, dependent: :destroy
   has_one :invitation, foreign_key: :used_by_user_id
-  has_many :invoices, foreign_key: :created_by_user_id
   has_many :order_batches, foreign_key: :created_by_user_id
 
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
-    [ "role", "username", "full_name", "is_active" ]
+    %w[role username full_name is_active]
   end
 
   def self.ransackable_associations(auth_object = nil)
@@ -42,7 +41,7 @@ class User < ApplicationRecord
             length: { minimum: 4, maximum: 20 },
             format: {
               with: VALID_USERNAME_REGEX,
-              message: "only allows lowercase letters, numbers, and underscores"
+              message: 'only allows lowercase letters, numbers, and underscores'
             }
 
   validates :password,
