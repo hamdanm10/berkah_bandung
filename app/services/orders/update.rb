@@ -2,6 +2,8 @@
 
 class Orders::Update < ApplicationService
   def call(order:, order_params:)
+    return failure(message: 'Order cannot be updated unless it is preparing') unless order.preparing?
+
     ActiveRecord::Base.transaction do
       rollback_stock(order)
       order.update!(order_params)

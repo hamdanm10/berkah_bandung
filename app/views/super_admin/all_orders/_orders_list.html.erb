@@ -23,34 +23,6 @@
           <%= lucide_icon("settings-2", class: "size-5") %>
         <% end %>
       </div>
-      <div class="flex">
-        <%= render(ButtonLinkComponent.new(
-              size: "sm", 
-              variant: "primary", 
-              url: duplicate_new_super_admin_merchant_order_order_batch_orders_path(merchant, order_batch),
-              "data-hint": "Duplicate Order",
-              "data-action": "
-                mouseenter->hint#show
-                mouseleave->hint#hide
-              "
-            )) do %>
-          <%= lucide_icon("copy", class: "size-5") %>
-        <% end %>
-      </div>
-      <div class="flex">
-        <%= render(ButtonLinkComponent.new(
-              size: "sm", 
-              variant: "primary", 
-              url: new_super_admin_merchant_order_order_batch_order_path(merchant, order_batch),
-              "data-hint": "Add",
-              "data-action": "
-                mouseenter->hint#show
-                mouseleave->hint#hide
-              "
-            )) do %>
-          <%= lucide_icon("plus", class: "size-5") %>
-        <% end %>
-      </div>
     </div>
   </div>
   <div 
@@ -60,14 +32,38 @@
     <div class="flex justify-end gap-3 p-6">
       <%= render FilterComponent.new(
             q: q,
-            url: super_admin_merchant_order_order_batch_orders_path(merchant, order_batch),
+            url: super_admin_all_orders_path,
             show_submit: true,
             fields: [
+              {
+                type: :select,
+                name: :order_batch_merchant_id_eq,
+                records: merchants_for_select,
+                blank: "All Merchants",
+                auto_submit: false
+              },
               {
                 type: :select,
                 name: :courier_service_id_eq,
                 records: courier_services_for_select,
                 blank: "All Couriers",
+                auto_submit: false
+              },
+              {
+                type: :select,
+                name: :order_batch_user_created_id_eq,
+                records: users_for_select,
+                blank: "All Users",
+                auto_submit: false
+              },
+              {
+                type: :date,
+                name: :created_at_gteq,
+                auto_submit: false
+              },
+              {
+                type: :date,
+                name: :created_at_lteq,
                 auto_submit: false
               },
               {
@@ -86,11 +82,14 @@
         <thead class="text-xs uppercase text-gray-700 border-b border-b-gray-300 bg-white">
           <tr>
             <th class="px-6 py-3 font-medium normal-case">#</th>
+            <th class="px-6 py-3 font-medium normal-case">Merchant Name</th>
+            <th class="px-6 py-3 font-medium normal-case">Marketplace</th>
             <th class="px-6 py-3 font-medium normal-case">Order Number</th>
             <th class="px-6 py-3 font-medium normal-case">Tracking Number</th>
             <th class="px-6 py-3 font-medium normal-case">Courier</th>
             <th class="px-6 py-3 font-medium normal-case">Total Items</th>
             <th class="px-6 py-3 font-medium normal-case">Status</th>
+            <th class="px-6 py-3 font-medium normal-case">Created By</th>
             <th class="px-6 py-3 font-medium normal-case">Created At</th>
             <th class="px-6 py-3 font-medium normal-case">Action</th>
           </tr>
@@ -98,7 +97,7 @@
         <tbody>
           <% if orders.any? %>
             <% orders.each_with_index do |order, index| %>
-              <%= render("order", merchant: merchant, order_batch: order_batch, order: order, index: index, pagy: pagy) %>
+              <%= render("order", order: order, index: index, pagy: pagy) %>
             <% end %>
           <% else %>
             <td colspan="100%" class="px-6 py-4 text-center text-gray-700">

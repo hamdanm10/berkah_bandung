@@ -21,8 +21,31 @@ export default class extends Controller {
     if (this.matchShortcut(event, this.keyValue)) {
       event.preventDefault()
       this.element.click()
+      this.focusNext()
     }
   }
+
+  focusNext() {
+    const focusable = Array.from(
+      document.querySelectorAll(
+        `
+      input:not([disabled]):not([tabindex="-1"]),
+      select:not([disabled]):not([tabindex="-1"]),
+      textarea:not([disabled]):not([tabindex="-1"]),
+      button:not([disabled]):not([tabindex="-1"]),
+      [tabindex]:not([tabindex="-1"])
+      `
+      )
+    ).filter(el => el.offsetParent !== null)
+
+    const index = focusable.indexOf(document.activeElement)
+
+    if (index > -1 && focusable[index + 1]) {
+      focusable[index + 1].focus()
+    }
+  }
+
+
 
   matchShortcut(event, shortcut) {
     const parts = shortcut.toLowerCase().split("+")

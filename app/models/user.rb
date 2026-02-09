@@ -18,7 +18,7 @@ class User < ApplicationRecord
 
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
-    %w[role username full_name is_active]
+    %w[id role username full_name is_active]
   end
 
   def self.ransackable_associations(auth_object = nil)

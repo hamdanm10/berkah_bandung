@@ -166,17 +166,22 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
   end
 
   def product_scope
-    Product.includes(:category, :brand, :product_reserve, :product_availables)
-           .where(deleted_at: nil)
-           .find(params[:id])
+    Product
+      .includes(:category, :brand, :product_reserve, :product_availables)
+      .find_by!(
+        id: params[:id],
+        deleted_at: nil
+      )
   end
 
   def product_details_scope
     Product
-      .where(deleted_at: nil)
       .with_total_quantity
       .includes(:category, :brand, :product_reserve, :product_availables)
-      .find(params[:id])
+      .find_by!(
+        id: params[:id],
+        deleted_at: nil
+      )
   end
 
   def assign_dropdown_search_labels(product)

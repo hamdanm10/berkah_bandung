@@ -28,7 +28,8 @@ class Orders::RollbackStock < ApplicationService
     reserved = order_item.order_item_reserved_detail
     return unless reserved
 
-    decrease_product_reserve(order_item.product, reserved.quantity)
+    decrease_product_reserve(order_item.product, reserved.quantity) if reserved.pending?
+
     reserved.destroy!
   end
 

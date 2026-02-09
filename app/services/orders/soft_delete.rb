@@ -2,6 +2,8 @@
 
 class Orders::SoftDelete < ApplicationService
   def call(order:)
+    return failure(message: 'Order cannot be deleted unless it is preparing') unless order.preparing?
+
     ActiveRecord::Base.transaction do
       rollback_stock(order)
       soft_delete_order(order)

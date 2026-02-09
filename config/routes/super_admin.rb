@@ -85,7 +85,12 @@ namespace :super_admin do
 
   resources :merchant_orders, only: %i[index] do
     resources :order_batches, except: %i[show] do
-      resources :orders
+      resources :orders do
+        collection do
+          get :duplicate_new
+          post :duplicate_create
+        end
+      end
     end
   end
 

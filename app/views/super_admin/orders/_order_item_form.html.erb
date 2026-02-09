@@ -1,12 +1,15 @@
 <div class="p-4 lg:p-6 flex flex-col gap-3 nested-form-wrapper border-b border-gray-300" data-new-record="<%= form.object.new_record? %>">
   <div>
-    <%= render(LabelInputComponent.new(form: form, field_name: :distributor_id, label: "Product", required: true)) %>
+    <%= render(LabelInputComponent.new(form: form, field_name: :product_id, label: "Product", required: true)) %>
     <%= render(DropdownSearchInputComponent.new(
         form: form,
         field_name: :product_id,
         search_url: search_super_admin_products_path,
         current_value: form.object.product_id,
-        current_label: form.object.product&.name,
+        current_label: [
+            form.object.product&.code,
+            form.object.product&.name
+          ].compact.join(" | "),
         prompt: "Choose product",
         class: "mt-2"
       )

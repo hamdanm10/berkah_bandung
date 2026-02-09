@@ -16,6 +16,12 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
     @pagy, @orders = pagy(@orders, limit:)
   end
 
+  def show
+    @merchant = merchant_scope
+    @order_batch = order_batch_scope
+    @order = order_scope
+  end
+
   def new
     @merchant = merchant_scope
     @order_batch = order_batch_scope
@@ -50,14 +56,14 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
     @merchant = merchant_scope
     @order_batch = order_batch_scope
 
-    @order = order_scope
+    @order = order_preparing_scope
     assign_dropdown_search_labels(@order)
   end
 
   def update
     @merchant = merchant_scope
     @order_batch = order_batch_scope
-    @order = order_scope
+    @order = order_preparing_scope
 
     result = Orders::Update.call(
       order: @order,
@@ -82,7 +88,7 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
     @order_batch = order_batch_scope
 
     result = Orders::SoftDelete.call(
-      order: order_scope
+      order: order_preparing_scope
     )
 
     if result.success?
@@ -91,6 +97,50 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
     else
       redirect_to super_admin_merchant_order_order_batch_orders_path(@merchant, @order_batch),
                   alert: result.error[:category]
+    end
+  end
+
+  def duplicate_new
+    @merchant = merchant_scope
+    @order_batch = order_batch_scope
+    @form = DuplicateOrdersForm.new
+
+    @form.product_label = ''
+    @form.courier_label = ''
+  end
+
+  def duplicate_create
+    @merchant = merchant_scope
+    @order_batch = order_batch_scope
+
+    @form = DuplicateOrdersForm.new(duplicate_form_params)
+    @form.orders = extract_orders_params.map { |o| DuplicateOrderItem.new(o) }
+
+    @form.product_label = Product.find_by(id: @form.product_id)&.then { |p| "#{p.code} | #{p.name}" } || ''
+    @form.courier_label = CourierService.find_by(id: @form.courier_service_id)&.name || ''
+
+    if params[:generate]
+      @form.build_orders
+      render :duplicate_new, status: :unprocessable_entity
+      return
+    end
+
+    unless @form.valid?
+      render :duplicate_new, status: :unprocessable_entity
+      return
+    end
+
+    result = Orders::DuplicateCreate.call(
+      order_batch: @order_batch,
+      form: @form
+    )
+
+    if result.success?
+      redirect_to duplicate_new_super_admin_merchant_order_order_batch_orders_path(@merchant, @order_batch),
+                  notice: result.payload[:message]
+    else
+      flash.now[:alert] = result.error[:error]
+      render :duplicate_new, status: :unprocessable_entity
     end
   end
 
@@ -110,16 +160,64 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
     )
   end
 
+  def duplicate_form_params
+    params.require(:duplicate_orders_form).permit(
+      :product_id,
+      :quantity,
+      :courier_service_id,
+      :duplicate_count
+    )
+  end
+
+  def extract_orders_params
+    return [] unless params[:orders]
+
+    params[:orders].values.map do |row|
+      {
+        order_number: row[:order_number],
+        tracking_number: row[:tracking_number]
+      }
+    end
+  end
+
   def merchant_scope
-    Merchant.where(is_active: true, deleted_at: nil).find(params[:merchant_order_id])
+    Merchant.find_by!(
+      id: params[:merchant_order_id],
+      is_active: true,
+      deleted_at: nil
+    )
   end
 
   def order_batch_scope
-    merchant_scope.order_batches.where(deleted_at: nil).find(params[:order_batch_id])
+    merchant_scope
+      .order_batches
+      .find_by!(
+        id: params[:order_batch_id],
+        deleted_at: nil
+      )
   end
 
   def order_scope
-    order_batch_scope.orders.where(deleted_at: nil).find(params[:id])
+    order_batch_scope
+      .orders
+      .with_total_items
+      .includes(:courier_service, order_items: :product)
+      .find_by!(
+        id: params[:id],
+        deleted_at: nil
+      )
+  end
+
+  def order_preparing_scope
+    order_batch_scope
+      .orders
+      .with_total_items
+      .includes(:courier_service, order_items: :product)
+      .find_by!(
+        id: params[:id],
+        status: :preparing,
+        deleted_at: nil
+      )
   end
 
   def assign_dropdown_search_labels(order)

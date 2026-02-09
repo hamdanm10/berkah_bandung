@@ -6,7 +6,7 @@ class Merchant < ApplicationRecord
 
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
-    [ "name", "marketplace", "is_active" ]
+    %w[id name marketplace is_active]
   end
 
   def self.ransackable_associations(auth_object = nil)

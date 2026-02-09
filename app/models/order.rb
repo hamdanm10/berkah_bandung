@@ -42,11 +42,15 @@ class Order < ApplicationRecord
   # Ransack
   # ============================
   def self.ransackable_attributes(auth_object = nil)
-    %w[order_number tracking_number courier_service_id]
+    %w[order_number tracking_number courier_service_id created_at]
   end
 
   def self.ransackable_associations(auth_object = nil)
-    []
+    %w[
+      order_batch
+      order_batch_user_created
+      order_batch_merchant
+    ]
   end
 
   # ============================

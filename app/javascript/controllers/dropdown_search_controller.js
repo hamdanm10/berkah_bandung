@@ -135,13 +135,20 @@ export default class extends Controller {
         event.preventDefault()
         this.moveActive(items, -1)
         break
-      case "Enter":
-        event.preventDefault()
-        this.choose(items[this.activeIndex] || items[0])
-        break
       case "Escape":
-      case "Tab":
         this.cancel()
+        break
+      case "Tab":
+        this.requestId++
+        clearTimeout(this.timeout)
+
+        if (!items.length) {
+          this.clearInput()
+          this.hideEmpty()
+          this.close()
+          return
+        }
+        this.choose(items[this.activeIndex] || items[0])
         break
     }
   }

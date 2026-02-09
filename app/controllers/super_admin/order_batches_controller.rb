@@ -49,7 +49,8 @@ class SuperAdmin::OrderBatchesController < SuperAdminApplicationController
     if result.success?
       order_batch = result.payload[:order_batch]
 
-      redirect_to edit_super_admin_merchant_order_order_batch_path(@merchant, order_batch), notice: result.payload[:message]
+      redirect_to edit_super_admin_merchant_order_order_batch_path(@merchant, order_batch),
+                  notice: result.payload[:message]
     else
       @order_batch = result.error[:order_batch]
 
@@ -78,10 +79,19 @@ class SuperAdmin::OrderBatchesController < SuperAdminApplicationController
   end
 
   def merchant_scope
-    Merchant.where(is_active: true, deleted_at: nil).find(params[:merchant_order_id])
+    Merchant.find_by!(
+      id: params[:merchant_order_id],
+      is_active: true,
+      deleted_at: nil
+    )
   end
 
   def order_batch_scope
-    merchant_scope.order_batches.where(deleted_at: nil).find(params[:id])
+    merchant_scope
+      .order_batches
+      .find_by!(
+        id: params[:id],
+        deleted_at: nil
+      )
   end
 end
