@@ -1,0 +1,19 @@
+<%
+  main_modules = [
+    { icon: "layout-grid", url: order_supervisor_dashboard_path, name: "Dashboard" },
+    { icon: "package-2", url: order_supervisor_merchant_orders_path, name: "Order" },
+    { icon: "package-2", url: order_supervisor_all_orders_path, name: "All Order" },
+  ]
+%>
+<%= render(SidebarComponent.new(sidebar_id: "order-supervisor-sidebar")) do %>
+  <li>
+    <div class="px-2 text-xs text-gray-500 uppercase">Main</div>
+  </li>
+  <% main_modules.each do |main_module| %>
+    <%= render(SidebarLinkComponent.new(
+          icon: main_module[:icon],
+          url: main_module[:url],
+          name: main_module[:name]
+        )) %>
+  <% end %>
+<% end %>

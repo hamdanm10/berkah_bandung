@@ -43,7 +43,7 @@
     <%= format_datetime(order.created_at) %>
   </td>
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700 flex gap-2 items-center">
-    <%= link_to super_admin_all_order_path(order), 
+    <%= link_to order_supervisor_all_order_path(order), 
       class: "text-info hover:text-info-hover", 
       "data-hint": "Detail", 
       "data-action": "mouseenter->hint#show mouseleave->hint#hide" do %>

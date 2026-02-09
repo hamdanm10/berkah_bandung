@@ -6,6 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Berkah Bandung">
     <meta name="mobile-web-app-capable" content="yes">
+    <meta name="turbo-refresh-scroll" content="preserve">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
@@ -24,6 +25,10 @@
   </head>
   <body class="font-outfit bg-gray-50">
     <%= render NotificationComponent.new(message: flash[:notice]) %>
-    <%= yield %>
+    <%= render("layouts/order_supervisor/sidebar") %>
+    <%= render("layouts/order_supervisor/navbar") %>
+    <div class="px-4 py-24 lg:ml-64 lg:px-8 2xl:px-14">
+      <%= yield %>
+    </div>
   </body>
 </html>

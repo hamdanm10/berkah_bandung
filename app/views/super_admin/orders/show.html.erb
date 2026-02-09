@@ -17,7 +17,10 @@
         <span class="text-sm text-gray-700">|</span>
         <span class="text-sm text-gray-700"><%= format_datetime(@order_batch.created_at) %></span>
         <span class="text-sm text-gray-700">|</span>
-        <span class="text-sm text-gray-700">Created By: <%= @order_batch.user_created.username %></span>
+        <div class="flex items-center gap-1">
+          <span class="text-sm text-gray-700">Created By:</span>
+          <span class="inline-block text-sm text-gray-700 w-[16ch] truncate"><%= @order_batch.user_created.full_name %></span>
+        </div>
       </div>
     </div>
   </div>

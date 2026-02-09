@@ -14,7 +14,10 @@
       </span>
     </div>
     <div>
-      <span class="text-sm text-gray-700">Created By: <%= order_batch.user_created.username %></span>
+      <span class="text-sm text-gray-700">Created By:</span>
+      <span class="text-sm text-gray-700">
+        <%= order_batch.user_created.full_name %>
+      </span>
     </div>
   <% end %>
   <div class="w-20 flex justify-end gap-4 items-center">

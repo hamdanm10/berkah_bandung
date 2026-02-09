@@ -7,8 +7,9 @@ class User < ApplicationRecord
     super_admin: 0,
     order_supervisor: 1,
     order_admin: 2,
-    inventory_admin: 3,
-    returns_admin: 4
+    warehouse_admin: 3,
+    dispatch_admin: 4,
+    return_admin: 5
   }, default: :order_admin
 
   # Relations
