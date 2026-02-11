@@ -1,0 +1,85 @@
+<div 
+    class="flex flex-col mt-5" 
+    data-controller="filter hint confirm-dialog"
+    data-filter-initial-open-value="<%= params[:q].present? %>"
+  >
+  <div>
+    <div class="flex gap-3 justify-end">
+      <%= render(
+          ButtonComponent.new(
+            type: "button",
+            size: "sm",
+            variant: "light",
+            "data-hint": "Filter",
+            "data-action": "
+              mouseenter->hint#show
+              mouseleave->hint#hide
+              click->filter#toggle
+            "
+          )
+        ) do %>
+        <%= lucide_icon("settings-2", class: "size-5") %>
+      <% end %>
+      <div class="flex">
+        <%= render(ButtonLinkComponent.new(
+            size: "sm", 
+            variant: "primary", 
+            url: new_order_admin_merchant_order_order_batch_path(merchant),
+            "data-hint": "Add",
+            "data-action": "
+              mouseenter->hint#show
+              mouseleave->hint#hide
+            "
+          )) do %>
+          <%= lucide_icon("plus", class: "size-5") %>
+        <% end %>
+      </div>
+    </div>
+    <div 
+        data-filter-target="panel" 
+        class="overflow-hidden h-0 opacity-0 transition-[height,opacity] duration-200 ease-out py-4"
+      >
+      <div class="flex justify-end gap-3">
+        <%= render FilterComponent.new(
+            q: q,
+            url: order_admin_merchant_order_order_batches_path(merchant),
+            show_submit: true,
+            fields: [
+              {
+                type: :date,
+                name: :created_at_gteq,
+                auto_submit: false
+              },
+              {
+                type: :date,
+                name: :created_at_lteq,
+                auto_submit: false
+              },
+              {
+                type: :search,
+                name: :code_or_user_created_username_cont,
+                placeholder: "Search...",
+                auto_submit: false
+              }
+            ]
+          ) %>
+      </div>
+    </div>
+  </div>
+  <% if order_batches.any? %>
+    <div class="flex flex-col gap-4" >
+      <% order_batches.each_with_index do |order_batch, index| %>
+        <%= render("order_batch", merchant: merchant, order_batch: order_batch, index: index, pagy: pagy) %>
+      <% end %>
+      <div class="w-full bg-white border border-gray-300 rounded-md flex items-center justify-between gap-4">
+        <%= render(PaginationComponent.new(records: order_batches, pagy: pagy)) %>
+      </div>
+      <%= render(HintComponent.new) %>
+      <%= render(ConfirmDialogComponent.new) %>
+    </div>
+  <% else %>
+    <div class="text-sm w-full bg-danger-soft border border-danger text-danger rounded-md p-4">
+      <span>No data found.</span>
+    </div>
+  <% end %>
+</div>
