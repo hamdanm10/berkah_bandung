@@ -6,7 +6,7 @@ class Order < ApplicationRecord
   # ============================
   enum :status, {
     preparing: 0,
-    delivering: 1,
+    delivered: 1,
     cancelled: 2,
     returned: 3,
     paid: 4
@@ -15,6 +15,11 @@ class Order < ApplicationRecord
   # ============================
   # Relations
   # ============================
+  belongs_to :paid_by, class_name: 'User', optional: true
+  belongs_to :delivered_by, class_name: 'User', optional: true
+  belongs_to :cancelled_by, class_name: 'User', optional: true
+  belongs_to :returned_by,  class_name: 'User', optional: true
+
   belongs_to :order_batch
   belongs_to :courier_service
 

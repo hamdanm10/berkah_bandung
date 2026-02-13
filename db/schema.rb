@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_05_115526) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_12_071557) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -124,16 +124,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_05_115526) do
   end
 
   create_table "orders", force: :cascade do |t|
+    t.datetime "cancelled_at", precision: nil
+    t.bigint "cancelled_by_id"
     t.bigint "courier_service_id", null: false
     t.datetime "created_at", null: false
     t.datetime "deleted_at", precision: nil
+    t.datetime "delivered_at", precision: nil
+    t.bigint "delivered_by_id"
     t.bigint "order_batch_id", null: false
     t.string "order_number", null: false
+    t.datetime "paid_at", precision: nil
+    t.bigint "paid_by_id"
+    t.datetime "returned_at", precision: nil
+    t.bigint "returned_by_id"
     t.integer "status", null: false
     t.string "tracking_number", null: false
     t.datetime "updated_at", null: false
+    t.index ["cancelled_by_id"], name: "index_orders_on_cancelled_by_id"
     t.index ["courier_service_id"], name: "index_orders_on_courier_service_id"
+    t.index ["delivered_by_id"], name: "index_orders_on_delivered_by_id"
     t.index ["order_batch_id"], name: "index_orders_on_order_batch_id"
+    t.index ["paid_by_id"], name: "index_orders_on_paid_by_id"
+    t.index ["returned_by_id"], name: "index_orders_on_returned_by_id"
   end
 
   create_table "product_availables", force: :cascade do |t|
@@ -203,6 +215,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_05_115526) do
   add_foreign_key "order_item_reserved_details", "order_items"
   add_foreign_key "orders", "courier_services"
   add_foreign_key "orders", "order_batches"
+  add_foreign_key "orders", "users", column: "cancelled_by_id"
+  add_foreign_key "orders", "users", column: "delivered_by_id"
+  add_foreign_key "orders", "users", column: "paid_by_id"
+  add_foreign_key "orders", "users", column: "returned_by_id"
   add_foreign_key "product_availables", "products"
   add_foreign_key "product_reserves", "products"
   add_foreign_key "products", "brands"

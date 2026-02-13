@@ -21,29 +21,28 @@
     <%= order.total_items %>
   </td>
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-    <% case order.status %>
-    <% when "preparing" %>
-      <span class="text-xs px-2 py-1 bg-info-soft border border-info text-info rounded-md">Preparing</span>
-    <% when "delivered" %>
-      <span class="text-xs px-2 py-1 bg-primary-soft border border-primary text-primary rounded-md">Delivered</span>
-    <% when "cancelled" %>
-      <span class="text-xs px-2 py-1 bg-danger-soft border border-danger text-danger rounded-md">Cancelled</span>
-    <% when "returned" %>
-      <span class="text-xs px-2 py-1 bg-warning-soft border border-warning text-warning rounded-md">Returned</span>
-    <% when "paid" %>
-      <span class="text-xs px-2 py-1 bg-success-soft border border-success text-success rounded-md">Paid</span>
-    <% end %>
-  </td>
-  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
     <div class="w-[16ch] truncate">
-      <%= order.order_batch.user_created.full_name %>
+      <%= order.delivered_by.full_name %>
     </div>
   </td>
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-    <%= format_datetime(order.created_at) %>
+    <%= format_datetime(order.delivered_at) %>
   </td>
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700 flex gap-2 items-center">
-    <%= link_to order_admin_all_order_path(order), 
+    <button
+      type="button"
+      class="text-secondary hover:text-secondary-hover cursor-pointer"
+      data-action="click->confirm-dialog#open mouseenter->hint#show mouseleave->hint#hide"
+      data-hint= "Undo Delivery"
+      data-confirm-dialog-title="Undo Delivery"
+      data-confirm-dialog-message="Are you sure you want to undo status this order '<%= order.order_number %>'?"
+      data-confirm-dialog-url="<%= undo_super_admin_delivered_order_path(order) %>"
+      data-confirm-dialog-method="patch"
+      data-confirm-dialog-variant="secondary"
+      data-confirm-dialog-label="Undo Delivery">
+      <%= lucide_icon("undo-2", class: "size-5") %>
+    </button>
+    <%= link_to super_admin_delivered_order_path(order), 
       class: "text-info hover:text-info-hover", 
       "data-hint": "Detail", 
       "data-action": "mouseenter->hint#show mouseleave->hint#hide" do %>

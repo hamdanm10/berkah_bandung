@@ -17,6 +17,11 @@ class User < ApplicationRecord
   has_one :invitation, foreign_key: :used_by_user_id
   has_many :order_batches, foreign_key: :created_by_user_id
 
+  has_many :paid_orders, class_name: 'Order', foreign_key: :paid_by_id
+  has_many :delivered_orders, class_name: 'Order', foreign_key: :delivered_by_id
+  has_many :cancelled_orders, class_name: 'Order', foreign_key: :cancelled_by_id
+  has_many :returned_orders, class_name: 'Order', foreign_key: :returned_by_id
+
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
     %w[id role username full_name is_active]

@@ -89,8 +89,21 @@ namespace :super_admin do
         collection do
           get :duplicate_new
           post :duplicate_create
+          get :print
         end
       end
+    end
+  end
+
+  resources :delivered_orders, except: %i[destroy edit update] do
+    member do
+      patch :undo
+    end
+  end
+
+  resources :cancelled_orders, except: %i[destroy edit update] do
+    member do
+      patch :undo
     end
   end
 
