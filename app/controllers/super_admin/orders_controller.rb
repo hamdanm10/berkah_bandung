@@ -120,12 +120,17 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
     @form.courier_label = CourierService.find_by(id: @form.courier_service_id)&.name || ''
 
     if params[:generate]
+      unless @form.valid?(:generate)
+        render :duplicate_new, status: :unprocessable_entity
+        return
+      end
+
       @form.build_orders
       render :duplicate_new, status: :unprocessable_entity
       return
     end
 
-    unless @form.valid?
+    unless @form.valid?(:create)
       render :duplicate_new, status: :unprocessable_entity
       return
     end
@@ -188,6 +193,7 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
   def duplicate_form_params
     params.require(:duplicate_orders_form).permit(
       :product_id,
+      :variant,
       :quantity,
       :courier_service_id,
       :duplicate_count

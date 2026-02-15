@@ -34,6 +34,7 @@ class Orders::DuplicateCreate < ApplicationService
       order_items_attributes: [
         {
           product_id: form.product_id,
+          variant: form.variant,
           quantity: form.quantity
         }
       ]
