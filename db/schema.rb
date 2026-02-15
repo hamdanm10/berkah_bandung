@@ -175,7 +175,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_071557) do
     t.boolean "is_active", default: true, null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
-    t.string "variant"
     t.index ["barcode"], name: "index_products_on_barcode", unique: true
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["category_id"], name: "index_products_on_category_id"

@@ -26,6 +26,21 @@
       <div class="flex">
         <%= render(ButtonLinkComponent.new(
               size: "sm", 
+              variant: "light", 
+              url: print_super_admin_merchant_order_order_batch_orders_path(merchant, order_batch),
+              "data-hint": "Print Orders",
+              "data-action": "
+                mouseenter->hint#show
+                mouseleave->hint#hide
+              ",
+              target: "_blank"
+            )) do %>
+          <%= lucide_icon("printer", class: "size-5") %>
+        <% end %>
+      </div>
+      <div class="flex">
+        <%= render(ButtonLinkComponent.new(
+              size: "sm", 
               variant: "primary", 
               url: duplicate_new_super_admin_merchant_order_order_batch_orders_path(merchant, order_batch),
               "data-hint": "Duplicate Order",

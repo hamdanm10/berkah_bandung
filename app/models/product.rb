@@ -61,7 +61,6 @@ class Product < ApplicationRecord
             length: { maximum: 100 },
             uniqueness: true
   validates :name, presence: true, length: { maximum: 150 }
-  validates :variant, presence: false, length: { maximum: 50 }
   validates :category_id, presence: true
   validates :brand_id, presence: true
 end

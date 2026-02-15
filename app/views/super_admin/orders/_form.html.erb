@@ -2,7 +2,7 @@
     url: url,
     class: "mt-5 flex flex-col gap-5",
     data: {
-      controller: "nested-form",
+      controller: "nested-form scan",
       nested_form_wrapper_selector_value: ".nested-form-wrapper"
     } do |form| %>
   <div class="block bg-white border border-gray-300 rounded-md divide-y divide-gray-300">
@@ -13,12 +13,12 @@
     <div class="p-4 lg:p-6 flex flex-col gap-3">
       <div>
         <%= render(LabelInputComponent.new(form: form, field_name: :order_number, label: "Order Number", required: true)) %>
-        <%= render(TextInputComponent.new(form: form, field_name: :order_number, class: "mt-2")) %>
+        <%= render(TextInputComponent.new(form: form, field_name: :order_number, class: "mt-2", autofocus: "true", data: { scan_target: "orderNumber" })) %>
         <%= render(ErrorInputComponent.new(model: order, field_name: :order_number)) %>
       </div>
       <div>
         <%= render(LabelInputComponent.new(form: form, field_name: :tracking_number, label: "Tracking Number", required: true)) %>
-        <%= render(TextInputComponent.new(form: form, field_name: :tracking_number, class: "mt-2")) %>
+        <%= render(TextInputComponent.new(form: form, field_name: :tracking_number, class: "mt-2", data: { scan_target: "trackingNumber" })) %>
         <%= render(ErrorInputComponent.new(model: order, field_name: :tracking_number)) %>
       </div>
       <div>

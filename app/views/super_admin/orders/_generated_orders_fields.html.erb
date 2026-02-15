@@ -12,7 +12,9 @@
       <%= text_field_tag(
         "orders[#{i}][order_number]",
         order_data.order_number,
-        class: "mt-2 block w-full rounded-md border-gray-300", autofocus: true
+        class: "mt-2 block w-full rounded-md border-gray-300", 
+        autofocus: (@form.orders.present? && i.zero?),
+        data: { scan_target: "orderNumber" }
       ) %>
       <%= render(ErrorInputComponent.new(
         model: order_data,
@@ -30,7 +32,8 @@
       <%= text_field_tag(
         "orders[#{i}][tracking_number]",
         order_data.tracking_number,
-        class: "mt-2 block w-full rounded-md border-gray-300"
+        class: "mt-2 block w-full rounded-md border-gray-300",
+        data: { scan_target: "trackingNumber" }
       ) %>
       <%= render(ErrorInputComponent.new(
         model: order_data,

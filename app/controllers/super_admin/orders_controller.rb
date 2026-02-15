@@ -144,6 +144,30 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
     end
   end
 
+  def print
+    @order_batch = order_batch_scope
+
+    base_scope = OrderItem
+                 .joins(:order, :product)
+                 .where(orders: { order_batch_id: params[:order_batch_id] })
+
+    @order_items = base_scope
+                   .group('products.id', 'products.name')
+                   .select("
+                   products.name AS product_name,
+                   SUM(order_items.quantity) AS total_quantity
+                 ")
+                   .order('products.name ASC')
+
+    @total_products = @order_items.length
+
+    @total_quantity = base_scope.sum(:quantity)
+
+    @total_orders = @order_batch.orders.count
+
+    render layout: 'print_orders'
+  end
+
   private
 
   def order_params
@@ -191,6 +215,7 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
   def order_batch_scope
     merchant_scope
       .order_batches
+      .includes(:user_created)
       .find_by!(
         id: params[:order_batch_id],
         deleted_at: nil

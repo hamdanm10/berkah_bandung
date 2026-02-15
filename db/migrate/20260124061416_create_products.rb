@@ -4,7 +4,6 @@ class CreateProducts < ActiveRecord::Migration[8.1]
       t.string  :code, null: false
       t.string  :barcode, null: false
       t.string  :name, null: false
-      t.string  :variant, null: true
 
       t.references :category, null: false, foreign_key: true
       t.references :brand, null: false, foreign_key: true
