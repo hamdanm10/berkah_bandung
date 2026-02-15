@@ -8,5 +8,7 @@ class CreateMerchants < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
+
+    add_index :merchants, :deleted_at
   end
 end

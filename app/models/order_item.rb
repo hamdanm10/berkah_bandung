@@ -21,6 +21,7 @@ class OrderItem < ApplicationRecord
   # ============================
   validates :product_id, presence: true
   validates :quantity, presence: true, numericality: { greater_than: 0 }
+  validates :variant, presence: false, length: { maximum: 50 }
 
   validates :product_code, presence: true
   validates :product_name, presence: true
@@ -43,7 +44,6 @@ class OrderItem < ApplicationRecord
 
     self.product_code    ||= product.code
     self.product_name    ||= product.name
-    self.product_variant ||= product.variant
   end
 
   def resnapshot_product_data
@@ -52,6 +52,5 @@ class OrderItem < ApplicationRecord
 
     self.product_code    = product.code
     self.product_name    = product.name
-    self.product_variant = product.variant
   end
 end

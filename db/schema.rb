@@ -20,6 +20,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_071557) do
     t.boolean "is_active", default: true, null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_brands_on_deleted_at"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -28,6 +29,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_071557) do
     t.boolean "is_active", default: true, null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_categories_on_deleted_at"
   end
 
   create_table "courier_services", force: :cascade do |t|
@@ -36,6 +38,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_071557) do
     t.boolean "is_active", default: true, null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_courier_services_on_deleted_at"
   end
 
   create_table "distributor_items", force: :cascade do |t|
@@ -54,6 +57,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_071557) do
     t.boolean "is_active", default: true, null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_distributors_on_deleted_at"
   end
 
   create_table "invitations", force: :cascade do |t|
@@ -76,6 +80,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_071557) do
     t.string "marketplace", null: false
     t.string "name", null: false
     t.datetime "updated_at", null: false
+    t.index ["deleted_at"], name: "index_merchants_on_deleted_at"
   end
 
   create_table "order_batches", force: :cascade do |t|
@@ -86,6 +91,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_071557) do
     t.bigint "merchant_id", null: false
     t.datetime "updated_at", null: false
     t.index ["created_by_user_id"], name: "index_order_batches_on_created_by_user_id"
+    t.index ["deleted_at"], name: "index_order_batches_on_deleted_at"
     t.index ["merchant_id"], name: "index_order_batches_on_merchant_id"
   end
 
@@ -116,9 +122,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_071557) do
     t.string "product_code", null: false
     t.bigint "product_id", null: false
     t.string "product_name", null: false
-    t.string "product_variant"
     t.integer "quantity", null: false
     t.datetime "updated_at", null: false
+    t.string "variant"
     t.index ["order_id"], name: "index_order_items_on_order_id"
     t.index ["product_id"], name: "index_order_items_on_product_id"
   end
@@ -142,10 +148,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_071557) do
     t.datetime "updated_at", null: false
     t.index ["cancelled_by_id"], name: "index_orders_on_cancelled_by_id"
     t.index ["courier_service_id"], name: "index_orders_on_courier_service_id"
+    t.index ["deleted_at"], name: "index_orders_on_deleted_at"
     t.index ["delivered_by_id"], name: "index_orders_on_delivered_by_id"
     t.index ["order_batch_id"], name: "index_orders_on_order_batch_id"
+    t.index ["order_number"], name: "index_orders_on_order_number", unique: true
     t.index ["paid_by_id"], name: "index_orders_on_paid_by_id"
     t.index ["returned_by_id"], name: "index_orders_on_returned_by_id"
+    t.index ["tracking_number"], name: "index_orders_on_tracking_number", unique: true
   end
 
   create_table "product_availables", force: :cascade do |t|

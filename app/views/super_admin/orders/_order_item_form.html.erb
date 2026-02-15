@@ -17,6 +17,11 @@
     <%= render(ErrorInputComponent.new(model: form.object, field_name: :product_id)) %>
   </div>
   <div>
+    <%= render(LabelInputComponent.new(form: form, field_name: :variant, label: "Variant", required: false)) %>
+    <%= render(TextInputComponent.new(form: form, field_name: :variant, class: "mt-2")) %>
+    <%= render(ErrorInputComponent.new(model: form.object, field_name: :variant)) %>
+  </div>
+  <div>
     <%= render(LabelInputComponent.new(form: form, field_name: :quantity, label: "Quantity", required: true)) %>
     <%= render(NumberInputComponent.new(form: form, field_name: :quantity, class: "mt-2")) %>
     <%= render(ErrorInputComponent.new(model: form.object, field_name: :quantity)) %>

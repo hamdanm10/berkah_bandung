@@ -78,7 +78,7 @@
             <span class="font-medium">Product Code</span>
           </div>
           <div class="w-10/12">
-            <span><%= order_item.product.code %></span>
+            <span><%= order_item.product_code %></span>
           </div>
         </div>
         <div class="flex gap-2 pt-2 pb-2">
@@ -86,7 +86,15 @@
             <span class="font-medium">Product Name</span>
           </div>
           <div class="w-10/12">
-            <span><%= order_item.product.name %></span>
+            <span><%= order_item.product_name %></span>
+          </div>
+        </div>
+        <div class="flex gap-2 pt-2 pb-2">
+          <div class="w-2/12">
+            <span class="font-medium">Variant</span>
+          </div>
+          <div class="w-10/12">
+            <span><%= order_item.variant? ? order_item.variant : "-" %></span>
           </div>
         </div>
         <div class="flex gap-2 pt-2 pb-4">

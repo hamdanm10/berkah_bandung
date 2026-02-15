@@ -23,11 +23,6 @@
         <%= render(ErrorInputComponent.new(model: product, field_name: :name)) %>
       </div>
       <div>
-        <%= render(LabelInputComponent.new(form: form, field_name: :variant, label: "Variant", required: false)) %>
-        <%= render(TextInputComponent.new(form: form, field_name: :variant, class: "mt-2")) %>
-        <%= render(ErrorInputComponent.new(model: product, field_name: :variant)) %>
-      </div>
-      <div>
         <%= render(LabelInputComponent.new(form: form, field_name: :category_id, label: "Category", required: true)) %>
         <%= render(DropdownSearchInputComponent.new(
               form: form,

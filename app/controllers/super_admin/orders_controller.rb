@@ -148,16 +148,16 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
     @order_batch = order_batch_scope
 
     base_scope = OrderItem
-                 .joins(:order, :product)
+                 .joins(:order)
                  .where(orders: { order_batch_id: params[:order_batch_id] })
 
     @order_items = base_scope
-                   .group('products.id', 'products.name')
-                   .select("
-                   products.name AS product_name,
-                   SUM(order_items.quantity) AS total_quantity
-                 ")
-                   .order('products.name ASC')
+                   .group('order_items.product_name')
+                   .select(
+                     'order_items.product_name AS product_name,
+                    SUM(order_items.quantity) AS total_quantity'
+                   )
+                   .order('order_items.product_name ASC')
 
     @total_products = @order_items.length
 
@@ -178,6 +178,7 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
       order_items_attributes: %i[
         id
         product_id
+        variant
         quantity
         _destroy
       ]
@@ -226,7 +227,7 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
     order_batch_scope
       .orders
       .with_total_items
-      .includes(:courier_service, order_items: :product)
+      .includes(:courier_service, :order_items)
       .find_by!(
         id: params[:id],
         deleted_at: nil

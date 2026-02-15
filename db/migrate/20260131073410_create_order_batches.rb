@@ -8,5 +8,7 @@ class CreateOrderBatches < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
+
+    add_index :order_batches, :deleted_at
   end
 end

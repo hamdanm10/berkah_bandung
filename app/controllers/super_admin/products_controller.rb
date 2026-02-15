@@ -153,7 +153,6 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
       :code,
       :barcode,
       :name,
-      :variant,
       :category_id,
       :brand_id
     )

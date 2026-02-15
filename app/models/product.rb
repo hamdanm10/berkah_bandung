@@ -53,9 +53,7 @@ class Product < ApplicationRecord
               with: /\A[^\s]+\z/,
               message: 'cannot contain spaces'
             },
-            uniqueness: {
-              case_sensitive: false
-            }
+            uniqueness: true
   validates :barcode,
             presence: true,
             length: { maximum: 100 },

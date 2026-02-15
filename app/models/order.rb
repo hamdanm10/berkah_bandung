@@ -61,7 +61,7 @@ class Order < ApplicationRecord
   # ============================
   # Validations
   # ============================
-  validates :order_number, presence: true
-  validates :tracking_number, presence: true
+  validates :order_number, presence: true, uniqueness: true
+  validates :tracking_number, presence: true, uniqueness: true
   validates :courier_service_id, presence: true
 end

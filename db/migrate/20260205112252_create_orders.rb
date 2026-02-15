@@ -10,5 +10,9 @@ class CreateOrders < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
+
+    add_index :orders, :order_number, unique: true
+    add_index :orders, :tracking_number, unique: true
+    add_index :orders, :deleted_at
   end
 end
