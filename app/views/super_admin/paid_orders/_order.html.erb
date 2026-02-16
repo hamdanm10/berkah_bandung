@@ -1,0 +1,52 @@
+<tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300" data-controller="global-dialog-trigger">
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= pagy.offset + index + 1 %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= order.order_batch.merchant.name %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= order.order_batch.merchant.marketplace %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= order.order_number %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= order.tracking_number %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= order.courier_service.name %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= order.total_items %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <div class="w-[16ch] truncate">
+      <%= order.paid_by.full_name %>
+    </div>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= format_datetime(order.paid_at) %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700 flex gap-2 items-center">
+    <button
+      type="button"
+      class="text-secondary hover:text-secondary-hover cursor-pointer"
+      data-action="click->confirm-dialog#open mouseenter->hint#show mouseleave->hint#hide"
+      data-hint= "Undo Paid"
+      data-confirm-dialog-title="Undo Paid"
+      data-confirm-dialog-message="Are you sure you want to undo status this order '<%= order.order_number %>'?"
+      data-confirm-dialog-url="<%= undo_super_admin_paid_order_path(order) %>"
+      data-confirm-dialog-method="patch"
+      data-confirm-dialog-variant="secondary"
+      data-confirm-dialog-label="Undo Paid">
+      <%= lucide_icon("undo-2", class: "size-5") %>
+    </button>
+    <%= link_to super_admin_paid_order_path(order), 
+      class: "text-info hover:text-info-hover", 
+      "data-hint": "Detail", 
+      "data-action": "mouseenter->hint#show mouseleave->hint#hide" do %>
+      <%= lucide_icon("info", class: "size-5") %>
+    <% end %>
+  </td>
+</tr>

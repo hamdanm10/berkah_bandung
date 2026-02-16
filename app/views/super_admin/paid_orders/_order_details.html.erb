@@ -82,18 +82,18 @@
       </div>
       <div class="flex gap-2 pt-2 pb-2">
         <div class="w-2/12">
-          <span class="font-medium">Delivered By</span>
+          <span class="font-medium">Paid By</span>
         </div>
         <div class="w-10/12">
-          <span><%= order.delivered_by.full_name %></span>
+          <span><%= order.paid_by.full_name %></span>
         </div>
       </div>
       <div class="flex gap-2 pt-2 pb-4">
         <div class="w-2/12">
-          <span class="font-medium">Delivered At</span>
+          <span class="font-medium">Paid At</span>
         </div>
         <div class="w-10/12">
-          <span><%= format_datetime(order.delivered_at) %></span>
+          <span><%= format_datetime(order.paid_at) %></span>
         </div>
       </div>
     </div>

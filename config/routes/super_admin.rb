@@ -101,6 +101,12 @@ namespace :super_admin do
     end
   end
 
+  resources :paid_orders, except: %i[destroy edit update] do
+    member do
+      patch :undo
+    end
+  end
+
   resources :cancelled_orders, except: %i[destroy edit update] do
     member do
       patch :undo
