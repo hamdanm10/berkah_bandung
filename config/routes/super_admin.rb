@@ -113,6 +113,12 @@ namespace :super_admin do
     end
   end
 
+  resources :returned_orders, except: %i[destroy edit update] do
+    member do
+      patch :undo
+    end
+  end
+
   resources :all_orders, only: %i[index show]
 
   resources :invoices do
