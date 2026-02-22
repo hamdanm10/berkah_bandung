@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SuperAdmin::CancelledOrdersController < SuperAdminApplicationController
+class SuperAdmin::ReturnedOrdersController < SuperAdminApplicationController
   def index
     limit = RecordLimit.call(params[:limit])
 
