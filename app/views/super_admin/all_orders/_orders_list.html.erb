@@ -51,9 +51,9 @@
               },
               {
                 type: :select,
-                name: :order_batch_user_created_id_eq,
-                records: users_for_select,
-                blank: "All Users",
+                name: :status_eq,
+                records: order_statuses_for_select,
+                blank: "All Statuses",
                 auto_submit: false
               },
               {
@@ -89,7 +89,6 @@
             <th class="px-6 py-3 font-medium normal-case">Courier</th>
             <th class="px-6 py-3 font-medium normal-case">Total Items</th>
             <th class="px-6 py-3 font-medium normal-case">Status</th>
-            <th class="px-6 py-3 font-medium normal-case">Created By</th>
             <th class="px-6 py-3 font-medium normal-case">Created At</th>
             <th class="px-6 py-3 font-medium normal-case">Action</th>
           </tr>

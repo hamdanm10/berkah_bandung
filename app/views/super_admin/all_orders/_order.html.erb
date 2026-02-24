@@ -35,11 +35,6 @@
     <% end %>
   </td>
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-    <div class="w-[16ch] truncate">
-      <%= order.order_batch.user_created.full_name %>
-    </div>
-  </td>
-  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
     <%= format_datetime(order.created_at) %>
   </td>
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700 flex gap-2 items-center">
