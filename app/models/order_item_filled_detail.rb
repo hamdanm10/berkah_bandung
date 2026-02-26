@@ -7,6 +7,7 @@ class OrderItemFilledDetail < ApplicationRecord
   belongs_to :order_item
   belongs_to :product_available
   belongs_to :order_item_reserved_detail, optional: true
+  has_many :order_item_return_details, as: :order_status
 
   # ============================
   # Validations

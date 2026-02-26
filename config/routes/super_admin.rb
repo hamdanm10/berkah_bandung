@@ -117,6 +117,9 @@ namespace :super_admin do
     member do
       patch :undo
     end
+    collection do
+      post :scan_order
+    end
   end
 
   resources :all_orders, only: %i[index show]
