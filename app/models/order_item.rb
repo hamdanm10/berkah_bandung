@@ -10,6 +10,8 @@ class OrderItem < ApplicationRecord
   has_many :order_item_filled_details
   has_one :order_item_reserved_detail
 
+  has_one :order_item_return
+
   # ============================
   # Callbacks
   # ============================

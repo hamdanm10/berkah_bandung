@@ -22,6 +22,46 @@ class SuperAdmin::ReturnedOrdersController < SuperAdminApplicationController
   end
 
   def create
+    @return_form = ReturnOrderForm.new(return_order_params)
+
+    if @return_form.valid?
+      result = Orders::ReturnOrder.call(
+        order: @return_form.order,
+        return_params: return_order_params
+      )
+
+      unless result.success?
+        return render turbo_stream: turbo_stream.update(
+          'return_section',
+          partial: 'super_admin/returned_orders/return_form',
+          locals: {
+            order: @return_form.order,
+            return_form: @return_form
+          }
+        )
+      end
+
+      render turbo_stream: [
+        turbo_stream.update('return_section', ''),
+        turbo_stream.replace(
+          'scan_section',
+          partial: 'super_admin/returned_orders/scan_order_form',
+          locals: {
+            url: scan_order_super_admin_returned_orders_path,
+            scan_order: ScanOrderForm.new
+          }
+        )
+      ]
+    else
+      render turbo_stream: turbo_stream.update(
+        'return_section',
+        partial: 'super_admin/returned_orders/return_form',
+        locals: {
+          order: @return_form.order,
+          return_form: @return_form
+        }
+      )
+    end
   end
 
   def scan_order
@@ -46,7 +86,13 @@ class SuperAdmin::ReturnedOrdersController < SuperAdminApplicationController
       render turbo_stream: turbo_stream.update(
         'return_section',
         partial: 'super_admin/returned_orders/return_form',
-        locals: { order: order }
+        locals: {
+          order: order,
+          return_form: ReturnOrderForm.new(
+            order_id: order.id,
+            items: {}
+          )
+        }
       )
     else
       render turbo_stream: turbo_stream.replace(
@@ -61,6 +107,11 @@ class SuperAdmin::ReturnedOrdersController < SuperAdminApplicationController
   end
 
   private
+
+  def return_order_params
+    params.require(:return_order_form)
+          .permit(:order_id, items: [:good_stock])
+  end
 
   def order_scope
     Order

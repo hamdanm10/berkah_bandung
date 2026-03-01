@@ -14,7 +14,7 @@ class OrderItemReservedDetail < ApplicationRecord
   # ============================
   belongs_to :order_item
   has_one :order_item_filled_detail
-  has_many :order_item_return_details, as: :order_status
+  has_many :order_item_returned_details, as: :order_status
 
   # ============================
   # Validations
