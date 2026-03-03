@@ -86,6 +86,13 @@
                 auto_submit: false
               },
               {
+                type: :select,
+                name: :status_eq,
+                records: order_statuses_for_select,
+                blank: "All Statuses",
+                auto_submit: false
+              },
+              {
                 type: :search,
                 name: :order_number_or_tracking_number_cont,
                 placeholder: "Search...",
