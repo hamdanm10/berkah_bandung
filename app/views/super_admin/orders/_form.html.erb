@@ -26,7 +26,7 @@
         <%= render(DropdownSearchInputComponent.new(
               form: form,
               field_name: :courier_service_id,
-              search_url: search_super_admin_courier_services_path,
+              search_url: search_courier_services_path,
               current_value: order.courier_service_id,
               current_label: @courier_service_label,
               prompt: "Choose courier service",

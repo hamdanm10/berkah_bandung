@@ -4,7 +4,7 @@
     <%= render(DropdownSearchInputComponent.new(
         form: form,
         field_name: :product_id,
-        search_url: search_super_admin_products_path,
+        search_url: search_products_path,
         current_value: form.object.product_id,
         current_label: [
             form.object.product&.code,

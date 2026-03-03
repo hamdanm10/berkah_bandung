@@ -30,9 +30,6 @@ namespace :super_admin do
       patch :activate
       patch :deactivate
     end
-    collection do
-      get :search
-    end
   end
 
   resources :brands, except: %i[show] do
@@ -65,8 +62,6 @@ namespace :super_admin do
       patch :deactivate
     end
     collection do
-      get :search
-
       get :import
       post :create_import
 
