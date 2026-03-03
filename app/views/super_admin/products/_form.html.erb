@@ -27,7 +27,7 @@
         <%= render(DropdownSearchInputComponent.new(
               form: form,
               field_name: :category_id,
-              search_url: search_super_admin_categories_path,
+              search_url: search_categories_path,
               current_value: product.category_id,
               current_label: @category_label,
               prompt: "Choose category",
@@ -41,7 +41,7 @@
         <%= render(DropdownSearchInputComponent.new(
               form: form,
               field_name: :brand_id,
-              search_url: search_super_admin_brands_path,
+              search_url: search_brands_path,
               current_value: product.brand_id,
               current_label: @brand_label,
               prompt: "Choose brand",

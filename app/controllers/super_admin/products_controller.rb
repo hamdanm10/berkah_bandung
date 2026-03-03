@@ -5,13 +5,13 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
     limit = RecordLimit.call(params[:limit])
 
     @q = Product
-         .with_total_quantity
          .where(deleted_at: nil)
          .ransack(params[:q])
 
     @products = @q
                 .result
-                .includes(:category, :brand, :product_reserve, :product_availables)
+                .with_total_quantity
+                .includes(:category, :brand)
                 .order(name: :asc)
 
     @pagy, @products = pagy(@products, limit:)
@@ -114,37 +114,37 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
     }
   end
 
-  def import
-    @product_import = ProductImportForm.new
-  end
+  # def import
+  #   @product_import = ProductImportForm.new
+  # end
 
-  def create_import
-    result = Products::Import.call(
-      product_import_params: product_import_params
-    )
+  # def create_import
+  #   result = Products::Import.call(
+  #     product_import_params: product_import_params
+  #   )
 
-    if result.success?
-      redirect_to import_super_admin_products_path, notice: result.payload[:message]
-    else
-      @product_import = result.error[:product_import] || ProductImportForm.new
-      @import_errors = result.error[:import_errors]
+  #   if result.success?
+  #     redirect_to import_super_admin_products_path, notice: result.payload[:message]
+  #   else
+  #     @product_import = result.error[:product_import] || ProductImportForm.new
+  #     @import_errors = result.error[:import_errors]
 
-      render :import, status: :unprocessable_entity
-    end
-  end
+  #     render :import, status: :unprocessable_entity
+  #   end
+  # end
 
-  def download_import_template
-    file_path = Rails.root.join(
-      'public',
-      'templates',
-      'product_import_template.xlsx'
-    )
+  # def download_import_template
+  #   file_path = Rails.root.join(
+  #     'public',
+  #     'templates',
+  #     'product_import_template.xlsx'
+  #   )
 
-    send_file file_path,
-              filename: 'product_import_template.xlsx',
-              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-              disposition: 'attachment'
-  end
+  #   send_file file_path,
+  #             filename: 'product_import_template.xlsx',
+  #             type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  #             disposition: 'attachment'
+  # end
 
   private
 
@@ -166,7 +166,7 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
 
   def product_scope
     Product
-      .includes(:category, :brand, :product_reserve, :product_availables)
+      .includes(:category, :brand, :product_availables)
       .find_by!(
         id: params[:id],
         deleted_at: nil
@@ -176,7 +176,7 @@ class SuperAdmin::ProductsController < SuperAdminApplicationController
   def product_details_scope
     Product
       .with_total_quantity
-      .includes(:category, :brand, :product_reserve, :product_availables)
+      .includes(:category, :brand, :product_availables)
       .find_by!(
         id: params[:id],
         deleted_at: nil

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_27_133311) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_12_071557) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -98,43 +98,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_27_133311) do
   create_table "order_item_filled_details", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "order_item_id", null: false
-    t.bigint "order_item_reserved_detail_id"
     t.bigint "product_available_id", null: false
     t.integer "quantity", null: false
     t.datetime "updated_at", null: false
     t.index ["order_item_id"], name: "index_order_item_filled_details_on_order_item_id"
-    t.index ["order_item_reserved_detail_id"], name: "idx_on_order_item_reserved_detail_id_5ddcdcdc97"
     t.index ["product_available_id"], name: "index_order_item_filled_details_on_product_available_id"
-  end
-
-  create_table "order_item_reserved_details", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.bigint "order_item_id", null: false
-    t.integer "quantity", null: false
-    t.integer "status", null: false
-    t.datetime "updated_at", null: false
-    t.index ["order_item_id"], name: "index_order_item_reserved_details_on_order_item_id"
-  end
-
-  create_table "order_item_returned_details", force: :cascade do |t|
-    t.integer "bad_stock", null: false
-    t.datetime "created_at", null: false
-    t.integer "good_stock", null: false
-    t.bigint "order_item_return_id", null: false
-    t.bigint "order_status_id"
-    t.string "order_status_type"
-    t.datetime "updated_at", null: false
-    t.index ["order_item_return_id"], name: "index_order_item_returned_details_on_order_item_return_id"
-    t.index ["order_status_type", "order_status_id"], name: "index_order_item_returned_details_on_order_status"
-  end
-
-  create_table "order_item_returns", force: :cascade do |t|
-    t.integer "bad_stock", null: false
-    t.datetime "created_at", null: false
-    t.integer "good_stock", null: false
-    t.bigint "order_item_id", null: false
-    t.datetime "updated_at", null: false
-    t.index ["order_item_id"], name: "index_order_item_returns_on_order_item_id"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -187,14 +155,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_27_133311) do
     t.index ["product_id"], name: "index_product_availables_on_product_id"
   end
 
-  create_table "product_reserves", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.bigint "product_id", null: false
-    t.integer "quantity", default: 0, null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_product_reserves_on_product_id"
-  end
-
   create_table "products", force: :cascade do |t|
     t.string "barcode", null: false
     t.bigint "brand_id", null: false
@@ -238,12 +198,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_27_133311) do
   add_foreign_key "invitations", "users", column: "used_by_user_id"
   add_foreign_key "order_batches", "merchants"
   add_foreign_key "order_batches", "users", column: "created_by_user_id"
-  add_foreign_key "order_item_filled_details", "order_item_reserved_details"
   add_foreign_key "order_item_filled_details", "order_items"
   add_foreign_key "order_item_filled_details", "product_availables"
-  add_foreign_key "order_item_reserved_details", "order_items"
-  add_foreign_key "order_item_returned_details", "order_item_returns"
-  add_foreign_key "order_item_returns", "order_items"
   add_foreign_key "orders", "courier_services"
   add_foreign_key "orders", "order_batches"
   add_foreign_key "orders", "users", column: "cancelled_by_id"
@@ -251,7 +207,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_27_133311) do
   add_foreign_key "orders", "users", column: "paid_by_id"
   add_foreign_key "orders", "users", column: "returned_by_id"
   add_foreign_key "product_availables", "products"
-  add_foreign_key "product_reserves", "products"
   add_foreign_key "products", "brands"
   add_foreign_key "products", "categories"
   add_foreign_key "sessions", "users"

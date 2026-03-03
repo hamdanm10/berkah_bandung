@@ -7,7 +7,6 @@ class Product < ApplicationRecord
 
   has_many :distributor_items
   has_many :order_items
-  has_one :product_reserve
   has_many :product_availables
 
   # Ransack
@@ -24,25 +23,9 @@ class Product < ApplicationRecord
 
   # Scopes
   scope :with_total_quantity, lambda {
-    joins(<<~SQL)
-      LEFT JOIN (
-        SELECT
-          product_id,
-          SUM(quantity) AS total_quantity
-        FROM product_availables
-        GROUP BY product_id
-      ) product_availables_sum
-        ON product_availables_sum.product_id = products.id
-      LEFT JOIN product_reserves
-        ON product_reserves.product_id = products.id
-    SQL
-      .select(<<~SQL)
-        products.*,
-        (
-          COALESCE(product_availables_sum.total_quantity, 0)
-          - COALESCE(product_reserves.quantity, 0)
-        ) AS total_quantity
-      SQL
+    left_joins(:product_availables)
+      .select('products.*, COALESCE(SUM(product_availables.quantity), 0) AS total_quantity')
+      .group('products.id')
   }
 
   # Validations
