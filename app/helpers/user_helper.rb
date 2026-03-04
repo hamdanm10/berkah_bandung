@@ -35,4 +35,10 @@ module UserHelper
       [user.full_name[0..29], user.id]
     end
   end
+
+  def cancelled_users_for_select
+    User.where(role: %w[dispatch_admin super_admin]).order(username: :asc).map do |user|
+      [user.full_name[0..29], user.id]
+    end
+  end
 end
