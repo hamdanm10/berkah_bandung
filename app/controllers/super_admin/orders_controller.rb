@@ -154,21 +154,29 @@ class SuperAdmin::OrdersController < SuperAdminApplicationController
 
     base_scope = OrderItem
                  .joins(:order)
-                 .where(orders: { order_batch_id: params[:order_batch_id] })
+                 .where(
+                   orders: {
+                     order_batch_id: params[:order_batch_id],
+                     deleted_at: nil
+                   }
+                 )
 
     @order_items = base_scope
-                   .group('order_items.product_name')
+                   .group('order_items.product_name, order_items.variant')
                    .select(
                      'order_items.product_name AS product_name,
+                    order_items.variant AS variant,
                     SUM(order_items.quantity) AS total_quantity'
                    )
-                   .order('order_items.product_name ASC')
+                   .order('order_items.product_name ASC, order_items.variant ASC')
 
     @total_products = @order_items.length
-
     @total_quantity = base_scope.sum(:quantity)
 
-    @total_orders = @order_batch.orders.count
+    @total_orders = @order_batch
+                    .orders
+                    .where(deleted_at: nil)
+                    .count
 
     render layout: 'print_orders'
   end

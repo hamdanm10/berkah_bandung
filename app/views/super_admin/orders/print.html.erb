@@ -21,7 +21,7 @@
   <!-- PRODUCT LIST HEADER -->
   <tr>
     <td colspan="2" style="text-align: center; font-weight: bold; text-transform: uppercase;">
-      Product List
+      Product List lorem
     </td>
   </tr>
   <tr>
@@ -31,7 +31,7 @@
   <!-- PRODUCT ITEMS -->
   <% @order_items.each do |order_item| %>
     <tr>
-      <td><%= order_item.product_name %></td>
+      <td><%= order_item.product_name %> (<%= order_item.variant %>)</td>
       <td style="text-align: right;"><%= order_item.total_quantity %></td>
     </tr>
   <% end %>
