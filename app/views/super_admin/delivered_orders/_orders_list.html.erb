@@ -46,7 +46,7 @@
     <div class="flex justify-end gap-3 p-6">
       <%= render FilterComponent.new(
             q: q,
-            url: super_admin_all_orders_path,
+            url: super_admin_delivered_orders_path,
             show_submit: true,
             fields: [
               {
@@ -66,7 +66,7 @@
               {
                 type: :select,
                 name: :order_batch_user_created_id_eq,
-                records: users_for_select,
+                records: delivered_users_for_select,
                 blank: "All Users",
                 auto_submit: false
               },

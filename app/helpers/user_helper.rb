@@ -17,4 +17,22 @@ module UserHelper
       [user.username, user.id]
     end
   end
+
+  def preparing_users_for_select
+    User.where(role: %w[order_admin super_admin]).order(username: :asc).map do |user|
+      [user.full_name[0..29], user.id]
+    end
+  end
+
+  def delivered_users_for_select
+    User.where(role: %w[dispatch_admin super_admin]).order(username: :asc).map do |user|
+      [user.full_name[0..29], user.id]
+    end
+  end
+
+  def paid_users_for_select
+    User.where(role: %w[super_admin]).order(username: :asc).map do |user|
+      [user.full_name[0..29], user.id]
+    end
+  end
 end

@@ -46,6 +46,13 @@
             show_submit: true,
             fields: [
               {
+                type: :select,
+                name: :user_created_id_eq,
+                records: preparing_users_for_select,
+                blank: "All Users",
+                auto_submit: false
+              },
+              {
                 type: :date,
                 name: :created_at_gteq,
                 auto_submit: false
@@ -57,7 +64,7 @@
               },
               {
                 type: :search,
-                name: :code_or_user_created_username_cont,
+                name: :code_cont,
                 placeholder: "Search...",
                 auto_submit: false
               }
