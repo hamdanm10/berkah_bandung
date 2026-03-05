@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
-class OrderItemFilledDetail < ApplicationRecord
+class OrderItemReturn < ApplicationRecord
   # ============================
   # Relations
   # ============================
   belongs_to :order_item
-  belongs_to :product_available
-  has_one :order_item_returned_detail
+  has_many :order_item_returned_details
 
   # ============================
   # Validations
   # ============================
   validates :order_item_id, presence: true
-  validates :product_available_id, presence: true
-  validates :quantity, presence: true, numericality: { greater_than: 0 }
+  validates :good_stock, presence: true
+  validates :bad_stock, presence: true
 end

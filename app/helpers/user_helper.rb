@@ -41,4 +41,10 @@ module UserHelper
       [user.full_name[0..29], user.id]
     end
   end
+
+  def returned_users_for_select
+    User.where(role: %w[return_admin super_admin]).order(username: :asc).map do |user|
+      [user.full_name[0..29], user.id]
+    end
+  end
 end

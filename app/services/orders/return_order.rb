@@ -8,8 +8,7 @@ class Orders::ReturnOrder < ApplicationService
       items_params = return_params[:items] || {}
 
       order.order_items.includes(
-        order_item_filled_details: :product_available,
-        order_item_reserved_detail: []
+        order_item_filled_details: :product_available
       ).each do |order_item|
         item_param = items_params[order_item.id.to_s]
         raise "Missing return data for order item #{order_item.id}" unless item_param
@@ -23,14 +22,10 @@ class Orders::ReturnOrder < ApplicationService
         returned_at: Time.current
       )
 
-      success(order: order)
+      success(order: order, message: 'Order was successfully returned.')
     end
-  rescue StandardError => e
-    Rails.logger.error '===== RETURN ERROR ====='
-    Rails.logger.error e.class.name
-    Rails.logger.error e.message
-    Rails.logger.error e.backtrace.first(5)
-    raise e
+  rescue StandardError
+    failure(order: order)
   end
 
   private
@@ -41,7 +36,7 @@ class Orders::ReturnOrder < ApplicationService
   end
 
   def process_order_item_return!(order_item, item_param)
-    quantity   = order_item.quantity.to_i
+    quantity   = order_item.quantity
     good_stock = item_param[:good_stock].to_i
     bad_stock  = quantity - good_stock
 
@@ -59,74 +54,38 @@ class Orders::ReturnOrder < ApplicationService
                                .joins(:product_available)
                                .order('product_availables.cost_price ASC')
 
-    # ===============================
-    # BAD STOCK FIRST
-    # ===============================
+    bad_map = {}
+
     filled_details.each do |filled|
       break if remaining_bad <= 0
 
-      layer_qty = filled.quantity.to_i
-      used_bad  = [layer_qty, remaining_bad].min
+      used_bad = [filled.quantity, remaining_bad].min
 
-      create_detail(order_item_return, filled, 0, used_bad)
-
-      remaining_bad -= used_bad
-    end
-
-    if remaining_bad > 0 && order_item.order_item_reserved_detail.present?
-      reserved = order_item.order_item_reserved_detail
-      used_bad = [reserved.quantity.to_i, remaining_bad].min
-
-      create_detail(order_item_return, reserved, 0, used_bad)
+      bad_map[filled.id] = used_bad
 
       remaining_bad -= used_bad
     end
 
-    # ===============================
-    # GOOD STOCK
-    # ===============================
     filled_details.each do |filled|
       break if remaining_good <= 0
 
-      used_bad = total_bad_for(order_item_return, filled)
-      available_qty = filled.quantity.to_i - used_bad
-      next if available_qty <= 0
+      used_bad = bad_map[filled.id] || 0
+      layer_qty = filled.quantity
 
-      used_good = [available_qty, remaining_good].min
+      available = layer_qty - used_bad
+      next if available <= 0
 
-      filled.product_available.increment!(:quantity, used_good)
+      used_good = [available, remaining_good].min
 
-      create_detail(order_item_return, filled, used_good, 0)
+      filled.product_available.increment!(:quantity, used_good) if used_good > 0
+
+      order_item_return.order_item_returned_details.create!(
+        order_item_filled_detail: filled,
+        good_stock: used_good,
+        bad_stock: used_bad
+      )
 
       remaining_good -= used_good
     end
-
-    return unless remaining_good > 0 && order_item.order_item_reserved_detail.present?
-
-    reserved = order_item.order_item_reserved_detail
-    used_bad = total_bad_for(order_item_return, reserved)
-    available_qty = reserved.quantity.to_i - used_bad
-
-    used_good = [available_qty, remaining_good].min
-
-    order_item.product.product_reserve.increment!(:quantity, used_good)
-
-    create_detail(order_item_return, reserved, used_good, 0)
-
-    remaining_good -= used_good
-  end
-
-  def create_detail(order_item_return, status_record, good, bad)
-    order_item_return.order_item_returned_details.create!(
-      order_status: status_record,
-      good_stock: good,
-      bad_stock: bad
-    )
-  end
-
-  def total_bad_for(order_item_return, status_record)
-    order_item_return.order_item_returned_details
-                     .where(order_status: status_record)
-                     .sum(:bad_stock)
   end
 end
