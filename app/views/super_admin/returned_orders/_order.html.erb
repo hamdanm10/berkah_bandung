@@ -28,4 +28,25 @@
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
     <%= format_datetime(order.returned_at) %>
   </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700 flex gap-2 items-center">
+    <button
+      type="button"
+      class="text-secondary hover:text-secondary-hover cursor-pointer"
+      data-action="click->confirm-dialog#open mouseenter->hint#show mouseleave->hint#hide"
+      data-hint= "Undo Return"
+      data-confirm-dialog-title="Undo Return"
+      data-confirm-dialog-message="Are you sure you want to undo status this order '<%= order.order_number %>'?"
+      data-confirm-dialog-url="<%= undo_super_admin_returned_order_path(order) %>"
+      data-confirm-dialog-method="patch"
+      data-confirm-dialog-variant="secondary"
+      data-confirm-dialog-label="Undo Return">
+      <%= lucide_icon("undo-2", class: "size-5") %>
+    </button>
+    <%= link_to super_admin_returned_order_path(order), 
+      class: "text-info hover:text-info-hover", 
+      "data-hint": "Detail", 
+      "data-action": "mouseenter->hint#show mouseleave->hint#hide" do %>
+      <%= lucide_icon("info", class: "size-5") %>
+    <% end %>
+  </td>
 </tr>

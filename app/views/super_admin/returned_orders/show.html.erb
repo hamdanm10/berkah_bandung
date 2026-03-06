@@ -3,23 +3,14 @@
     <%= render(ButtonLinkComponent.new(size: "sm", variant: "light", url: super_admin_returned_orders_path)) do %>
       <%= lucide_icon("chevron-left", class: "size-5") %>
     <% end %>
-    <h2 class="text-xl font-bold text-gray-700">Scan to Return</h2>
+    <h2 class="text-xl font-bold text-gray-700">Order Details</h2>
   </div>
   <div class="hidden lg:block">
     <%= render(BreadcrumbComponent.new) do %>
       <%= render(BreadcrumbItemComponent.new(url: super_admin_dashboard_path, icon: "layout-grid", name: "Dashboard")) %>
       <%= render(BreadcrumbItemComponent.new(url: super_admin_returned_orders_path, name: "Returned Orders")) %>
-      <%= render(BreadcrumbItemComponent.new(name: "Scan to Return", last: true)) %>
+      <%= render(BreadcrumbItemComponent.new(name: "Order Details", last: true)) %>
     <% end %>
   </div>
 </div>
-<turbo-frame id="scan_section">
-  <%= render "scan_order_form",
-      url: scan_order_super_admin_returned_orders_path,
-      scan_order: @scan_order %>
-</turbo-frame>
-<turbo-frame id="return_section">
-</turbo-frame>
-<turbo-frame id="return_results">
-  <div class="mt-6 flex flex-col gap-4"></div>
-</turbo-frame>
+<%= render "order_details", order: @order %>
