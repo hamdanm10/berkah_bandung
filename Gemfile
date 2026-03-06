@@ -71,3 +71,7 @@ gem 'ransack'
 gem 'pagy', '~> 9.3'
 # Roo for Excel files
 gem 'roo'
+# Charkick for charts
+gem 'chartkick'
+# Groupdate for use the group_by_day method
+gem 'groupdate'

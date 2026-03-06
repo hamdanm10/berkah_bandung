@@ -80,22 +80,18 @@
           <% end %>
         </div>
       </div>
-      <div class="flex gap-2 pt-2 pb-2">
-        <div class="w-2/12">
-          <span class="font-medium">Created By</span>
-        </div>
-        <div class="w-10/12">
-          <span><%= order.order_batch.user_created.full_name %></span>
-        </div>
-      </div>
-      <div class="flex gap-2 pt-2 pb-4">
-        <div class="w-2/12">
-          <span class="font-medium">Created At</span>
-        </div>
-        <div class="w-10/12">
-          <span><%= format_datetime(order.created_at) %></span>
-        </div>
-      </div>
+      <% case order.status %>
+      <% when "preparing" %>
+        <%= render 'preparing', order: order %>
+      <% when "delivered" %>
+        <%= render 'delivered', order: order %>
+      <% when "cancelled" %>
+        <%= render 'cancelled', order: order %>
+      <% when "returned" %>
+        <%= render 'returned', order: order %>
+      <% when "paid" %>
+        <%= render 'paid', order: order %>
+      <% end %>
     </div>
   </div>
   <div class="block bg-white border border-gray-300 rounded-md divide-y divide-gray-300">
@@ -121,14 +117,41 @@
             <span><%= order_item.product.name %></span>
           </div>
         </div>
-        <div class="flex gap-2 pt-2 pb-4">
-          <div class="w-2/12">
-            <span class="font-medium">Quantiy</span>
+        <% if order.status != "returned" %>
+          <div class="flex gap-2 pt-2 pb-4">
+            <div class="w-2/12">
+              <span class="font-medium">Quantiy</span>
+            </div>
+            <div class="w-10/12">
+              <span><%= order_item.quantity %></span>
+            </div>
           </div>
-          <div class="w-10/12">
-            <span><%= order_item.quantity %></span>
+        <% else %>
+          <div class="flex gap-2 pt-2 pb-2">
+            <div class="w-2/12">
+              <span class="font-medium">Quantiy</span>
+            </div>
+            <div class="w-10/12">
+              <span><%= order_item.quantity %></span>
+            </div>
           </div>
-        </div>
+          <div class="flex gap-2 pt-2 pb-2">
+            <div class="w-2/12">
+              <span class="font-medium">Good Stock</span>
+            </div>
+            <div class="w-10/12">
+              <span><%= order_item.order_item_return.good_stock %></span>
+            </div>
+          </div>
+          <div class="flex gap-2 pt-2 pb-4">
+            <div class="w-2/12">
+              <span class="font-medium">Bad Stock</span>
+            </div>
+            <div class="w-10/12">
+              <span><%= order_item.order_item_return.bad_stock %></span>
+            </div>
+          </div>
+        <% end %>
       </div>
     <% end %>
   </div>
