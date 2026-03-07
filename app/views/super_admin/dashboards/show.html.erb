@@ -92,32 +92,38 @@
           </tr>
         </thead>
         <tbody>
-          <% @recent_orders.each_with_index do |order, index| %>
-            <tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300">
-              <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-                <%= index + 1 %>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-                <%= order.order_number %>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-                <%= order.tracking_number %>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-                <% case order.status %>
-                <% when "preparing" %>
-                  <span class="text-xs px-2 py-1 bg-secondary-soft border border-secondary text-secondary rounded-md">Preparing</span>
-                <% when "delivered" %>
-                  <span class="text-xs px-2 py-1 bg-primary-soft border border-primary text-primary rounded-md">Delivered</span>
-                <% when "cancelled" %>
-                  <span class="text-xs px-2 py-1 bg-danger-soft border border-danger text-danger rounded-md">Cancelled</span>
-                <% when "returned" %>
-                  <span class="text-xs px-2 py-1 bg-warning-soft border border-warning text-warning rounded-md">Returned</span>
-                <% when "paid" %>
-                  <span class="text-xs px-2 py-1 bg-success-soft border border-success text-success rounded-md">Paid</span>
-                <% end %>
-              </td>
-            </tr>
+          <% if @recent_orders.any? %>
+            <% @recent_orders.each_with_index do |order, index| %>
+              <tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300">
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= index + 1 %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= order.order_number %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= order.tracking_number %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <% case order.status %>
+                  <% when "preparing" %>
+                    <span class="text-xs px-2 py-1 bg-secondary-soft border border-secondary text-secondary rounded-md">Preparing</span>
+                  <% when "delivered" %>
+                    <span class="text-xs px-2 py-1 bg-primary-soft border border-primary text-primary rounded-md">Delivered</span>
+                  <% when "cancelled" %>
+                    <span class="text-xs px-2 py-1 bg-danger-soft border border-danger text-danger rounded-md">Cancelled</span>
+                  <% when "returned" %>
+                    <span class="text-xs px-2 py-1 bg-warning-soft border border-warning text-warning rounded-md">Returned</span>
+                  <% when "paid" %>
+                    <span class="text-xs px-2 py-1 bg-success-soft border border-success text-success rounded-md">Paid</span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
+              No data found.
+            </td>
           <% end %>
         </tbody>
       </table>
@@ -137,18 +143,24 @@
           </tr>
         </thead>
         <tbody>
-          <% @top_products_this_month.each_with_index do |(product, qty), index| %>
-            <tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300">
-              <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-                <%= index + 1 %>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-                <%= product %>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-                <%= qty %>
-              </td>
-            </tr>
+          <% if @top_products_this_month.any? %>
+            <% @top_products_this_month.each_with_index do |(product, qty), index| %>
+              <tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300">
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= index + 1 %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= product %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= qty %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
+              No data found.
+            </td>
           <% end %>
         </tbody>
       </table>

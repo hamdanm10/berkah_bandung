@@ -23,10 +23,21 @@ class Product < ApplicationRecord
 
   # Scopes
   scope :with_total_quantity, lambda {
-    left_joins(:product_availables)
-      .select('products.*, COALESCE(SUM(product_availables.quantity), 0) AS total_quantity')
-      .group('products.id')
+    joins(<<~SQL)
+      LEFT JOIN (
+        SELECT product_id, SUM(quantity) AS sum_qty
+        FROM product_availables
+        GROUP BY product_id
+      ) availables ON availables.product_id = products.id
+    SQL
+      .select(
+        'products.*, COALESCE(availables.sum_qty, 0)::integer AS total_quantity'
+      )
   }
+
+  def total_quantity
+    self[:total_quantity].to_i
+  end
 
   # Validations
   validates :code,
