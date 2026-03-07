@@ -14,6 +14,7 @@ namespace :order_supervisor do
         collection do
           get :duplicate_new
           post :duplicate_create
+          get :print
         end
       end
     end

@@ -1,0 +1,169 @@
+<div class="grid grid-cols-6 gap-5">
+  <div class="p-6 bg-white rounded-md border border-gray-300 flex flex-col space-y-4 col-span-2">
+    <div class="h-12 w-12 bg-gray-100 rounded-md flex items-center justify-center">
+      <%= lucide_icon("package", class: "size-5 text-gray-700") %>
+    </div>
+    <span class="text-sm text-gray-500">Orders Today</span>
+    <div class="flex justify-between">
+      <span class="text-gray-700 font-bold text-3xl"><%= @orders_today %></span>
+      <% if @orders_change_percentage.positive? %>
+        <div class="bg-success-soft px-2 py-1 rounded-full text-success flex items-center gap-1 text-sm self-end">
+          <%= lucide_icon("trending-up", class: "size-4") %>
+          <span><%= "#{@orders_change_percentage}%" %></span>
+        </div>
+      <% elsif @orders_change_percentage.negative? %>
+        <div class="bg-danger-soft px-2 py-1 rounded-full text-danger flex items-center gap-1 text-sm self-end">
+          <%= lucide_icon("trending-down", class: "size-4") %>
+          <span><%= "#{@orders_change_percentage}%" %></span>
+        </div>
+      <% else %>
+        <div class="bg-gray-100 px-2 py-1 rounded-full text-gray-600 flex items-center gap-1 text-sm self-end">
+          <%= lucide_icon("minus", class: "size-4") %>
+          <span>0%</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="p-6 bg-white rounded-md border border-gray-300 flex flex-col space-y-4 col-span-2">
+    <div class="h-12 w-12 bg-success-soft rounded-md flex items-center justify-center">
+      <%= lucide_icon("circle-dollar-sign", class: "size-5 text-success") %>
+    </div>
+    <span class="text-sm text-gray-500">Orders Paid Today</span>
+    <span class="text-gray-700 font-bold text-3xl"><%= @paid_today %></span>
+  </div>
+  <div class="p-6 bg-white rounded-md border border-gray-300 flex flex-col space-y-4 col-span-2">
+    <div class="h-12 w-12 bg-primary-soft rounded-md flex items-center justify-center">
+      <%= lucide_icon("motorbike", class: "size-5 text-primary") %>
+    </div>
+    <span class="text-sm text-gray-500">Orders Delivered Today</span>
+    <span class="text-gray-700 font-bold text-3xl"><%= @delivered_today %></span>
+  </div>
+  <div class="p-6 bg-white rounded-md border border-gray-300 flex flex-col space-y-4 col-span-2">
+    <div class="h-12 w-12 bg-warning-soft rounded-md flex items-center justify-center">
+      <%= lucide_icon("clock", class: "size-5 text-warning") %>
+    </div>
+    <span class="text-sm text-gray-500">Pending Orders</span>
+    <span class="text-gray-700 font-bold text-3xl"><%= @pending_orders %></span>
+  </div>
+  <div class="p-6 bg-white rounded-md border border-gray-300 flex flex-col space-y-4 col-span-2">
+    <div class="h-12 w-12 bg-danger-soft rounded-md flex items-center justify-center">
+      <%= lucide_icon("package-x", class: "size-5 text-danger") %>
+    </div>
+    <span class="text-sm text-gray-500">Orders Cancelled Today</span>
+    <span class="text-gray-700 font-bold text-3xl"><%= @cancelled_today %></span>
+  </div>
+  <div class="p-6 bg-white rounded-md border border-gray-300 flex flex-col space-y-4 col-span-2">
+    <div class="h-12 w-12 bg-danger-soft rounded-md flex items-center justify-center">
+      <%= lucide_icon("package-minus", class: "size-5 text-danger") %>
+    </div>
+    <span class="text-sm text-gray-500">Orders Returned Today</span>
+    <span class="text-gray-700 font-bold text-3xl"><%= @returned_today %></span>
+  </div>
+  <div class="block bg-white border border-gray-300 rounded-md col-span-4">
+    <div class="p-4 border-b border-gray-300">
+      <h3 class="font-medium text-gray-700">Orders (Last 7 Days)</h3>
+    </div>
+    <div class="p-4">
+      <%= column_chart @orders_chart_last_7_days %>
+      <div class="font-medium text-gray-700 text-center text-sm mt-4"><%= "Total Orders: #{@orders_last_7_days}" %></div>
+    </div>
+  </div>
+  <div class="block bg-white border border-gray-300 rounded-md col-span-2">
+    <div class="p-4 border-b border-gray-300">
+      <h3 class="font-medium text-gray-700">Order Summary</h3>
+    </div>
+    <div class="p-4">
+      <%= pie_chart @orders_by_status, colors: ["#9CA3AF", "#3B82F6", "#EF4444", "#F59E0B", "#22C55E"] %>
+      <div class="font-medium text-gray-700 text-center text-sm mt-4"><%= "Total Orders: #{@total_orders}" %></div>
+    </div>
+  </div>
+  <div class="block bg-white border border-gray-300 rounded-md col-span-3">
+    <div class="p-4 border-b border-gray-300">
+      <h3 class="font-medium text-gray-700">Recent Orders</h3>
+    </div>
+    <div>
+      <table class="w-full text-left text-xs lg:text-sm text-gray-500">
+        <thead class="text-xs uppercase text-gray-700 border-b border-b-gray-300 bg-white">
+          <tr>
+            <th class="px-6 py-3 font-medium normal-case">#</th>
+            <th class="px-6 py-3 font-medium normal-case">Order Number</th>
+            <th class="px-6 py-3 font-medium normal-case">Tracking Number</th>
+            <th class="px-6 py-3 font-medium normal-case">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @recent_orders.any? %>
+            <% @recent_orders.each_with_index do |order, index| %>
+              <tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300">
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= index + 1 %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= order.order_number %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= order.tracking_number %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <% case order.status %>
+                  <% when "preparing" %>
+                    <span class="text-xs px-2 py-1 bg-secondary-soft border border-secondary text-secondary rounded-md">Preparing</span>
+                  <% when "delivered" %>
+                    <span class="text-xs px-2 py-1 bg-primary-soft border border-primary text-primary rounded-md">Delivered</span>
+                  <% when "cancelled" %>
+                    <span class="text-xs px-2 py-1 bg-danger-soft border border-danger text-danger rounded-md">Cancelled</span>
+                  <% when "returned" %>
+                    <span class="text-xs px-2 py-1 bg-warning-soft border border-warning text-warning rounded-md">Returned</span>
+                  <% when "paid" %>
+                    <span class="text-xs px-2 py-1 bg-success-soft border border-success text-success rounded-md">Paid</span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
+              No data found.
+            </td>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="block bg-white border border-gray-300 rounded-md col-span-3">
+    <div class="p-4 border-b border-gray-300">
+      <h3 class="font-medium text-gray-700">Top Products This Month</h3>
+    </div>
+    <div>
+      <table class="w-full text-left text-xs lg:text-sm text-gray-500">
+        <thead class="text-xs uppercase text-gray-700 border-b border-b-gray-300 bg-white">
+          <tr>
+            <th class="px-6 py-3 font-medium normal-case">#</th>
+            <th class="px-6 py-3 font-medium normal-case">Product Name</th>
+            <th class="px-6 py-3 font-medium normal-case">Total Sales</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @top_products_this_month.any? %>
+            <% @top_products_this_month.each_with_index do |(product, qty), index| %>
+              <tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300">
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= index + 1 %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= product %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= qty %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
+              No data found.
+            </td>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
