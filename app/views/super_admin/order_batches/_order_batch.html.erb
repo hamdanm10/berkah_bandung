@@ -1,0 +1,46 @@
+<div class="flex items-center gap-4">
+  <%= link_to super_admin_merchant_order_order_batch_orders_path(merchant, order_batch), 
+    class: "w-full bg-white border border-gray-300 rounded-md p-4 gap-4 hover:border-primary duration-100 transition-all flex justify-between items-center" do %>
+    <div class="flex items-center gap-1">
+      <span class="text-md font-medium text-gray-700">
+        Batch: 
+      </span>
+      <span class="text-md text-gray-700">
+        <%= order_batch.code %>
+      </span>
+      <span class="text-md text-gray-700">-</span>
+      <span class="text-xs text-gray-700">
+        <%= format_datetime(order_batch.created_at) %>
+      </span>
+    </div>
+    <div>
+      <span class="text-sm text-gray-700">Created By:</span>
+      <span class="text-sm text-gray-700">
+        <%= order_batch.user_created.full_name %>
+      </span>
+    </div>
+  <% end %>
+  <div class="w-20 flex justify-end gap-4 items-center">
+    <%= link_to edit_super_admin_merchant_order_order_batch_path(merchant, order_batch), 
+    class: "text-secondary hover:text-secondary-hover", 
+    "data-hint": "Edit", 
+    "data-action": "mouseenter->hint#show mouseleave->hint#hide" do %>
+      <%= lucide_icon("pencil", class: "size-5") %>
+    <% end %>
+    <% if order_batch.orders.blank? %>
+      <button
+        type="button"
+        class="text-danger hover:text-danger-hover cursor-pointer"
+        data-action="click->confirm-dialog#open mouseenter->hint#show mouseleave->hint#hide"
+        data-hint= "Delete"
+        data-confirm-dialog-title="Delete Batch"
+        data-confirm-dialog-message="Are you sure you want to delete this batch '<%= order_batch.code %>'?"
+        data-confirm-dialog-url="<%= super_admin_merchant_order_order_batch_path(merchant, order_batch) %>"
+        data-confirm-dialog-method="delete"
+        data-confirm-dialog-variant="danger"
+        data-confirm-dialog-label="Delete">
+        <%= lucide_icon("trash-2", class: "size-5") %>
+      </button>
+    <% end %>
+  </div>
+</div>

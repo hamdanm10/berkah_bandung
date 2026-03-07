@@ -31,14 +31,6 @@
       </div>
       <div class="flex gap-2 pt-2 pb-2">
         <div class="w-2/12">
-          <span class="font-medium">Variant</span>
-        </div>
-        <div class="w-10/12">
-          <span><%= product.variant %></span>
-        </div>
-      </div>
-      <div class="flex gap-2 pt-2 pb-2">
-        <div class="w-2/12">
           <span class="font-medium">Category</span>
         </div>
         <div class="w-10/12">
@@ -81,18 +73,18 @@
   </div>
   <div class="block bg-white border border-gray-300 rounded-md divide-y divide-gray-300">
     <div class="p-4 lg:p-6">
-      <h3 class="font-medium text-gray-700">Product Price Details</h3>
-      <p class="text-sm text-gray-500">Below are the details of the product price.</p>
+      <h3 class="font-medium text-gray-700">Product Availables Details</h3>
+      <p class="text-sm text-gray-500">Below are the details of the product available.</p>
     </div>
-    <% if product.product_prices.present? %>
-      <% product.product_prices.each do |product_price| %>
+    <% if product.product_availables.present? %>
+      <% product.product_availables.each do |product_available| %>
         <div class="px-4 lg:px-6 text-gray-700 flex flex-col text-sm">
           <div class="flex gap-2 pt-4 pb-2">
             <div class="w-2/12">
               <span class="font-medium">Quantity</span>
             </div>
             <div class="w-10/12">
-              <span><%= product_price.quantity %></span>
+              <span><%= product_available.quantity %></span>
             </div>
           </div>
           <div class="flex gap-2 pt-2 pb-2">
@@ -100,7 +92,7 @@
               <span class="font-medium">Cost Price</span>
             </div>
             <div class="w-10/12">
-              <span><%= format_price(product_price.cost_price) %></span>
+              <span><%= format_price(product_available.cost_price) %></span>
             </div>
           </div>
           <div class="flex gap-2 pt-2 pb-4">
@@ -108,7 +100,7 @@
               <span class="font-medium">Value</span>
             </div>
             <div class="w-10/12">
-              <span><%= format_price(product_price.total_value) %></span>
+              <span><%= format_price(product_available.total_value) %></span>
             </div>
           </div>
         </div>

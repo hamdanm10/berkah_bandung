@@ -23,16 +23,11 @@
         <%= render(ErrorInputComponent.new(model: product, field_name: :name)) %>
       </div>
       <div>
-        <%= render(LabelInputComponent.new(form: form, field_name: :variant, label: "Variant", required: false)) %>
-        <%= render(TextInputComponent.new(form: form, field_name: :variant, class: "mt-2")) %>
-        <%= render(ErrorInputComponent.new(model: product, field_name: :variant)) %>
-      </div>
-      <div>
         <%= render(LabelInputComponent.new(form: form, field_name: :category_id, label: "Category", required: true)) %>
         <%= render(DropdownSearchInputComponent.new(
               form: form,
               field_name: :category_id,
-              search_url: search_super_admin_categories_path,
+              search_url: search_categories_path,
               current_value: product.category_id,
               current_label: @category_label,
               prompt: "Choose category",
@@ -46,7 +41,7 @@
         <%= render(DropdownSearchInputComponent.new(
               form: form,
               field_name: :brand_id,
-              search_url: search_super_admin_brands_path,
+              search_url: search_brands_path,
               current_value: product.brand_id,
               current_label: @brand_label,
               prompt: "Choose brand",

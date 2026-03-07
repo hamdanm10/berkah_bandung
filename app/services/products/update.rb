@@ -2,15 +2,19 @@
 
 class Products::Update < ApplicationService
   def call(product:, product_params:)
-    product.assign_attributes(product_params)
+    update_product!(product, product_params)
 
-    if product.save
-      success(
-        product: product,
-        message: "Product was successfully updated."
-      )
-    else
-      failure(product: product)
-    end
+    success(
+      product: product,
+      message: 'Product was successfully updated.'
+    )
+  rescue ActiveRecord::RecordInvalid
+    failure(product: product)
+  end
+
+  private
+
+  def update_product!(product, params)
+    product.update!(params)
   end
 end

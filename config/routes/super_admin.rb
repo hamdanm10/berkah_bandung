@@ -1,6 +1,13 @@
 namespace :super_admin do
   resource :dashboard, only: %i[show]
 
+  resource :account_setting, only: %i[edit update] do
+    member do
+      get :change_password
+      patch :change_password
+    end
+  end
+
   resources :invitations, except: %i[destroy]
 
   resources :users, only: %i[index show] do
@@ -30,9 +37,6 @@ namespace :super_admin do
       patch :activate
       patch :deactivate
     end
-    collection do
-      get :search
-    end
   end
 
   resources :categories, except: %i[show] do
@@ -40,12 +44,9 @@ namespace :super_admin do
       patch :activate
       patch :deactivate
     end
-    collection do
-      get :search
-    end
   end
 
-  resources :distributors, except: %i[show] do
+  resources :distributors do
     member do
       patch :activate
       patch :deactivate
@@ -61,8 +62,6 @@ namespace :super_admin do
       patch :deactivate
     end
     collection do
-      get :search
-
       get :import
       post :create_import
 
@@ -72,6 +71,47 @@ namespace :super_admin do
       post :create_export
     end
   end
+
+  resources :merchant_orders, only: %i[index] do
+    resources :order_batches, except: %i[show] do
+      resources :orders do
+        collection do
+          get :duplicate_new
+          post :duplicate_create
+          get :print
+        end
+      end
+    end
+  end
+
+  resources :delivered_orders, except: %i[destroy edit update] do
+    member do
+      patch :undo
+    end
+  end
+
+  resources :paid_orders, except: %i[destroy edit update] do
+    member do
+      patch :undo
+    end
+  end
+
+  resources :cancelled_orders, except: %i[destroy edit update] do
+    member do
+      patch :undo
+    end
+  end
+
+  resources :returned_orders, except: %i[destroy edit update] do
+    member do
+      patch :undo
+    end
+    collection do
+      post :scan_order
+    end
+  end
+
+  resources :all_orders, only: %i[index show]
 
   resources :invoices do
     member do

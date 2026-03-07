@@ -2,15 +2,21 @@
 
 class Products::Activate < ApplicationService
   def call(product:)
-    return failure(message: "Product is already active.") if product.is_active?
+    return failure(message: 'Product is already active.') if product.is_active?
 
-    if product.update(is_active: true)
-      success(
-        product: product,
-        message: "Product has been successfully activated."
-      )
-    else
-      failure(product: product)
-    end
+    activate!(product)
+
+    success(
+      product: product,
+      message: 'Product has been successfully activated.'
+    )
+  rescue ActiveRecord::RecordInvalid
+    failure(product: product)
+  end
+
+  private
+
+  def activate!(product)
+    product.update!(is_active: true)
   end
 end

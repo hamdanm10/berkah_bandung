@@ -55,6 +55,9 @@ class SuperAdmin::InvitationsController < SuperAdminApplicationController
   end
 
   def invitation_scope
-    Invitation.find(params[:id])
+    invitation = Invitation.find(params[:id])
+    return invitation if invitation.usable?
+
+    raise ActiveRecord::RecordNotFound
   end
 end

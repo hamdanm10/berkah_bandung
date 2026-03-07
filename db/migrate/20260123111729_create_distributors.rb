@@ -7,5 +7,7 @@ class CreateDistributors < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
+
+    add_index :distributors, :deleted_at
   end
 end

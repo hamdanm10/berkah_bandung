@@ -1,0 +1,75 @@
+<table width="100%">
+  <!-- HEADER -->
+  <tr>
+    <td colspan="2" style="text-align: center; font-weight: bold; text-transform: uppercase;">
+      Order List
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">User Created: <%= @order_batch.user_created.full_name %></td>
+  </tr>
+  <tr>
+    <td colspan="2">Order Batch: <%= @order_batch.code %></td>
+  </tr>
+  <tr>
+    <td colspan="2">Created At: <%= format_date(@order_batch.created_at) %></td>
+  </tr>
+  <!-- SEPARATOR -->
+  <tr>
+    <td colspan="2">--------------------------------</td>
+  </tr>
+  <!-- PRODUCT LIST HEADER -->
+  <tr>
+    <td colspan="2" style="text-align: center; font-weight: bold; text-transform: uppercase;">
+      Product List lorem
+    </td>
+  </tr>
+  <tr>
+    <td style="font-weight: bold;">Product Name</td>
+    <td style="font-weight: bold; text-align: right;">Qty</td>
+  </tr>
+  <!-- PRODUCT ITEMS -->
+  <% @order_items.each do |order_item| %>
+    <tr>
+      <td><%= order_item.product_name %> (<%= order_item.variant %>)</td>
+      <td style="text-align: right;"><%= order_item.total_quantity %></td>
+    </tr>
+  <% end %>
+  <!-- SEPARATOR -->
+  <tr>
+    <td colspan="2">--------------------------------</td>
+  </tr>
+  <!-- SUMMARY HEADER -->
+  <tr>
+    <td colspan="2" style="text-align: center; font-weight: bold; text-transform: uppercase;">
+      Order Summary
+    </td>
+  </tr>
+  <!-- SUMMARY CONTENT -->
+  <tr>
+    <td>Total Products</td>
+    <td style="text-align: right;"><%= @total_products %></td>
+  </tr>
+  <tr>
+    <td>Total Quantity</td>
+    <td style="text-align: right;"><%= @total_quantity %></td>
+  </tr>
+  <tr>
+    <td>Total Orders</td>
+    <td style="text-align: right;"><%= @total_orders %></td>
+  </tr>
+  <!-- FOOTER SEPARATOR -->
+  <tr>
+    <td colspan="2">--------------------------------</td>
+  </tr>
+</table>
+<!-- BUTTONS (NO PRINT) -->
+<div class="no-print" style="margin-top:20px; text-align:center;">
+  <button onclick="window.print()">Print</button>
+  <button onclick="window.close()">Close</button>
+</div>
+<script>
+  window.onload = function() {
+    window.print();
+  }
+</script>

@@ -56,6 +56,13 @@ class FilterComponent < ViewComponent::Base
         **common_kwargs
       )
 
+    when :date
+      helpers.render DateInputComponent.new(
+        form: form,
+        field_name: field[:name],
+        **common_kwargs
+      )
+
     else
       raise ArgumentError, "Unknown filter field type: #{field[:type]}"
     end

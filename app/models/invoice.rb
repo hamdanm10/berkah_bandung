@@ -120,11 +120,11 @@ class Invoice < ApplicationRecord
   # Ransack
   # ============================
   def self.ransackable_attributes(_auth_object = nil)
-    [ "invoice_status", "invoice_type", "invoice_number", "invoice", "distributor_id" ]
+    [ "invoice_status", "invoice_type", "invoice_number", "invoice", "distributor_id", "created_at" ]
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    [ "distributor" ]
+    [ "distributor", "user_created" ]
   end
 
   # ============================

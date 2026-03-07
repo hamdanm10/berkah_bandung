@@ -7,5 +7,7 @@ class CreateCourierServices < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
+
+    add_index :courier_services, :deleted_at
   end
 end

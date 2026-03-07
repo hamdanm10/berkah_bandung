@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Print Orders</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+      @page {
+        size: 58mm auto;
+        margin: 0;
+      }
+
+      body {
+        font-family: "Courier New", monospace;
+        font-size: 14px;
+        width: 72mm;
+        margin: 0 auto;
+        padding: 5px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      td {
+        padding: 2px 0;
+        vertical-align: top;
+      }
+
+      .center {
+        text-align: center;
+      }
+
+      .right {
+        text-align: right;
+      }
+
+      .bold {
+        font-weight: bold;
+      }
+
+      .separator {
+        border-top: 1px dashed #000;
+        margin: 6px 0;
+      }
+
+      .no-print {
+        display: none;
+      }
+
+      @media screen {
+        body {
+          width: 350px;
+          margin: 20px auto;
+          border: 1px solid #ddd;
+        }
+
+        .no-print {
+          display: block;
+          text-align: center;
+          margin-bottom: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>

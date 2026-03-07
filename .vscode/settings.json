@@ -1,0 +1,5 @@
+{
+  "ruby.rubocop.executePath": "",
+  "ruby.rubocop.configFilePath": ".rubocop.yml",
+  "ruby.rubocop.onSave": true,
+}

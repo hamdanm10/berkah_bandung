@@ -10,7 +10,6 @@ class InvoiceItem < ApplicationRecord
   # Relations
   belongs_to :invoice
   belongs_to :product
-  belongs_to :product_price, optional: true
 
   # Callbacks
   before_validation :normalize_adjustment_type

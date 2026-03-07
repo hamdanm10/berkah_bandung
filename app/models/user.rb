@@ -7,24 +7,29 @@ class User < ApplicationRecord
     super_admin: 0,
     order_supervisor: 1,
     order_admin: 2,
-    inventory_admin: 3,
-    returns_admin: 4
+    warehouse_admin: 3,
+    dispatch_admin: 4,
+    return_admin: 5
   }, default: :order_admin
 
   # Relations
   has_many :sessions, dependent: :destroy
   has_one :invitation, foreign_key: :used_by_user_id
-  has_many :invoices, foreign_key: :created_by_user_id
+  has_many :order_batches, foreign_key: :created_by_user_id
+
+  has_many :paid_orders, class_name: 'Order', foreign_key: :paid_by_id
+  has_many :delivered_orders, class_name: 'Order', foreign_key: :delivered_by_id
+  has_many :cancelled_orders, class_name: 'Order', foreign_key: :cancelled_by_id
+  has_many :returned_orders, class_name: 'Order', foreign_key: :returned_by_id
 
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
-    [ "role", "username", "full_name", "is_active" ]
+    %w[id role username full_name is_active]
   end
 
   def self.ransackable_associations(auth_object = nil)
     []
   end
-
 
   # Normalization
   normalizes :username, with: ->(e) { e.to_s.strip.downcase }
@@ -42,10 +47,21 @@ class User < ApplicationRecord
             length: { minimum: 4, maximum: 20 },
             format: {
               with: VALID_USERNAME_REGEX,
-              message: "only allows lowercase letters, numbers, and underscores"
+              message: 'only allows lowercase letters, numbers, and underscores'
             }
 
   validates :password,
+            presence: true,
             length: { minimum: 8 },
-            if: -> { password.present? }
+            if: :password_required?
+
+  validates :password_confirmation,
+            presence: true,
+            if: :password_required?
+
+  private
+
+  def password_required?
+    new_record? || password.present?
+  end
 end

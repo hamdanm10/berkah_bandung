@@ -39,3 +39,9 @@ application.register("password-visibility", PasswordVisibilityController)
 
 import RecordLimitSelectorController from "./record_limit_selector_controller"
 application.register("record-limit-selector", RecordLimitSelectorController)
+
+import ScanController from "./scan_controller"
+application.register("scan", ScanController)
+
+import ShortcutController from "./shortcut_controller"
+application.register("shortcut", ShortcutController)

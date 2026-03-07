@@ -64,8 +64,18 @@
                 auto_submit: false
               },
               {
+                type: :date,
+                name: :created_at_gteq,
+                auto_submit: false
+              },
+              {
+                type: :date,
+                name: :created_at_lteq,
+                auto_submit: false
+              },
+              {
                 type: :search,
-                name: :invoice_number_or_invoice_or_distributor_name_cont,
+                name: :invoice_number_or_invoice_or_user_created_username_or_distributor_name_cont,
                 placeholder: "Search...",
                 auto_submit: false
               }

@@ -1,0 +1,8 @@
+<%= turbo_frame_tag "return_results" do %>
+  <div class="mt-4 bg-success-soft border border-success text-success p-4 rounded-md">
+    Order <strong><%= order.order_number %></strong> successfully returned.
+  </div>
+  <div class="mt-6">
+    <%= render partial: "order_details", locals: { order: order } %>
+  </div>
+<% end %>

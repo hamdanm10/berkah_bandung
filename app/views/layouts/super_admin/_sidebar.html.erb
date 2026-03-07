@@ -1,39 +1,68 @@
 <%
-  main_modules = [
+  dashboard_modules = [
     { icon: "layout-grid", url: super_admin_dashboard_path, name: "Dashboard" },
-    { icon: "scroll-text", url: super_admin_invoices_path, name: "Invoice" },
-    { icon: "mail", url: super_admin_invitations_path, name: "Invitation" },
   ]
 
-  master_modules = [
-    { icon: "user-round", url: super_admin_users_path, name: "User" },
+  inventory_modules = [
+    { icon: "scroll-text", url: super_admin_invoices_path, name: "Restock Invoices" },
+  ]
+
+  order_modules = [
+    { icon: "package-plus", url: super_admin_merchant_orders_path, name: "Input Order" },
+    { icon: "package", url: super_admin_delivered_orders_path, name: "Delivered Orders" },
+    { icon: "package-check", url: super_admin_paid_orders_path, name: "Paid Orders" },
+    { icon: "package-x", url: super_admin_cancelled_orders_path, name: "Cancelled Orders" },
+    { icon: "package-minus", url: super_admin_returned_orders_path, name: "Returned Orders" },
+    { icon: "package-search", url: super_admin_all_orders_path, name: "All Orders" },
+  ]
+
+  business_modules = [
     { icon: "store", url: super_admin_merchants_path, name: "Merchant" },
+    { icon: "van", url: super_admin_distributors_path, name: "Distributor" },
     { icon: "motorbike", url: super_admin_courier_services_path, name: "Courier Service" },
+    { icon: "package", url: super_admin_products_path, name: "Product" },
     { icon: "slack", url: super_admin_brands_path, name: "Brand" },
     { icon: "chart-bar-stacked", url: super_admin_categories_path, name: "Category" },
-    { icon: "van", url: super_admin_distributors_path, name: "Distributor" },
-    { icon: "package", url: super_admin_products_path, name: "Product" },
+  ]
+
+  system_modules = [
+    { icon: "user-round", url: super_admin_users_path, name: "User" },
+    { icon: "mail", url: super_admin_invitations_path, name: "Invitation" },
   ]
 %>
 <%= render(SidebarComponent.new(sidebar_id: "super-admin-sidebar")) do %>
+  <!-- Dashboard -->
   <li>
-    <div class="px-2 text-xs text-gray-500 uppercase">Main</div>
+    <div class="px-2 text-xs text-gray-500 uppercase">Dashboard</div>
   </li>
-  <% main_modules.each do |main_module| %>
-    <%= render(SidebarLinkComponent.new(
-          icon: main_module[:icon],
-          url: main_module[:url],
-          name: main_module[:name]
-        )) %>
+  <% dashboard_modules.each do |item| %>
+    <%= render(SidebarLinkComponent.new(icon: item[:icon], url: item[:url], name: item[:name])) %>
   <% end %>
   <li>
-    <div class="px-2 text-xs text-gray-500 uppercase pt-2.5">Master</div>
+    <div class="px-2 text-xs text-gray-500 uppercase pt-2.5">Inventory</div>
   </li>
-  <% master_modules.each do |master_module| %>
-    <%= render(SidebarLinkComponent.new(
-        icon: master_module[:icon],
-        url: master_module[:url],
-        name: master_module[:name]
-      )) %>
+  <% inventory_modules.each do |item| %>
+    <%= render(SidebarLinkComponent.new(icon: item[:icon], url: item[:url], name: item[:name])) %>
+  <% end %>
+  <!-- Order Module -->
+  <li>
+    <div class="px-2 text-xs text-gray-500 uppercase pt-2.5">Order Module</div>
+  </li>
+  <% order_modules.each do |item| %>
+    <%= render(SidebarLinkComponent.new(icon: item[:icon], url: item[:url], name: item[:name])) %>
+  <% end %>
+  <!-- Business Master -->
+  <li>
+    <div class="px-2 text-xs text-gray-500 uppercase pt-2.5">Business Master</div>
+  </li>
+  <% business_modules.each do |item| %>
+    <%= render(SidebarLinkComponent.new(icon: item[:icon], url: item[:url], name: item[:name])) %>
+  <% end %>
+  <!-- System -->
+  <li>
+    <div class="px-2 text-xs text-gray-500 uppercase pt-2.5">System</div>
+  </li>
+  <% system_modules.each do |item| %>
+    <%= render(SidebarLinkComponent.new(icon: item[:icon], url: item[:url], name: item[:name])) %>
   <% end %>
 <% end %>

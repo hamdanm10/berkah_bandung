@@ -7,9 +7,9 @@ class SuperAdmin::InvoicesController < SuperAdminApplicationController
     @q = Invoice.where(deleted_at: nil).ransack(params[:q])
 
     @invoices = @q
-      .result
-      .includes(:distributor, :reference_invoice)
-      .order(created_at: :desc)
+                .result
+                .includes(:distributor, :reference_invoice)
+                .order(created_at: :desc)
 
     @pagy, @invoices = pagy(@invoices, limit:)
   end
@@ -104,15 +104,15 @@ class SuperAdmin::InvoicesController < SuperAdminApplicationController
     q = params[:q].to_s.strip[0, 100]
 
     invoices = Invoice
-      .where(invoice_status: %i[posted paid], deleted_at: nil)
-      .where("invoice_number ILIKE ?", "%#{q}%")
-      .order(created_at: :desc)
-      .limit(15)
+               .where(invoice_status: %i[posted paid], deleted_at: nil)
+               .where('invoice_number ILIKE ?', "%#{q}%")
+               .order(created_at: :desc)
+               .limit(15)
 
     render json: invoices.map { |d|
       {
         value: d.id,
-        label: "#{d.invoice_number} | Type: #{d.invoice_type.titleize} | #{d.created_at.strftime("%d/%b/%Y %H:%M:%S")}"
+        label: "#{d.invoice_number} | Type: #{d.invoice_type.titleize} | #{d.created_at.strftime('%d/%b/%Y %H:%M:%S')}"
       }
     }
   end
@@ -120,28 +120,28 @@ class SuperAdmin::InvoicesController < SuperAdminApplicationController
   private
 
   def invoice_base_fields
-    [
-      :distributor_id,
-      :invoice,
-      :entered_amount,
-      :invoice_amount,
-      :invoice_number,
-      :received_date,
-      :transfer_amount,
-      :total_transfer_amount,
-      :transfer_date,
-      :remarks
+    %i[
+      distributor_id
+      invoice
+      entered_amount
+      invoice_amount
+      invoice_number
+      received_date
+      transfer_amount
+      total_transfer_amount
+      transfer_date
+      remarks
     ]
   end
 
   def invoice_item_fields
-    [
-      :id,
-      :product_id,
-      :adjustment_type,
-      :quantity,
-      :cost_snapshot,
-      :_destroy
+    %i[
+      id
+      product_id
+      adjustment_type
+      quantity
+      cost_snapshot
+      _destroy
     ]
   end
 
@@ -173,29 +173,29 @@ class SuperAdmin::InvoicesController < SuperAdminApplicationController
 
   def invoice_base_scope
     Invoice.includes(:distributor, :reference_invoice)
-      .where(deleted_at: nil)
+           .where(deleted_at: nil)
   end
 
   def edit_invoice_scope
     invoice_base_scope
       .where.not(invoice_status: :paid)
-      .find(params[:id])
+      .find_by!(id: params[:id])
   end
 
   def show_invoice_scope
-    invoice_base_scope.find(params[:id])
+    invoice_base_scope.find_by!(id: params[:id])
   end
 
   def mark_as_paid_invoice_scope
     invoice_base_scope
       .where(invoice_status: :posted)
-      .find(params[:id])
+      .find_by!(id: params[:id])
   end
 
   def post_invoice_scope
     invoice_base_scope
       .where(invoice_status: :draft)
-      .find(params[:id])
+      .find_by!(id: params[:id])
   end
 
   def assign_dropdown_search_labels(invoice)

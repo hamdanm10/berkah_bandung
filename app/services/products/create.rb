@@ -2,19 +2,18 @@
 
 class Products::Create < ApplicationService
   def call(product_params:)
-    product = Product.new(
-      product_params.merge(
-        is_active: true
-      )
-    )
+    product = build_product(product_params)
 
-    if product.save
-      success(
-        product: product,
-        message: "Product was successfully created."
-      )
-    else
-      failure(product: product)
-    end
+    product.save!
+
+    success(product: product, message: 'Product was successfully created.')
+  rescue ActiveRecord::RecordInvalid
+    failure(product: product)
+  end
+
+  private
+
+  def build_product(params)
+    Product.new(params.merge(is_active: true))
   end
 end

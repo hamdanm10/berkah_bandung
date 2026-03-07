@@ -1,0 +1,83 @@
+<%= form_with model: order, 
+    url: url,
+    class: "mt-5 flex flex-col gap-5",
+    data: {
+      controller: "nested-form scan",
+      nested_form_wrapper_selector_value: ".nested-form-wrapper"
+    } do |form| %>
+  <div class="block bg-white border border-gray-300 rounded-md divide-y divide-gray-300">
+    <div class="p-4 lg:p-6">
+      <h3 class="font-medium text-gray-700">Order Form</h3>
+      <p class="text-sm text-gray-500"><%= form_caption("order", order) %></p>
+    </div>
+    <div class="p-4 lg:p-6 flex flex-col gap-3">
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :order_number, label: "Order Number", required: true)) %>
+        <%= render(TextInputComponent.new(form: form, field_name: :order_number, class: "mt-2", autofocus: "true", data: { scan_target: "orderNumber" })) %>
+        <%= render(ErrorInputComponent.new(model: order, field_name: :order_number)) %>
+      </div>
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :tracking_number, label: "Tracking Number", required: true)) %>
+        <%= render(TextInputComponent.new(form: form, field_name: :tracking_number, class: "mt-2", data: { scan_target: "trackingNumber" })) %>
+        <%= render(ErrorInputComponent.new(model: order, field_name: :tracking_number)) %>
+      </div>
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :courier_service_id, label: "Courier Service", required: true)) %>
+        <%= render(DropdownSearchInputComponent.new(
+              form: form,
+              field_name: :courier_service_id,
+              search_url: search_courier_services_path,
+              current_value: order.courier_service_id,
+              current_label: @courier_service_label,
+              prompt: "Choose courier service",
+              class: "mt-2"
+            )
+          ) %>
+        <%= render(ErrorInputComponent.new(model: order, field_name: :courier_service_id)) %>
+      </div>
+    </div>
+  </div>
+  <div class="block bg-white border border-gray-300 rounded-md">
+    <div class="p-4 lg:p-6 border-b border-gray-300">
+      <h3 class="font-medium text-gray-700">Order Item Form</h3>
+      <p class="text-sm text-gray-500"><%= form_caption("order item", OrderItem.new) %></p>
+    </div>
+    <template data-nested-form-target="template">
+      <%= form.fields_for :order_items, OrderItem.new, child_index: "NEW_RECORD" do |order_items_fields| %>
+        <%= render "order_item_form", form: order_items_fields, removable: true %>
+      <% end %>
+    </template>
+    <%= form.fields_for :order_items do |order_items_fields| %>
+      <%= render "order_item_form", form: order_items_fields, removable: order_items_fields.index != 0 %>
+    <% end %>
+    <div data-nested-form-target="target"></div>
+    <div class="p-4 lg:p-6 flex justify-end">
+      <%= render(
+          ButtonComponent.new(
+            type: "button",
+            size: "sm",
+            variant: "light",
+            data: {
+              controller: "shortcut",
+              shortcut_key_value: "ctrl+alt+a",
+              action: "nested-form#add"
+            }
+          )
+        ) do %>
+        <%= lucide_icon("plus", class: "size-5") %>
+        <span>Add Item</span>
+        <kbd class="px-1 text-xs font-medium text-heading bg-neutral-tertiary border border-default-medium rounded-md">Ctrl</kbd>
+        <span>+</span>
+        <kbd class="px-1 text-xs font-medium text-heading bg-neutral-tertiary border border-default-medium rounded-md">Alt</kbd>
+        <span>+</span>
+        <kbd class="px-1 text-xs font-medium text-heading bg-neutral-tertiary border border-default-medium rounded-md">A</kbd>
+      <% end %>
+    </div>
+  </div>
+  <div class="flex items-center justify-end">
+    <%= render(ButtonComponent.new(type: "submit", size: "sm", variant: "primary")) do %>
+      <%= lucide_icon("save", class: "size-5") %>
+      <span>Save</span>
+    <% end %>
+  </div>
+<% end %>
