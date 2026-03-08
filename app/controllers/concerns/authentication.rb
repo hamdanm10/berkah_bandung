@@ -54,6 +54,8 @@ module Authentication
       order_supervisor_dashboard_path
     when 'order_admin'
       order_admin_dashboard_path
+    when 'warehouse_admin'
+      warehouse_admin_dashboard_path
     else
       root_path
     end

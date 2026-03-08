@@ -1,0 +1,14 @@
+<%
+  dashboard_modules = [
+    { icon: "layout-grid", url: warehouse_admin_dashboard_path, name: "Dashboard" },
+  ]
+%>
+<%= render(SidebarComponent.new(sidebar_id: "super-admin-sidebar")) do %>
+  <!-- Dashboard -->
+  <li>
+    <div class="px-2 text-xs text-gray-500 uppercase">Dashboard</div>
+  </li>
+  <% dashboard_modules.each do |item| %>
+    <%= render(SidebarLinkComponent.new(icon: item[:icon], url: item[:url], name: item[:name])) %>
+  <% end %>
+<% end %>
