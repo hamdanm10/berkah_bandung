@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   draw(:order_supervisor)
   draw(:order_admin)
   draw(:warehouse_admin)
+  draw(:dispatch_admin)
+  draw(:return_admin)
 
   # =====================
   # INVITATIONS
