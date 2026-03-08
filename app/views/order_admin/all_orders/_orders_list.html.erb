@@ -1,0 +1,113 @@
+<div
+  class="w-full bg-white border max-w-none border-gray-300 mt-5 flex flex-col divide-y divide-gray-300 rounded-md shadow-none"
+  data-controller="filter hint confirm-dialog"
+  data-filter-initial-open-value="<%= params[:q].present? %>"
+>
+  <div class="flex flex-col p-4 gap-4 lg:flex-row lg:items-center lg:justify-between lg:p-6 lg:gap-0">
+    <%= render(RecordLimitComponent.new) %>
+    <div class="flex lg:items-center gap-3">
+      <div>
+        <%= render(
+              ButtonComponent.new(
+                type: "button",
+                size: "sm",
+                variant: "light",
+                "data-hint": "Filter",
+                "data-action": "
+                  mouseenter->hint#show
+                  mouseleave->hint#hide
+                  click->filter#toggle
+                "
+              )
+            ) do %>
+          <%= lucide_icon("settings-2", class: "size-5") %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div 
+    data-filter-target="panel" 
+    class="overflow-hidden h-0 opacity-0 transition-[height,opacity] duration-200 ease-out"
+  >
+    <div class="flex justify-end gap-3 p-6">
+      <%= render FilterComponent.new(
+            q: q,
+            url: order_admin_all_orders_path,
+            show_submit: true,
+            fields: [
+              {
+                type: :select,
+                name: :order_batch_merchant_id_eq,
+                records: merchants_for_select,
+                blank: "All Merchants",
+                auto_submit: false
+              },
+              {
+                type: :select,
+                name: :courier_service_id_eq,
+                records: courier_services_for_select,
+                blank: "All Couriers",
+                auto_submit: false
+              },
+              {
+                type: :select,
+                name: :status_eq,
+                records: order_statuses_for_select,
+                blank: "All Statuses",
+                auto_submit: false
+              },
+              {
+                type: :date,
+                name: :created_at_gteq,
+                auto_submit: false
+              },
+              {
+                type: :date,
+                name: :created_at_lteq,
+                auto_submit: false
+              },
+              {
+                type: :search,
+                name: :order_number_or_tracking_number_cont,
+                placeholder: "Search...",
+                auto_submit: false
+              }
+            ]
+          ) %>
+    </div>
+  </div>
+  <div class="overflow-x-auto">
+    <div class="relative overflow-x-auto">
+      <table class="w-full text-left text-xs lg:text-sm text-gray-500">
+        <thead class="text-xs uppercase text-gray-700 border-b border-b-gray-300 bg-white">
+          <tr>
+            <th class="px-6 py-3 font-medium normal-case">#</th>
+            <th class="px-6 py-3 font-medium normal-case">Merchant Name</th>
+            <th class="px-6 py-3 font-medium normal-case">Marketplace</th>
+            <th class="px-6 py-3 font-medium normal-case">Order Number</th>
+            <th class="px-6 py-3 font-medium normal-case">Tracking Number</th>
+            <th class="px-6 py-3 font-medium normal-case">Courier</th>
+            <th class="px-6 py-3 font-medium normal-case">Total Items</th>
+            <th class="px-6 py-3 font-medium normal-case">Status</th>
+            <th class="px-6 py-3 font-medium normal-case">Created At</th>
+            <th class="px-6 py-3 font-medium normal-case">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if orders.any? %>
+            <% orders.each_with_index do |order, index| %>
+              <%= render("order", order: order, index: index, pagy: pagy) %>
+            <% end %>
+          <% else %>
+            <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
+              No data found.
+            </td>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <%= render(PaginationComponent.new(records: orders, pagy: pagy)) %>
+  <%= render(HintComponent.new) %>
+  <%= render(ConfirmDialogComponent.new) %>
+</div>
