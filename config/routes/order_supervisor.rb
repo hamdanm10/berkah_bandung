@@ -21,4 +21,6 @@ namespace :order_supervisor do
   end
 
   resources :all_orders, only: %i[index show]
+  resources :courier_services, only: %i[index]
+  resources :products, only: %i[index]
 end
