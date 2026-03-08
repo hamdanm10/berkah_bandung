@@ -7,4 +7,10 @@ namespace :dispatch_admin do
       patch :change_password
     end
   end
+
+  resources :delivered_orders, except: %i[destroy edit update] do
+    member do
+      patch :undo
+    end
+  end
 end
