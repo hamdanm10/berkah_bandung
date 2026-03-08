@@ -1,0 +1,16 @@
+<div class="flex items-center justify-between">
+  <div class="flex gap-4 items-center">
+    <%= render(ButtonLinkComponent.new(size: "sm", variant: "light", url: order_supervisor_all_orders_path)) do %>
+      <%= lucide_icon("chevron-left", class: "size-5") %>
+    <% end %>
+    <h2 class="text-xl font-bold text-gray-700">Order Details</h2>
+  </div>
+  <div class="hidden lg:block">
+    <%= render(BreadcrumbComponent.new) do %>
+      <%= render(BreadcrumbItemComponent.new(url: order_supervisor_dashboard_path, icon: "layout-grid", name: "Dashboard")) %>
+      <%= render(BreadcrumbItemComponent.new(url: order_supervisor_all_orders_path, name: "All Orders")) %>
+      <%= render(BreadcrumbItemComponent.new(name: "Order Details", last: true)) %>
+    <% end %>
+  </div>
+</div>
+<%= render "order_details", order: @order %>

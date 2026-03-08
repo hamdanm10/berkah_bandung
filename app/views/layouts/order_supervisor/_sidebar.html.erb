@@ -7,6 +7,11 @@
     { icon: "package-plus", url: order_supervisor_merchant_orders_path, name: "Input Order" },
     { icon: "package-search", url: order_supervisor_all_orders_path, name: "All Orders" },
   ]
+
+  business_modules = [
+    { icon: "motorbike", url: order_supervisor_courier_services_path, name: "Courier Service" },
+    { icon: "package", url: order_supervisor_products_path, name: "Product" },
+  ]
 %>
 <%= render(SidebarComponent.new(sidebar_id: "super-admin-sidebar")) do %>
   <!-- Dashboard -->
@@ -21,6 +26,13 @@
     <div class="px-2 text-xs text-gray-500 uppercase pt-2.5">Order Module</div>
   </li>
   <% order_modules.each do |item| %>
+    <%= render(SidebarLinkComponent.new(icon: item[:icon], url: item[:url], name: item[:name])) %>
+  <% end %>
+  <!-- Business Master -->
+  <li>
+    <div class="px-2 text-xs text-gray-500 uppercase pt-2.5">Business Master</div>
+  </li>
+  <% business_modules.each do |item| %>
     <%= render(SidebarLinkComponent.new(icon: item[:icon], url: item[:url], name: item[:name])) %>
   <% end %>
 <% end %>
