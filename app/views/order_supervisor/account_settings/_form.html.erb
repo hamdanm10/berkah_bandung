@@ -1,0 +1,49 @@
+<div class="mt-5 flex flex-col gap-5">
+  <div class="block bg-white border border-gray-300 rounded-md divide-y divide-gray-300">
+    <div class="p-4 lg:p-6">
+      <h3 class="font-medium text-gray-700">User Form</h3>
+      <p class="text-sm text-gray-500"><%= form_caption("user", user) %></p>
+    </div>
+    <%= form_with model: user, url: order_supervisor_account_setting_path, class: "p-4 lg:p-6 flex flex-col gap-3" do |form| %>
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :full_name, label: "Full Name", required: true)) %>
+        <%= render(TextInputComponent.new(form: form, field_name: :full_name, class: "mt-2")) %>
+        <%= render(ErrorInputComponent.new(model: user, field_name: :full_name)) %>
+      </div>
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :username, label: "Username", required: true)) %>
+        <%= render(TextInputComponent.new(form: form, field_name: :username, class: "mt-2")) %>
+        <%= render(ErrorInputComponent.new(model: user, field_name: :username)) %>
+      </div>
+      <div class="flex items-center justify-end mt-2">
+        <%= render(ButtonComponent.new(type: "submit", size: "sm", variant: "primary")) do %>
+          <%= lucide_icon("save", class: "size-5") %>
+          <span>Save</span>
+        <% end %>
+      </div>
+    <% end %>
+    <%= form_with model: user, url: change_password_order_supervisor_account_setting_path, class: "p-4 lg:p-6 flex flex-col gap-3" do |form| %>
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :current_password, label: "Current Password", required: true)) %>
+        <%= render(PasswordInputComponent.new(form: form, field_name: :current_password, class: "mt-2")) %>
+        <%= render(ErrorInputComponent.new(model: user, field_name: :current_password)) %>
+      </div>
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :password, label: "New Password", required: true)) %>
+        <%= render(PasswordInputComponent.new(form: form, field_name: :password, class: "mt-2")) %>
+        <%= render(ErrorInputComponent.new(model: user, field_name: :password)) %>
+      </div>
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :password_confirmation, label: "Confirm Password", required: true)) %>
+        <%= render(PasswordInputComponent.new(form: form, field_name: :password_confirmation, class: "mt-2")) %>
+        <%= render(ErrorInputComponent.new(model: user, field_name: :password_confirmation)) %>
+      </div>
+      <div class="flex items-center justify-end mt-2">
+        <%= render(ButtonComponent.new(type: "submit", size: "sm", variant: "primary")) do %>
+          <%= lucide_icon("save", class: "size-5") %>
+          <span>Save</span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

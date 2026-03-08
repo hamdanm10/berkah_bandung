@@ -1,0 +1,10 @@
+<div class="flex gap-0 items-center justify-between">
+  <h2 class="text-xl font-bold text-gray-700">Account Settings</h2>
+  <div class="hidden lg:block">
+    <%= render(BreadcrumbComponent.new) do %>
+      <%= render(BreadcrumbItemComponent.new(url: order_supervisor_dashboard_path, icon: "layout-grid", name: "Dashboard")) %>
+      <%= render(BreadcrumbItemComponent.new(name: "Account Settings", last: true)) %>
+    <% end %>
+  </div>
+</div>
+<%= render "form", user: @user %>
