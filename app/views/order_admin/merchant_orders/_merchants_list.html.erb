@@ -1,0 +1,60 @@
+<div 
+    class="flex flex-col mt-5" 
+    data-controller="filter hint"
+    data-filter-initial-open-value="<%= params[:q].present? %>"
+  >
+  <div>
+    <div class="flex justify-end">
+      <%= render(
+          ButtonComponent.new(
+            type: "button",
+            size: "sm",
+            variant: "light",
+            "data-hint": "Filter",
+            "data-action": "
+              mouseenter->hint#show
+              mouseleave->hint#hide
+              click->filter#toggle
+            "
+          )
+        ) do %>
+        <%= lucide_icon("settings-2", class: "size-5") %>
+      <% end %>
+    </div>
+    <div 
+        data-filter-target="panel" 
+        class="overflow-hidden h-0 opacity-0 transition-[height,opacity] duration-200 ease-out py-4"
+      >
+      <div class="flex justify-end gap-3">
+        <%= render FilterComponent.new(
+            q: q,
+            url: order_admin_merchant_orders_path,
+            show_submit: true,
+            fields: [
+              {
+                type: :search,
+                name: :name_or_marketplace_cont,
+                placeholder: "Search...",
+                auto_submit: false
+              }
+            ]
+          ) %>
+      </div>
+    </div>
+  </div>
+  <% if merchants.any? %>
+    <div class="flex flex-col gap-4" >
+      <% merchants.each_with_index do |merchant, index| %>
+        <%= render("merchant", merchant: merchant, index: index, pagy: pagy) %>
+      <% end %>
+      <div class="w-full bg-white border border-gray-300 rounded-md flex items-center justify-between gap-4">
+        <%= render(PaginationComponent.new(records: merchants, pagy: pagy)) %>
+      </div>
+      <%= render(HintComponent.new) %>
+    </div>
+  <% else %>
+    <div class="text-sm w-full bg-danger-soft border border-danger text-danger rounded-md p-4">
+      <span>No data found.</span>
+    </div>
+  <% end %>
+</div>

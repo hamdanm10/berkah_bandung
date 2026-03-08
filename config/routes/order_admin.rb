@@ -14,10 +14,13 @@ namespace :order_admin do
         collection do
           get :duplicate_new
           post :duplicate_create
+          get :print
         end
       end
     end
   end
 
   resources :all_orders, only: %i[index show]
+  resources :courier_services, only: %i[index]
+  resources :products, only: %i[index]
 end

@@ -32,21 +32,16 @@ class OrderSupervisor::DashboardsController < OrderSupervisorApplicationControll
 
     @orders_by_status = orders.group(:status).count
 
+    @orders_by_courier_today = orders
+                               .joins(:courier_service)
+                               .where(created_at: today)
+                               .group('courier_services.name')
+                               .count
+
     @recent_orders = orders
                      .select(:order_number, :tracking_number, :status)
                      .order(created_at: :desc)
                      .limit(10)
-
-    @top_products_this_month = OrderItem
-                               .joins(:order, :product)
-                               .where(orders: {
-                                        deleted_at: nil,
-                                        created_at: Time.current.beginning_of_month..Time.current.end_of_month
-                                      })
-                               .group('products.name')
-                               .order('SUM(order_items.quantity) DESC')
-                               .limit(10)
-                               .sum('order_items.quantity')
   end
 
   private

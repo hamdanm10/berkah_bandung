@@ -1,0 +1,108 @@
+<%= form_with model: @form, 
+    url: url, 
+    scope: :duplicate_orders_form, 
+    class: "mt-5 flex flex-col gap-5",
+    data: {
+      controller: "scan"
+    } do |form| %>
+  <!-- ======= Duplicate Order Info ======= -->
+  <div class="block bg-white border border-gray-300 rounded-md divide-y divide-gray-300">
+    <div class="p-4 lg:p-6">
+      <h3 class="font-medium text-gray-700">Duplicate Order Form</h3>
+      <p class="text-sm text-gray-500"><%= form_caption("duplicate order", @form) %></p>
+    </div>
+    <div class="p-4 lg:p-6 flex flex-col gap-3">
+      <!-- Product -->
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :product_id, label: "Product", required: true)) %>
+        <%= render(DropdownSearchInputComponent.new(
+              form: form,
+              field_name: :product_id,
+              search_url: search_products_path,
+              current_value: @form.product_id,
+              current_label: @form.product_label,
+              prompt: "Choose product",
+              autofocus: @form.orders.blank?,
+              class: "mt-2"
+        )) %>
+        <%= render(ErrorInputComponent.new(model: @form, field_name: :product_id)) %>
+      </div>
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :variant, label: "Variant", required: false)) %>
+        <%= render(TextInputComponent.new(form: form, field_name: :variant, class: "mt-2")) %>
+        <%= render(ErrorInputComponent.new(model: @form, field_name: :variant)) %>
+      </div>
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :quantity, label: "Quantity", required: true)) %>
+        <%= render(NumberInputComponent.new(form: form, field_name: :quantity, class: "mt-2")) %>
+        <%= render(ErrorInputComponent.new(model: @form, field_name: :quantity)) %>
+      </div>
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :courier_service_id, label: "Courier Service", required: true)) %>
+        <%= render(DropdownSearchInputComponent.new(
+              form: form,
+              field_name: :courier_service_id,
+              search_url: search_courier_services_path,
+              current_value: @form.courier_service_id,
+              current_label: @form.courier_label,
+              prompt: "Choose courier service",
+              class: "mt-2"
+        )) %>
+        <%= render(ErrorInputComponent.new(model: @form, field_name: :courier_service_id)) %>
+      </div>
+      <!-- Duplicate Count -->
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :duplicate_count, label: "Duplicate Count", required: true)) %>
+        <%= render(NumberInputComponent.new(form: form, field_name: :duplicate_count, class: "mt-2")) %>
+        <%= render(ErrorInputComponent.new(model: @form, field_name: :duplicate_count)) %>
+      </div>
+      <!-- Add Orders Button -->
+      <div class="flex justify-end mt-2">
+        <%= render(ButtonComponent.new(
+              type: "submit", size: "sm", 
+              variant: "light", name: :generate, 
+              value: "1", 
+              tabindex: -1,
+              data: {
+                controller: "shortcut",
+                shortcut_key_value: "ctrl+alt+a",
+              }
+            )) do %>
+          <%= lucide_icon("plus", class: "size-5") %>
+          <span>Add Orders</span>
+          <kbd class="px-1 text-xs font-medium text-heading bg-neutral-tertiary border border-default-medium rounded-md">Ctrl</kbd>
+          <span>+</span>
+          <kbd class="px-1 text-xs font-medium text-heading bg-neutral-tertiary border border-default-medium rounded-md">Alt</kbd>
+          <span>+</span>
+          <kbd class="px-1 text-xs font-medium text-heading bg-neutral-tertiary border border-default-medium rounded-md">A</kbd>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="block bg-white border border-gray-300 rounded-md divide-y divide-gray-300 mt-4">
+    <div class="p-4 lg:p-6">
+      <h3 class="font-medium text-gray-700">Order Form</h3>
+      <p class="text-sm text-gray-500"><%= form_caption("order", @form) %></p>
+    </div>
+    <% if @form.orders.present? %>
+      <turbo-frame id="generated_orders">
+        <%= render partial: "generated_orders_fields", locals: { form: form } %>
+      </turbo-frame>
+    <% else %>
+      <div class="px-4 lg:px-6 text-gray-700 flex flex-col text-sm">
+        <div class="flex gap-2 pt-4 pb-4">
+          <span class="font-medium text-secondary">
+            Please generate the orders by clicking "Add Orders" first.
+          </span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <!-- Save Button -->
+  <div class="flex items-center justify-end mt-4">
+    <%= render(ButtonComponent.new(type: "submit", size: "sm", variant: "primary")) do %>
+      <%= lucide_icon("save", class: "size-5") %>
+      <span>Save</span>
+    <% end %>
+  </div>
+<% end %>

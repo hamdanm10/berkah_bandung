@@ -79,6 +79,39 @@
   </div>
   <div class="block bg-white border border-gray-300 rounded-md col-span-3">
     <div class="p-4 border-b border-gray-300">
+      <h3 class="font-medium text-gray-700">Orders by Courier (Today)</h3>
+    </div>
+    <div>
+      <table class="w-full text-left text-xs lg:text-sm text-gray-500">
+        <thead class="text-xs uppercase text-gray-700 border-b border-b-gray-300 bg-white">
+          <tr>
+            <th class="px-6 py-3 font-medium normal-case">Courier</th>
+            <th class="px-6 py-3 font-medium normal-case text-center">Orders Today</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @orders_by_courier_today.any? %>
+            <% @orders_by_courier_today.each do |courier, total| %>
+              <tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300">
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= courier %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700 text-center">
+                  <%= total %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
+              No data found.
+            </td>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="block bg-white border border-gray-300 rounded-md col-span-3">
+    <div class="p-4 border-b border-gray-300">
       <h3 class="font-medium text-gray-700">Recent Orders</h3>
     </div>
     <div>
@@ -117,43 +150,6 @@
                   <% when "paid" %>
                     <span class="text-xs px-2 py-1 bg-success-soft border border-success text-success rounded-md">Paid</span>
                   <% end %>
-                </td>
-              </tr>
-            <% end %>
-          <% else %>
-            <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
-              No data found.
-            </td>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div class="block bg-white border border-gray-300 rounded-md col-span-3">
-    <div class="p-4 border-b border-gray-300">
-      <h3 class="font-medium text-gray-700">Top Products This Month</h3>
-    </div>
-    <div>
-      <table class="w-full text-left text-xs lg:text-sm text-gray-500">
-        <thead class="text-xs uppercase text-gray-700 border-b border-b-gray-300 bg-white">
-          <tr>
-            <th class="px-6 py-3 font-medium normal-case">#</th>
-            <th class="px-6 py-3 font-medium normal-case">Product Name</th>
-            <th class="px-6 py-3 font-medium normal-case">Total Sales</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if @top_products_this_month.any? %>
-            <% @top_products_this_month.each_with_index do |(product, qty), index| %>
-              <tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300">
-                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-                  <%= index + 1 %>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-                  <%= product %>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
-                  <%= qty %>
                 </td>
               </tr>
             <% end %>
