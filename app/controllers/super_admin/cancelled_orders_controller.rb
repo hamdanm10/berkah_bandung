@@ -9,7 +9,7 @@ class SuperAdmin::CancelledOrdersController < SuperAdminApplicationController
               .result
               .with_total_items
               .includes(:cancelled_by, :courier_service, order_batch: :merchant)
-              .order(created_at: :desc)
+              .order(cancelled_at: :desc)
     @pagy, @orders = pagy(@orders, limit:)
   end
 
