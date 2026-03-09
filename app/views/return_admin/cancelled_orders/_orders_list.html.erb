@@ -27,7 +27,7 @@
         <%= render(ButtonLinkComponent.new(
               size: "sm", 
               variant: "primary", 
-              url: new_super_admin_cancelled_order_path,
+              url: new_return_admin_cancelled_order_path,
               "data-hint": "Scan Order",
               "data-action": "
                 mouseenter->hint#show
@@ -46,7 +46,7 @@
     <div class="flex justify-end gap-3 p-6">
       <%= render FilterComponent.new(
             q: q,
-            url: super_admin_cancelled_orders_path,
+            url: return_admin_cancelled_orders_path,
             show_submit: true,
             fields: [
               {
