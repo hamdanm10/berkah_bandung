@@ -113,7 +113,7 @@ namespace :super_admin do
 
   resources :all_orders, only: %i[index show]
 
-  resources :invoices do
+  resources :restock_invoices do
     member do
       patch :post
       patch :mark_as_paid
