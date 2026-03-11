@@ -22,3 +22,5 @@ if user.new_record?
 else
   puts "User 'super_admin' already exists, skipping"
 end
+
+puts 'App settings has been successfully created' if AppSetting.first_or_create!(last_stock_check: Time.current)

@@ -9,6 +9,8 @@ class Product < ApplicationRecord
   has_many :order_items
   has_many :product_availables
 
+  has_many :notifications, as: :notifiable
+
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
     %w[code barcode name category_id brand_id is_active]
