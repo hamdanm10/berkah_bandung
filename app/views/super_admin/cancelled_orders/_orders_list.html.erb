@@ -43,10 +43,10 @@
     data-filter-target="panel" 
     class="overflow-hidden h-0 opacity-0 transition-[height,opacity] duration-200 ease-out"
   >
-    <div class="flex justify-end gap-3 p-6">
+    <div class="p-6 overflow-x-auto w-full">
       <%= render FilterComponent.new(
             q: q,
-            url: super_admin_all_orders_path,
+            url: super_admin_cancelled_orders_path,
             show_submit: true,
             fields: [
               {

@@ -1,0 +1,26 @@
+<%= turbo_frame_tag "scan_section" do %>
+  <%= form_with model: scan_order, 
+      scope: :scan_order_form, 
+      url: url,
+      class: "mt-5 flex flex-col gap-5" do |form| %>
+    <div class="block bg-white border border-gray-300 rounded-md divide-y divide-gray-300">
+      <div class="p-4 lg:p-6">
+        <h3 class="font-medium text-gray-700">Scan Order Form</h3>
+        <p class="text-sm text-gray-500"><%= form_caption("scan order", scan_order) %></p>
+      </div>
+      <div class="p-4 lg:p-6 flex flex-col gap-3">
+        <div>
+          <%= render(LabelInputComponent.new(form: form, field_name: :order_number, label: "Order Number", required: true, autofocus: true)) %>
+          <%= render(TextInputComponent.new(form: form, field_name: :order_number, class: "mt-2")) %>
+          <%= render(ErrorInputComponent.new(model: scan_order, field_name: :order_number)) %>
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center justify-end">
+      <%= render(ButtonComponent.new(type: "submit", size: "sm", variant: "primary")) do %>
+        <%= lucide_icon("search", class: "size-5") %>
+        <span>Find Order</span>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

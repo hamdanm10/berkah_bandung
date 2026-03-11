@@ -1,6 +1,8 @@
 namespace :super_admin do
   resource :dashboard, only: %i[show]
 
+  resources :notifications, only: %i[index]
+
   resource :account_setting, only: %i[edit update] do
     member do
       get :change_password
@@ -113,7 +115,7 @@ namespace :super_admin do
 
   resources :all_orders, only: %i[index show]
 
-  resources :invoices do
+  resources :restock_invoices do
     member do
       patch :post
       patch :mark_as_paid

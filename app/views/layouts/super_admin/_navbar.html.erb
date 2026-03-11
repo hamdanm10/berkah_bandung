@@ -5,7 +5,58 @@
       <%= lucide_icon("panel-right-close", class: "size-5") %>
     <% end %>
   </div>
-  <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+  <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-2">
+    <button
+      type="button"
+      class="border border-gray-300 py-2 px-2 shadow-sm rounded-md flex items-center text-sm gap-2 hover:cursor-pointer relative"
+      id="notification-button"
+      aria-expanded="false"
+      data-dropdown-toggle="notification-dropdown"
+      data-dropdown-placement="bottom"
+    >
+      <span class="sr-only">Open notification</span>
+      <%= lucide_icon('bell', class: 'size-5') %>
+      <% if @notifications.any? %>
+        <span class="absolute -top-1 -right-1 flex size-3">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+          <span class="relative inline-flex size-3 rounded-full bg-red-500"></span>
+        </span>
+      <% end %>
+    </button>
+    <%# Notification Dropdown %>
+    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-300 rounded-md shadow-sm w-xs border border-gray-300" id="notification-dropdown">
+      <div class="px-4 py-3">
+        <span class="block text-sm font-medium text-gray-800 truncate max-w-[30ch]">
+          Notifications
+        </span>
+      </div>
+      <ul>
+        <% if @notifications.any? %>
+          <% @notifications.each do |notification| %>
+            <li>
+              <%= link_to root_path, class: "px-4 py-2 text-sm flex flex-col hover:bg-gray-100" do %>
+                <span class="font-medium text-gray-800"><%= notification.title %></span>
+                <span class="block text-sm text-gray-600 truncate max-w-[30ch]">
+                  <%= notification.message %>
+                </span>
+              <% end %>
+            </li>
+          <% end %>
+        <% else %>
+          <li>
+            <span class="px-4 py-2 text-sm block text-gray-600">
+              No notification found.
+            </span>
+          </li>
+        <% end %>
+      </ul>
+      <div class="px-4 py-3">
+        <%= link_to root_path, class: "text-sm hover:underline font-medium text-gray-800 flex gap-2 items-center" do %>
+          <span>See all notifications</span>
+          <%= lucide_icon('move-right', class: 'size-3') %>
+        <% end %>
+      </div>
+    </div>
     <button type="button" class="border border-gray-300  py-2 px-2 shadow-sm rounded-md flex items-center text-sm gap-2 hover:cursor-pointer" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
       <span class="sr-only">Open user menu</span>
       <span class="hidden lg:block truncate max-w-[15ch] text-gray-800"><%= current_user.full_name %></span>

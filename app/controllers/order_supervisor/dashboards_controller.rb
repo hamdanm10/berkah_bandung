@@ -47,7 +47,8 @@ class OrderSupervisor::DashboardsController < OrderSupervisorApplicationControll
   private
 
   def calculate_percentage_change(today, yesterday)
-    return 0 if yesterday.zero?
+    return 100 if yesterday.zero? && today.positive?
+    return 0 if yesterday.zero? && today.zero?
 
     (((today - yesterday).to_f / yesterday) * 100).round(2)
   end

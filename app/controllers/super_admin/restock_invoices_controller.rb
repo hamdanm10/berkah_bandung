@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SuperAdmin::InvoicesController < SuperAdminApplicationController
+class SuperAdmin::RestockInvoicesController < SuperAdminApplicationController
   def index
     limit = RecordLimit.call(params[:limit])
 

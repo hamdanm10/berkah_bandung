@@ -9,7 +9,7 @@ class SuperAdmin::ReturnedOrdersController < SuperAdminApplicationController
               .result
               .with_total_items
               .includes(:returned_by, :courier_service, order_batch: :merchant)
-              .order(created_at: :desc)
+              .order(returned_at: :desc)
     @pagy, @orders = pagy(@orders, limit:)
   end
 

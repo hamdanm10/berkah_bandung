@@ -9,7 +9,7 @@ class DispatchAdmin::DeliveredOrdersController < DispatchAdminApplicationControl
               .result
               .with_total_items
               .includes(:delivered_by, :courier_service, order_batch: :merchant)
-              .order(created_at: :desc)
+              .order(delivered_at: :desc)
     @pagy, @orders = pagy(@orders, limit:)
   end
 

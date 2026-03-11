@@ -2,6 +2,11 @@
   dashboard_modules = [
     { icon: "layout-grid", url: return_admin_dashboard_path, name: "Dashboard" },
   ]
+
+  order_modules = [
+    { icon: "package-x", url: return_admin_cancelled_orders_path, name: "Cancelled Orders" },
+    { icon: "package-minus", url: return_admin_returned_orders_path, name: "Returned Orders" },
+  ]
 %>
 <%= render(SidebarComponent.new(sidebar_id: "super-admin-sidebar")) do %>
   <!-- Dashboard -->
@@ -9,6 +14,13 @@
     <div class="px-2 text-xs text-gray-500 uppercase">Dashboard</div>
   </li>
   <% dashboard_modules.each do |item| %>
+    <%= render(SidebarLinkComponent.new(icon: item[:icon], url: item[:url], name: item[:name])) %>
+  <% end %>
+  <!-- Order Module -->
+  <li>
+    <div class="px-2 text-xs text-gray-500 uppercase pt-2.5">Order Module</div>
+  </li>
+  <% order_modules.each do |item| %>
     <%= render(SidebarLinkComponent.new(icon: item[:icon], url: item[:url], name: item[:name])) %>
   <% end %>
 <% end %>

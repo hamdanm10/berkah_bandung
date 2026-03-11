@@ -1,0 +1,25 @@
+<%= turbo_stream.replace "scan_form" do %>
+  <%= render partial: "form",
+      locals: {
+        url: return_admin_cancelled_orders_path,
+        scan_order: @scan_order
+      } %>
+<% end %>
+<%= turbo_stream.replace "scan_alert" do %>
+  <turbo-frame id="scan_alert">
+    <% if @order.present? %>
+      <div class="mt-4 bg-success-soft border border-success text-success p-4 rounded-md">
+        Order <strong><%= @order.order_number %></strong> successfully cancelled.
+      </div>
+    <% end %>
+  </turbo-frame>
+<% end %>
+<%= turbo_stream.replace "scan_results" do %>
+  <turbo-frame id="scan_results">
+    <% if @order.present? %>
+      <div class="mt-6">
+        <%= render partial: "order_details", locals: { order: @order } %>
+      </div>
+    <% end %>
+  </turbo-frame>
+<% end %>

@@ -1,0 +1,90 @@
+<div class="grid grid-cols-6 gap-5">
+  <div class="p-6 bg-white rounded-md border border-gray-300 flex flex-col space-y-4 col-span-3">
+    <div class="h-12 w-12 bg-danger-soft rounded-md flex items-center justify-center">
+      <%= lucide_icon("package-x", class: "size-5 text-danger") %>
+    </div>
+    <span class="text-sm text-gray-500">Orders Cancelled Today</span>
+    <span class="text-gray-700 font-bold text-3xl"><%= @cancelled_today %></span>
+  </div>
+  <div class="p-6 bg-white rounded-md border border-gray-300 flex flex-col space-y-4 col-span-3">
+    <div class="h-12 w-12 bg-danger-soft rounded-md flex items-center justify-center">
+      <%= lucide_icon("package-minus", class: "size-5 text-danger") %>
+    </div>
+    <span class="text-sm text-gray-500">Orders Returned Today</span>
+    <span class="text-gray-700 font-bold text-3xl"><%= @returned_today %></span>
+  </div>
+  <div class="block bg-white border border-gray-300 rounded-md col-span-3">
+    <div class="p-4 border-b border-gray-300">
+      <h3 class="font-medium text-gray-700">Recent Cancelled Orders</h3>
+    </div>
+    <div>
+      <table class="w-full text-left text-xs lg:text-sm text-gray-500">
+        <thead class="text-xs uppercase text-gray-700 border-b border-b-gray-300 bg-white">
+          <tr>
+            <th class="px-6 py-3 font-medium normal-case">#</th>
+            <th class="px-6 py-3 font-medium normal-case">Order Number</th>
+            <th class="px-6 py-3 font-medium normal-case">Tracking Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @recent_cancelled_orders.any? %>
+            <% @recent_cancelled_orders.each_with_index do |order, index| %>
+              <tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300">
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= index + 1 %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= order.order_number %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= order.tracking_number %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
+              No data found.
+            </td>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="block bg-white border border-gray-300 rounded-md col-span-3">
+    <div class="p-4 border-b border-gray-300">
+      <h3 class="font-medium text-gray-700">Recent Returned Orders</h3>
+    </div>
+    <div>
+      <table class="w-full text-left text-xs lg:text-sm text-gray-500">
+        <thead class="text-xs uppercase text-gray-700 border-b border-b-gray-300 bg-white">
+          <tr>
+            <th class="px-6 py-3 font-medium normal-case">#</th>
+            <th class="px-6 py-3 font-medium normal-case">Product Name</th>
+            <th class="px-6 py-3 font-medium normal-case text-center">Total Orders</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @recent_returned_orders.any? %>
+            <% @recent_returned_orders.each_with_index do |order, index| %>
+              <tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300">
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= index + 1 %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= order.order_number %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                  <%= order.tracking_number %>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
+              No data found.
+            </td>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
