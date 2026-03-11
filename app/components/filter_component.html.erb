@@ -1,7 +1,7 @@
 <%= search_form_for @q,
       url: @url,
       method: @method,
-      class: "flex justify-end items-center gap-4",
+      class: "flex flex-nowrap items-center gap-4 w-max ml-auto",
       data: form_data do |f| %>
   <% @fields.each do |field| %>
     <% if params[:limit] %>

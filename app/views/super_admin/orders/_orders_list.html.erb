@@ -72,7 +72,7 @@
     data-filter-target="panel" 
     class="overflow-hidden h-0 opacity-0 transition-[height,opacity] duration-200 ease-out"
   >
-    <div class="flex justify-end gap-3 p-6">
+    <div class="p-6 overflow-x-auto w-full">
       <%= render FilterComponent.new(
             q: q,
             url: super_admin_merchant_order_order_batch_orders_path(merchant, order_batch),
