@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class NotificationScheduler < ApplicationService
-  INTERVAL = 1.minutes
+  INTERVAL = 3.hours
 
   def call
     setting = AppSetting.first

@@ -1,0 +1,20 @@
+<div class="p-5 flex flex-col">
+  <div class="flex justify-between">
+    <div class="relative">
+      <h3 class="text-gray-800 font-semibold"><%= notification.title %></h3>
+      <% if notification.read_at.nil? %>
+        <span class="absolute -top-1 -right-4 flex size-3">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+          <span class="relative inline-flex size-3 rounded-full bg-red-500"></span>
+        </span>
+      <% end %>
+    </div>
+    <small class="text-gray-600"><%= time_ago_in_words(notification.created_at) %></small>
+  </div>
+  <p class="text-gray-600 text-sm"><%= notification.message %></p>
+  <% if notification.read_at.nil? %>
+    <div class="flex gap-2 mt-1">
+      <%= button_to "Mark as read", mark_as_read_super_admin_notification_path(notification), method: :patch, class: "text-sm text-primary font-medium cursor-pointer" %>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,26 @@
+<div data-controller="confirm-dialog">
+  <div class="mt-5 flex justify-end">
+    <%= render(ButtonToComponent.new(
+      size: "sm", 
+      variant: "primary", 
+      url: mark_all_as_read_super_admin_notifications_path,
+      method: :patch
+    )) do %>
+      Mark all as read
+    <% end %>
+  </div>
+  <div class="flex flex-col divide-y divide-gray-300 mt-5 rounded-md bg-white border border-gray-300" >
+    <% if notifications.any? %>
+      <% notifications.each_with_index do |notification, index| %>
+        <%= render("notification", notification: notification, index: index, pagy: pagy) %>
+      <% end %>
+    <% else %>
+      <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
+        No data found.
+      </td>
+    <% end %>
+    <%= render(PaginationComponent.new(records: notifications, pagy: pagy)) %>
+  </div>
+  <%= render(HintComponent.new) %>
+  <%= render(ConfirmDialogComponent.new) %>
+</div>

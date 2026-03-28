@@ -1,7 +1,14 @@
 namespace :super_admin do
   resource :dashboard, only: %i[show]
 
-  resources :notifications, only: %i[index]
+  resources :notifications, only: %i[index] do
+    member do
+      patch :mark_as_read
+    end
+    collection do
+      patch :mark_all_as_read
+    end
+  end
 
   resource :account_setting, only: %i[edit update] do
     member do
