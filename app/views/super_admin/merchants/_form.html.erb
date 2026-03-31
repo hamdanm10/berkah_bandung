@@ -17,6 +17,14 @@
         <%= render(TextInputComponent.new(form: form, field_name: :marketplace, class: "mt-2")) %>
         <%= render(ErrorInputComponent.new(model: merchant, field_name: :marketplace)) %>
       </div>
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :scan_sound, label: "Upload Sound", required: false)) %>
+        <%= form.file_field :scan_sound,
+            accept: "audio/*",
+            class: "cursor-pointer bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-md block w-full mt-2"
+          %>
+        <%= render(ErrorInputComponent.new(model: merchant, field_name: :scan_sound)) %>
+      </div>
     </div>
   </div>
   <div class="flex items-center justify-end">
