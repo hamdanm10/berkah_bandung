@@ -57,5 +57,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :restock_invoices do
+    collection do
+      get :search
+    end
+  end
+
   # get "up" => "rails/health#show", as: :rails_health_check
 end

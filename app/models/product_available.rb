@@ -6,6 +6,7 @@ class ProductAvailable < ApplicationRecord
   # ============================
   belongs_to :product
   has_many :order_item_filled_details
+  has_many :invoice_items
 
   # ============================
   # Instance Methods

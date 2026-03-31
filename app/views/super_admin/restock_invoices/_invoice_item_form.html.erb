@@ -4,7 +4,7 @@
     <%= render(DropdownSearchInputComponent.new(
         form: form,
         field_name: :product_id,
-        search_url: search_super_admin_products_path,
+        search_url: search_products_path,
         current_value: form.object.product_id,
         current_label: form.object.product&.name,
         prompt: "Choose product",
@@ -13,31 +13,10 @@
     ) %>
     <%= render(ErrorInputComponent.new(model: form.object, field_name: :product_id)) %>
   </div>
-  <div data-invoice-type-target="adjustmentItem" class="<%= @invoice.adjustment? ? '' : 'hidden' %>">
-    <%= render(
-      LabelInputComponent.new(
-        form: form,
-        field_name: :adjustment_type,
-        label: "Stock Adjustment",
-        required: true
-      )
-    ) %>
-    <div class="mt-2 flex gap-6 text-sm">
-      <label class="flex items-center gap-2 cursor-pointer">
-        <%= form.radio_button :adjustment_type, "increase" %>
-        <span class="text-success">Increase (+)</span>
-      </label>
-      <label class="flex items-center gap-2 cursor-pointer">
-        <%= form.radio_button :adjustment_type, "decrease" %>
-        <span class="text-danger">Decrease (-)</span>
-      </label>
-    </div>
-    <%= render(
-      ErrorInputComponent.new(
-        model: form.object,
-        field_name: :adjustment_type
-      )
-    ) %>
+  <div>
+    <%= render(LabelInputComponent.new(form: form, field_name: :variant, label: "Variant", required: false)) %>
+    <%= render(TextInputComponent.new(form: form, field_name: :variant, class: "mt-2")) %>
+    <%= render(ErrorInputComponent.new(model: form.object, field_name: :variant)) %>
   </div>
   <div>
     <%= render(LabelInputComponent.new(form: form, field_name: :quantity, label: "Quantity", required: true)) %>

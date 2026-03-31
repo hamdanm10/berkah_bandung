@@ -22,6 +22,8 @@ class User < ApplicationRecord
   has_many :cancelled_orders, class_name: 'Order', foreign_key: :cancelled_by_id
   has_many :returned_orders, class_name: 'Order', foreign_key: :returned_by_id
 
+  has_many :invoices, foreign_key: :reference_invoice_id
+
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
     %w[id role username full_name is_active]

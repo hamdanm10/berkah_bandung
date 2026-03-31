@@ -127,8 +127,5 @@ namespace :super_admin do
       patch :post
       patch :mark_as_paid
     end
-    collection do
-      get :search
-    end
   end
 end
