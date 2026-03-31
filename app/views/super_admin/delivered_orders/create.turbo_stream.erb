@@ -19,6 +19,15 @@
     <% if @order.present? %>
       <div class="mt-6">
         <%= render partial: "order_details", locals: { order: @order } %>
+        <% if @order.order_batch.merchant.scan_sound.attached? %>
+          <div data-controller="auto-play-audio">
+            <audio
+              preload="auto"
+              data-auto-play-audio-target="audio"
+              src="<%= url_for(@order.order_batch.merchant.scan_sound) %>" type="audio/mpeg"
+            ></audio>
+          </div>
+        <% end %>
       </div>
     <% end %>
   </turbo-frame>
