@@ -14,6 +14,10 @@ class SuperAdmin::RestockInvoicesController < SuperAdminApplicationController
     @pagy, @invoices = pagy(@invoices, limit:)
   end
 
+  def show
+    @invoice = invoice
+  end
+
   def new
     @invoice = Invoice.new
     @invoice.invoice_items.build

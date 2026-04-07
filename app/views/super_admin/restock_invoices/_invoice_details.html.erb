@@ -31,18 +31,6 @@
       </div>
       <div class="flex gap-2 pt-2 pb-2">
         <div class="w-2/12">
-          <span class="font-medium">Reference Invoice</span>
-        </div>
-        <div class="w-10/12">
-          <% if invoice.reference_invoice.present? %>
-            <%= link_to invoice.reference_invoice.invoice_number, super_admin_invoice_path(invoice.reference_invoice), class: "text-info underline" %>
-          <% else %>
-            <span>-</span>
-          <% end %>
-        </div>
-      </div>
-      <div class="flex gap-2 pt-2 pb-2">
-        <div class="w-2/12">
           <span class="font-medium">Invoice Amount</span>
         </div>
         <div class="w-10/12">
@@ -102,28 +90,11 @@
           <span class="font-medium">Invoice Status</span>
         </div>
         <div class="w-10/12">
-          <% case invoice.invoice_status %>
-          <% when "draft" %>
-            <span class="text-xs px-2 py-1 bg-warning-soft border border-warning text-warning rounded-md">Draft</span>
-          <% when "posted" %>
-            <span class="text-xs px-2 py-1 bg-primary-soft border border-primary text-primary rounded-md">Posted</span>
-          <% when "paid" %>
-            <span class="text-xs px-2 py-1 bg-success-soft border border-success text-success rounded-md">Paid</span>
-          <% end %>
-        </div>
-      </div>
-      <div class="flex gap-2 pt-2 pb-2">
-        <div class="w-2/12">
-          <span class="font-medium">Invoice Type</span>
-        </div>
-        <div class="w-10/12">
           <% case invoice.invoice_type %>
           <% when "normal" %>
-            <span class="text-xs px-2 py-1 bg-primary-soft border border-primary text-primary rounded-md">Normal</span>
+            <span class="text-xs px-2 py-1 bg-warning-soft border border-warning text-warning rounded-md">Normal</span>
           <% when "return" %>
-            <span class="text-xs px-2 py-1 bg-danger-soft border border-danger text-danger rounded-md">Return</span>
-          <% when "adjustment" %>
-            <span class="text-xs px-2 py-1 bg-warning-soft border border-warning text-warning rounded-md">Adjustment</span>
+            <span class="text-xs px-2 py-1 bg-primary-soft border border-primary text-primary rounded-md">Return</span>
           <% end %>
         </div>
       </div>
@@ -166,6 +137,14 @@
           </div>
           <div class="w-10/12">
             <span><%= item.product.name %></span>
+          </div>
+        </div>
+        <div class="flex gap-2 pt-2 pb-2">
+          <div class="w-2/12">
+            <span class="font-medium">Variant</span>
+          </div>
+          <div class="w-10/12">
+            <span><%= item.variant.present? ? item.variant : "-" %></span>
           </div>
         </div>
         <div class="flex gap-2 pt-2 pb-2">
