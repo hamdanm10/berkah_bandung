@@ -1,0 +1,112 @@
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-5">
+  <div class="p-6 bg-white rounded-md border border-gray-300 flex flex-col space-y-4 col-span-1">
+    <div class="h-12 w-12 bg-success-soft rounded-md flex items-center justify-center">
+      <%= lucide_icon("package", class: "size-5 text-success") %>
+    </div>
+    <span class="text-sm text-gray-500">Total Products</span>
+    <span class="text-gray-700 font-bold text-3xl"><%= @total_products %></span>
+  </div>
+  <div class="p-6 bg-white rounded-md border border-gray-300 flex flex-col space-y-4 col-span-1">
+    <div class="h-12 w-12 bg-primary-soft rounded-md flex items-center justify-center">
+      <%= lucide_icon("slack", class: "size-5 text-primary") %>
+    </div>
+    <span class="text-sm text-gray-500">Total Brands</span>
+    <span class="text-gray-700 font-bold text-3xl"><%= @total_brands %></span>
+  </div>
+  <div class="p-6 bg-white rounded-md border border-gray-300 flex flex-col space-y-4 col-span-1">
+    <div class="h-12 w-12 bg-warning-soft rounded-md flex items-center justify-center">
+      <%= lucide_icon("chart-bar-stacked", class: "size-5 text-warning") %>
+    </div>
+    <span class="text-sm text-gray-500">Total Categories</span>
+    <span class="text-gray-700 font-bold text-3xl"><%= @total_categories %></span>
+  </div>
+  <div class="p-6 bg-white rounded-md border border-gray-300 flex flex-col space-y-4 col-span-1">
+    <div class="h-12 w-12 bg-secondary-soft rounded-md flex items-center justify-center">
+      <%= lucide_icon("van", class: "size-5 text-secondary") %>
+    </div>
+    <span class="text-sm text-gray-500">Total Distributors</span>
+    <span class="text-gray-700 font-bold text-3xl"><%= @total_distributors %></span>
+  </div>
+  <div class="block bg-white border border-gray-300 rounded-md col-span-1 lg:col-span-2">
+    <div class="p-4 border-b border-gray-300">
+      <h3 class="font-medium text-gray-700">Low Stock Products</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <div class="relative overflow-x-auto">
+        <table class="w-full text-left text-xs lg:text-sm text-gray-500">
+          <thead class="text-xs uppercase text-gray-700 border-b border-b-gray-300 bg-white">
+            <tr>
+              <th class="px-6 py-3 font-medium normal-case">#</th>
+              <th class="px-6 py-3 font-medium normal-case">Order Number</th>
+              <th class="px-6 py-3 font-medium normal-case">Tracking Number</th>
+              <th class="px-6 py-3 font-medium normal-case">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @low_stock_products.any? %>
+              <% @low_stock_products.each_with_index do |product, index| %>
+                <tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300">
+                  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                    <%= index + 1 %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                    <%= product.code %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                    <%= product.name %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                    <%= product.total_quantity %>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
+                No data found.
+              </td>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="block bg-white border border-gray-300 rounded-md col-span-1 lg:col-span-2">
+    <div class="p-4 border-b border-gray-300">
+      <h3 class="font-medium text-gray-700">Top Products This Month</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <div class="relative overflow-x-auto">
+        <table class="w-full text-left text-xs lg:text-sm text-gray-500">
+          <thead class="text-xs uppercase text-gray-700 border-b border-b-gray-300 bg-white">
+            <tr>
+              <th class="px-6 py-3 font-medium normal-case">#</th>
+              <th class="px-6 py-3 font-medium normal-case">Product Name</th>
+              <th class="px-6 py-3 font-medium normal-case text-center">Total Orders</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @top_products_this_month.any? %>
+              <% @top_products_this_month.each_with_index do |(product, qty), index| %>
+                <tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300">
+                  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                    <%= index + 1 %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+                    <%= product %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700 text-center">
+                    <%= qty %>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <td colspan="100%" class="px-6 py-4 text-center text-gray-700">
+                No data found.
+              </td>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

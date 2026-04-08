@@ -2,18 +2,22 @@
 
 class Merchants::SoftDelete < ApplicationService
   def call(merchant:)
-    return failure(message: "Merchant is already deleted.") if merchant.deleted_at.present?
+    return failure(message: 'Merchant is already deleted.') if merchant.deleted_at.present?
 
-    if merchant.update(
-      deleted_at: Time.current,
-      is_active: false
-    )
-      success(
-        merchant: merchant,
-        message: "Merchant has been successfully deleted."
+    ActiveRecord::Base.transaction do
+      merchant.scan_sound.purge_later if merchant.scan_sound.attached?
+
+      unless merchant.update(
+        deleted_at: Time.current,
+        is_active: false
       )
-    else
-      failure(merchant: merchant)
+        return failure(merchant: merchant)
+      end
     end
+
+    success(
+      merchant: merchant,
+      message: 'Merchant has been successfully deleted.'
+    )
   end
 end

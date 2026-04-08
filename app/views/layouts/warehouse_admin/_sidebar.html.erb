@@ -2,6 +2,18 @@
   dashboard_modules = [
     { icon: "layout-grid", url: warehouse_admin_dashboard_path, name: "Dashboard" },
   ]
+
+  inventory_modules = [
+    { icon: "scroll-text", url: warehouse_admin_restock_invoices_path, name: "Restock Invoices" },
+  ]
+
+  business_modules = [
+    { icon: "van", url: warehouse_admin_distributors_path, name: "Distributor" },
+    { icon: "package", url: warehouse_admin_products_path, name: "Product" },
+    { icon: "slack", url: warehouse_admin_brands_path, name: "Brand" },
+    { icon: "chart-bar-stacked", url: warehouse_admin_categories_path, name: "Category" },
+  ]
+
 %>
 <%= render(SidebarComponent.new(sidebar_id: "super-admin-sidebar")) do %>
   <!-- Dashboard -->
@@ -9,6 +21,19 @@
     <div class="px-2 text-xs text-gray-500 uppercase">Dashboard</div>
   </li>
   <% dashboard_modules.each do |item| %>
+    <%= render(SidebarLinkComponent.new(icon: item[:icon], url: item[:url], name: item[:name])) %>
+  <% end %>
+  <li>
+    <div class="px-2 text-xs text-gray-500 uppercase pt-2.5">Inventory</div>
+  </li>
+  <% inventory_modules.each do |item| %>
+    <%= render(SidebarLinkComponent.new(icon: item[:icon], url: item[:url], name: item[:name])) %>
+  <% end %>
+  <!-- Business Master -->
+  <li>
+    <div class="px-2 text-xs text-gray-500 uppercase pt-2.5">Business Master</div>
+  </li>
+  <% business_modules.each do |item| %>
     <%= render(SidebarLinkComponent.new(icon: item[:icon], url: item[:url], name: item[:name])) %>
   <% end %>
 <% end %>

@@ -2,18 +2,18 @@
 
 class Invoices::SoftDelete < ApplicationService
   def call(invoice:)
-    return failure(message: "Invoice is already deleted.") if invoice.deleted_at.present?
-    return failure(message: "Invoice cannot be deleted because it has already been posted or paid.") if invoice.posted? || invoice.paid?
-
-    if invoice.update_column(
-      :deleted_at, Time.current,
-    )
-      success(
-        invoice: invoice,
-        message: "Invoice has been successfully deleted."
+    ActiveRecord::Base.transaction do
+      result = Invoices::AdjustStock.call(
+        items: invoice.invoice_items,
+        invoice_type: invoice.invoice_type,
+        reverse: true
       )
-    else
-      failure(invoice: invoice)
+
+      return failure(invoice: invoice) unless result[:success]
+
+      return failure(invoice: invoice) unless invoice.update(deleted_at: Time.current)
     end
+
+    success(invoice: invoice, message: 'Invoice deleted')
   end
 end

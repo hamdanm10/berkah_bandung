@@ -9,6 +9,34 @@
     <%= merchant.marketplace.titleize %>
   </td>
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <% if merchant.scan_sound.attached? %>
+      <div data-controller="audio-player">
+        <audio
+        data-audio-player-target="audio"
+        data-action="ended->audio-player#reset pause->audio-player#reset">
+          <source src="<%= url_for(merchant.scan_sound) %>" type="audio/mpeg">
+        </audio>
+        <%= render(
+            ButtonComponent.new(
+              type: "button",
+              size: "xs",
+              variant: "light",
+              data: {
+                action: "click->audio-player#toggle"
+              }
+            )
+          ) do %>
+          <span data-audio-player-target="playIcon">
+            <%= lucide_icon("play", class: "size-3") %>
+          </span>
+          <span data-audio-player-target="pauseIcon" class="hidden">
+            <%= lucide_icon("pause", class: "size-3") %>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
     <% if merchant.is_active? %>
       <span class="text-xs px-2 py-1 bg-success-soft border border-success text-success rounded-md">
         Active

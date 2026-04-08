@@ -11,7 +11,7 @@ class Distributors::Create < ApplicationService
     if distributor.save
       success(
         distributor: distributor,
-        message: "Distributor was successfully created."
+        message: 'Distributor was successfully created.'
       )
     else
       failure(distributor: distributor)

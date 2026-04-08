@@ -1,0 +1,19 @@
+<tr class="bg-white last:border-b-0 hover:bg-gray-50 border-b border-b-gray-300" data-controller="global-dialog-trigger">
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= pagy.offset + index + 1 %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= format_price(product_available.cost_price) %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <%= product_available.quantity %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700 flex gap-2 items-center">
+    <%= link_to edit_super_admin_product_stock_adjustment_path(product, product_available), 
+        class: "text-secondary hover:text-secondary-hover", 
+        "data-hint": "Edit", 
+        "data-action": "mouseenter->hint#show mouseleave->hint#hide" do %>
+      <%= lucide_icon("pencil", class: "size-5") %>
+    <% end %>
+  </td>
+</tr>

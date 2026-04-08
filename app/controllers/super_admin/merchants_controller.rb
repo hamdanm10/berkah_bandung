@@ -87,7 +87,7 @@ class SuperAdmin::MerchantsController < SuperAdminApplicationController
   private
 
   def merchant_params
-    params.require(:merchant).permit(:name, :marketplace)
+    params.require(:merchant).permit(:name, :marketplace, :scan_sound)
   end
 
   def merchant_scope

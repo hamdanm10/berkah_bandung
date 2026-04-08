@@ -27,7 +27,7 @@
         <%= render(ButtonLinkComponent.new(
               size: "sm", 
               variant: "primary", 
-              url: new_super_admin_invoice_path,
+              url: new_super_admin_restock_invoice_path,
               "data-hint": "Add",
               "data-action": "
                 mouseenter->hint#show
@@ -46,16 +46,9 @@
     <div class="flex justify-end gap-3 p-6">
       <%= render FilterComponent.new(
             q: q,
-            url: super_admin_invoices_path,
+            url: super_admin_restock_invoices_path,
             show_submit: true,
             fields: [
-              {
-                type: :select,
-                name: :invoice_status_eq,
-                records: value_invoice_statuses_for_select,
-                blank: "All Statuses",
-                auto_submit: false
-              },
               {
                 type: :select,
                 name: :invoice_type_eq,
@@ -92,14 +85,12 @@
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Invoice Number</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Invoice</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Distributor</th>
-            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Reference Invoice</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Invoice Amount</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Entered Amount</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Transfer Amount</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Total Transfer Amount</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Received Date</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Transfer Date</th>
-            <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Status</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Type</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Created By</th>
             <th class="px-6 py-3 font-medium normal-case whitespace-nowrap">Created At</th>

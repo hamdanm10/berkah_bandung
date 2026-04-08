@@ -1,7 +1,14 @@
 namespace :super_admin do
   resource :dashboard, only: %i[show]
 
-  resources :notifications, only: %i[index]
+  resources :notifications, only: %i[index] do
+    member do
+      patch :mark_as_read
+    end
+    collection do
+      patch :mark_all_as_read
+    end
+  end
 
   resource :account_setting, only: %i[edit update] do
     member do
@@ -53,12 +60,10 @@ namespace :super_admin do
       patch :activate
       patch :deactivate
     end
-    collection do
-      get :search
-    end
   end
 
   resources :products do
+    resources :stock_adjustments, except: %i[destroy]
     member do
       patch :activate
       patch :deactivate
@@ -115,13 +120,5 @@ namespace :super_admin do
 
   resources :all_orders, only: %i[index show]
 
-  resources :restock_invoices do
-    member do
-      patch :post
-      patch :mark_as_paid
-    end
-    collection do
-      get :search
-    end
-  end
+  resources :restock_invoices
 end

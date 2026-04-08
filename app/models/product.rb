@@ -11,6 +11,8 @@ class Product < ApplicationRecord
 
   has_many :notifications, as: :notifiable
 
+  has_many :invoice_items
+
   # Ransack
   def self.ransackable_attributes(auth_object = nil)
     %w[code barcode name category_id brand_id is_active]

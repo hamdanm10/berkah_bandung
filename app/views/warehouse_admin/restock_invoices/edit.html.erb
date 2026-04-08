@@ -1,0 +1,18 @@
+<div class="flex items-center justify-between">
+  <div class="flex gap-4 items-center">
+    <%= render(ButtonLinkComponent.new(size: "sm", variant: "light", url: warehouse_admin_restock_invoices_path)) do %>
+      <%= lucide_icon("chevron-left", class: "size-5") %>
+    <% end %>
+    <div class="flex items-center gap-4">
+      <h2 class="text-xl font-bold text-gray-700">Edit Invoice</h2>
+    </div>
+  </div>
+  <div class="hidden lg:block">
+    <%= render(BreadcrumbComponent.new) do %>
+      <%= render(BreadcrumbItemComponent.new(url: warehouse_admin_dashboard_path, icon: "layout-grid", name: "Dashboard")) %>
+      <%= render(BreadcrumbItemComponent.new(url: warehouse_admin_restock_invoices_path, name: "Invoices")) %>
+      <%= render(BreadcrumbItemComponent.new(name: "Edit Invoice", last: true)) %>
+    <% end %>
+  </div>
+</div>
+<%= render "form", url: warehouse_admin_restock_invoice_path(@invoice), invoice: @invoice %>

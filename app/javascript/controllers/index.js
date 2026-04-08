@@ -4,6 +4,12 @@
 
 import { application } from "./application"
 
+import AudioPlayerController from "./audio_player_controller"
+application.register("audio-player", AudioPlayerController)
+
+import AutoPlayAudioController from "./auto_play_audio_controller"
+application.register("auto-play-audio", AutoPlayAudioController)
+
 import AutoSubmitController from "./auto_submit_controller"
 application.register("auto-submit", AutoSubmitController)
 
@@ -24,9 +30,6 @@ application.register("filter", FilterController)
 
 import HintController from "./hint_controller"
 application.register("hint", HintController)
-
-import InvoiceTypeController from "./invoice_type_controller"
-application.register("invoice-type", InvoiceTypeController)
 
 import NestedFormController from "./nested_form_controller"
 application.register("nested-form", NestedFormController)

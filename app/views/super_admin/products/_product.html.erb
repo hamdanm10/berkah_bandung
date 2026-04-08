@@ -31,6 +31,16 @@
       </span>
     <% end %>
   </td>
+  <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700">
+    <div class="flex justify-center">
+      <%= link_to super_admin_product_stock_adjustments_path(product), 
+        class: "text-secondary hover:text-secondary-hover", 
+        "data-hint": "Stock Adjustment", 
+        "data-action": "mouseenter->hint#show mouseleave->hint#hide" do %>
+        <%= lucide_icon("settings", class: "size-5") %>
+      <% end %>
+    </div>
+  </td>
   <td class="px-6 py-4 whitespace-nowrap font-normal text-gray-700 flex gap-2 items-center">
     <%= link_to super_admin_product_path(product), 
         class: "text-info hover:text-info-hover", 

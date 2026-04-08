@@ -20,9 +20,9 @@ class SuperAdminApplicationController < ApplicationController
   end
 
   def load_notifications
-    @notifications = Notification
-                     .where(read_at: nil)
-                     .order(created_at: :desc)
-                     .limit(5)
+    @recent_notifications = Notification
+                            .where(read_at: nil)
+                            .order(created_at: :desc)
+                            .limit(5)
   end
 end

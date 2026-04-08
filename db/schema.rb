@@ -10,9 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_11_153053) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_31_113743) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.string "content_type"
+    t.datetime "created_at", null: false
+    t.string "filename", null: false
+    t.string "key", null: false
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
 
   create_table "app_settings", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -79,12 +107,47 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_153053) do
     t.index ["used_by_user_id"], name: "index_invitations_on_used_by_user_id"
   end
 
+  create_table "invoice_items", force: :cascade do |t|
+    t.decimal "cost_snapshot", precision: 11, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.bigint "invoice_id", null: false
+    t.bigint "product_available_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", null: false
+    t.datetime "updated_at", null: false
+    t.string "variant"
+    t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
+    t.index ["product_available_id"], name: "index_invoice_items_on_product_available_id"
+    t.index ["product_id"], name: "index_invoice_items_on_product_id"
+  end
+
+  create_table "invoices", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "created_by_user_id", null: false
+    t.datetime "deleted_at", precision: nil
+    t.bigint "distributor_id", null: false
+    t.decimal "entered_amount", precision: 15, scale: 2, null: false
+    t.string "invoice", null: false
+    t.decimal "invoice_amount", precision: 15, scale: 2
+    t.string "invoice_number", null: false
+    t.integer "invoice_type", null: false
+    t.date "received_date"
+    t.text "remarks"
+    t.decimal "total_transfer_amount", precision: 15, scale: 2
+    t.decimal "transfer_amount", precision: 15, scale: 2
+    t.date "transfer_date"
+    t.datetime "updated_at", null: false
+    t.index ["created_by_user_id"], name: "index_invoices_on_created_by_user_id"
+    t.index ["distributor_id"], name: "index_invoices_on_distributor_id"
+  end
+
   create_table "merchants", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "deleted_at", precision: nil
     t.boolean "is_active", default: true, null: false
     t.string "marketplace", null: false
     t.string "name", null: false
+    t.string "scan_sound"
     t.datetime "updated_at", null: false
     t.index ["deleted_at"], name: "index_merchants_on_deleted_at"
   end
@@ -239,9 +302,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_11_153053) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "distributor_items", "distributors"
   add_foreign_key "distributor_items", "products"
   add_foreign_key "invitations", "users", column: "used_by_user_id"
+  add_foreign_key "invoice_items", "invoices"
+  add_foreign_key "invoice_items", "product_availables"
+  add_foreign_key "invoice_items", "products"
+  add_foreign_key "invoices", "distributors"
+  add_foreign_key "invoices", "users", column: "created_by_user_id"
   add_foreign_key "order_batches", "merchants"
   add_foreign_key "order_batches", "users", column: "created_by_user_id"
   add_foreign_key "order_item_filled_details", "order_items"

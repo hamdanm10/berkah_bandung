@@ -3,16 +3,19 @@
 class Invoices::Create < ApplicationService
   def call(invoice_params:)
     invoice = Invoice.new(invoice_params)
-    invoice.invoice_status = "draft"
     invoice.created_by_user_id = Current.user.id
 
-    if invoice.save
-      success(
-        invoice: invoice,
-        message: "Invoice was successfully created."
+    ActiveRecord::Base.transaction do
+      result = Invoices::AdjustStock.call(
+        items: invoice.invoice_items,
+        invoice_type: invoice.invoice_type
       )
-    else
-      failure(invoice: invoice)
+
+      return failure(invoice: invoice) unless result[:success]
+
+      return failure(invoice: invoice) unless invoice.save
     end
+
+    success(invoice: invoice, message: 'Invoice was successfully created.')
   end
 end
