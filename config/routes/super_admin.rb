@@ -66,6 +66,7 @@ namespace :super_admin do
   end
 
   resources :products do
+    resources :stock_adjustments, except: %i[destroy]
     member do
       patch :activate
       patch :deactivate
