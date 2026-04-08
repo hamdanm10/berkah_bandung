@@ -1,0 +1,61 @@
+<%= form_with model: product, 
+    url: url,
+    class: "mt-5 flex flex-col gap-5" do |form| %>
+  <div class="block bg-white border border-gray-300 rounded-md divide-y divide-gray-300">
+    <div class="p-4 lg:p-6">
+      <h3 class="font-medium text-gray-700">Product Form</h3>
+      <p class="text-sm text-gray-500"><%= form_caption("product", product) %></p>
+    </div>
+    <div class="p-4 lg:p-6 flex flex-col gap-3">
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :code, label: "Code", required: true)) %>
+        <%= render(TextInputComponent.new(form: form, field_name: :code, class: "mt-2")) %>
+        <%= render(ErrorInputComponent.new(model: product, field_name: :code)) %>
+      </div>
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :barcode, label: "Barcode", required: true)) %>
+        <%= render(TextInputComponent.new(form: form, field_name: :barcode, class: "mt-2")) %>
+        <%= render(ErrorInputComponent.new(model: product, field_name: :barcode)) %>
+      </div>
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :name, label: "Product Name", required: true)) %>
+        <%= render(TextInputComponent.new(form: form, field_name: :name, class: "mt-2")) %>
+        <%= render(ErrorInputComponent.new(model: product, field_name: :name)) %>
+      </div>
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :category_id, label: "Category", required: true)) %>
+        <%= render(DropdownSearchInputComponent.new(
+              form: form,
+              field_name: :category_id,
+              search_url: search_categories_path,
+              current_value: product.category_id,
+              current_label: @category_label,
+              prompt: "Choose category",
+              class: "mt-2"
+            )
+          ) %>
+        <%= render(ErrorInputComponent.new(model: product, field_name: :category_id)) %>
+      </div>
+      <div>
+        <%= render(LabelInputComponent.new(form: form, field_name: :brand_id, label: "Brand", required: true)) %>
+        <%= render(DropdownSearchInputComponent.new(
+              form: form,
+              field_name: :brand_id,
+              search_url: search_brands_path,
+              current_value: product.brand_id,
+              current_label: @brand_label,
+              prompt: "Choose brand",
+              class: "mt-2"
+            )
+          ) %>
+        <%= render(ErrorInputComponent.new(model: product, field_name: :brand_id)) %>
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center justify-end">
+    <%= render(ButtonComponent.new(type: "submit", size: "sm", variant: "primary")) do %>
+      <%= lucide_icon("save", class: "size-5") %>
+      <span>Save</span>
+    <% end %>
+  </div>
+<% end %>
