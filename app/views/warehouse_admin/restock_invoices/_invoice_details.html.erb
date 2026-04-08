@@ -1,0 +1,169 @@
+<div class="mt-5 flex flex-col gap-5">
+  <div class="block bg-white border border-gray-300 rounded-md divide-y divide-gray-300">
+    <div class="p-4 lg:p-6">
+      <h3 class="font-medium text-gray-700">Invoice Details</h3>
+      <p class="text-sm text-gray-500">Below are the details of the invoice.</p>
+    </div>
+    <div class="px-4 lg:px-6 text-gray-700 flex flex-col text-sm">
+      <div class="flex gap-2 pt-4 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Invoice Number</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= invoice.invoice_number %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Invoice</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= invoice.invoice %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Distributor</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= invoice.distributor.name %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Invoice Amount</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= invoice.invoice_amount.present? ? format_price(invoice.invoice_amount) : "-" %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Entered Amount</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= format_price(invoice.entered_amount) %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Transfer Amount</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= invoice.transfer_amount.present? ? format_price(invoice.transfer_amount) : "-" %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Total Transfer Amount</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= invoice.total_transfer_amount.present? ? format_price(invoice.total_transfer_amount) : "-" %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Received Date</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= invoice.received_date.present? ? format_date(invoice.received_date) : "-" %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Transfer Date</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= invoice.transfer_date.present? ? format_date(invoice.transfer_date) : "-" %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Remarks</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= invoice.remarks.present? ? invoice.remarks : "-" %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Invoice Status</span>
+        </div>
+        <div class="w-10/12">
+          <% case invoice.invoice_type %>
+          <% when "normal" %>
+            <span class="text-xs px-2 py-1 bg-warning-soft border border-warning text-warning rounded-md">Normal</span>
+          <% when "return" %>
+            <span class="text-xs px-2 py-1 bg-primary-soft border border-primary text-primary rounded-md">Return</span>
+          <% end %>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-2">
+        <div class="w-2/12">
+          <span class="font-medium">Created By</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= invoice.user_created.username %></span>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 pb-4">
+        <div class="w-2/12">
+          <span class="font-medium">Created At</span>
+        </div>
+        <div class="w-10/12">
+          <span><%= format_datetime(invoice.created_at) %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="block bg-white border border-gray-300 rounded-md divide-y divide-gray-300">
+    <div class="p-4 lg:p-6">
+      <h3 class="font-medium text-gray-700">Distributor items Details</h3>
+      <p class="text-sm text-gray-500">Below are the details of the distributor items.</p>
+    </div>
+    <% invoice.invoice_items.each do |item| %>
+      <div class="px-4 lg:px-6 text-gray-700 flex flex-col text-sm">
+        <div class="flex gap-2 pt-4 pb-2">
+          <div class="w-2/12">
+            <span class="font-medium">Product Code</span>
+          </div>
+          <div class="w-10/12">
+            <span><%= item.product.code %></span>
+          </div>
+        </div>
+        <div class="flex gap-2 pt-2 pb-2">
+          <div class="w-2/12">
+            <span class="font-medium">Product Name</span>
+          </div>
+          <div class="w-10/12">
+            <span><%= item.product.name %></span>
+          </div>
+        </div>
+        <div class="flex gap-2 pt-2 pb-2">
+          <div class="w-2/12">
+            <span class="font-medium">Variant</span>
+          </div>
+          <div class="w-10/12">
+            <span><%= item.variant.present? ? item.variant : "-" %></span>
+          </div>
+        </div>
+        <div class="flex gap-2 pt-2 pb-2">
+          <div class="w-2/12">
+            <span class="font-medium">Quantity</span>
+          </div>
+          <div class="w-10/12">
+            <span><%= item.quantity %></span>
+          </div>
+        </div>
+        <div class="flex gap-2 pt-2 pb-4">
+          <div class="w-2/12">
+            <span class="font-medium">Cost Price</span>
+          </div>
+          <div class="w-10/12">
+            <span><%= format_price(item.cost_snapshot) %></span>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

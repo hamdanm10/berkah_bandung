@@ -60,9 +60,6 @@ namespace :super_admin do
       patch :activate
       patch :deactivate
     end
-    collection do
-      get :search
-    end
   end
 
   resources :products do
@@ -123,10 +120,5 @@ namespace :super_admin do
 
   resources :all_orders, only: %i[index show]
 
-  resources :restock_invoices do
-    member do
-      patch :post
-      patch :mark_as_paid
-    end
-  end
+  resources :restock_invoices
 end
